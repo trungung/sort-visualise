@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link } from "@tanstack/react-router";
 import { Home } from "lucide-react";
 
@@ -46,7 +45,7 @@ function VisualizerLayout({
         <VisualizerHeader title={title} controls={headerControls} />
 
         {/* Stage - Visualization Area */}
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+        <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-2">
           {children}
         </div>
 
@@ -118,7 +117,7 @@ function VisualizerControlPanel({
   className,
 }: VisualizerControlPanelProps) {
   return (
-    <div className={cn("shrink-0 border-t bg-visualizer-panel p-4", className)}>
+    <div className={cn("shrink-0 border-t bg-visualizer-panel p-2", className)}>
       {children}
     </div>
   );

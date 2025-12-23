@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
 type VisualizerZoneProps = {
@@ -9,19 +7,24 @@ type VisualizerZoneProps = {
   children: React.ReactNode;
   /** Additional className for the zone container */
   className?: string;
+  /** Additional className for the bar wrapper */
+  wrapperClassName?: string;
 };
 
-function VisualizerZone({ label, children, className }: VisualizerZoneProps) {
+function VisualizerZone({ label, children, className, wrapperClassName }: VisualizerZoneProps) {
   return (
     <div
       className={cn(
-        "relative flex min-h-36 flex-1 flex-col rounded-lg border bg-visualizer-zone p-3",
+        "relative flex min-h-[160px] flex-1 flex-col rounded-lg border bg-visualizer-zone px-3 pt-3 pb-0 overflow-visible",
         className,
       )}
     >
       <VisualizerZoneLabel>{label}</VisualizerZoneLabel>
-      <div className="flex flex-1 items-end justify-center pt-8">
-        {children}
+      <div className="flex flex-1 items-end justify-center">
+        {/* The bars will sit directly on the bottom edge of this container */}
+        <div className={cn("relative flex items-end gap-1 h-full", wrapperClassName)}>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -39,7 +42,7 @@ function VisualizerZoneLabel({
   return (
     <span
       className={cn(
-        "absolute left-3 top-2 text-xs font-medium uppercase tracking-wide text-muted-foreground",
+        "absolute left-3 top-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60",
         className,
       )}
     >
