@@ -21,7 +21,7 @@ export function ScopeBracket({
   return (
     <div
       className={cn(
-        "absolute top-1 h-2 border-t-2 border-l-2 border-r-2 border-white/80 rounded-t-[1px] transition-all duration-300 pointer-events-none z-20",
+        "absolute top-1 h-2 border-t-2 border-l-2 border-r-2 border-overlay-80 rounded-t-sm transition-all duration-300 pointer-events-none z-20",
         className,
       )}
       style={{

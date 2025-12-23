@@ -11,18 +11,28 @@ type VisualizerZoneProps = {
   wrapperClassName?: string;
 };
 
-function VisualizerZone({ label, children, className, wrapperClassName }: VisualizerZoneProps) {
+function VisualizerZone({
+  label,
+  children,
+  className,
+  wrapperClassName,
+}: VisualizerZoneProps) {
   return (
     <div
       className={cn(
-        "relative flex min-h-[160px] flex-1 flex-col rounded-lg border bg-visualizer-zone px-3 pt-3 pb-0 overflow-visible",
+        "relative flex min-h-40 flex-1 flex-col rounded-lg border bg-visualizer-zone px-3 pt-3 pb-0 overflow-visible",
         className,
       )}
     >
       <VisualizerZoneLabel>{label}</VisualizerZoneLabel>
       <div className="flex flex-1 items-end justify-center">
         {/* The bars will sit directly on the bottom edge of this container */}
-        <div className={cn("relative flex items-end gap-1 h-full", wrapperClassName)}>
+        <div
+          className={cn(
+            "relative flex items-end gap-1 h-full",
+            wrapperClassName,
+          )}
+        >
           {children}
         </div>
       </div>
@@ -42,7 +52,7 @@ function VisualizerZoneLabel({
   return (
     <span
       className={cn(
-        "absolute left-3 top-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60",
+        "absolute left-3 top-2 text-xs font-medium uppercase tracking-wider text-foreground-muted",
         className,
       )}
     >

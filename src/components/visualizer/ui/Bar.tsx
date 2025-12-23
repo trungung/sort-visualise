@@ -27,8 +27,8 @@ export function Bar({
   className,
   hasPointer = false,
 }: BarProps) {
-  // Use 85% as max height to leave room for values at the top
-  const heightPercentage = value !== undefined ? (value / maxValue) * 85 : 0;
+  // Use 80% as max height to leave room for values at the top
+  const heightPercentage = value !== undefined ? (value / maxValue) * 80 : 0;
 
   if (status === "placeholder") {
     return <div className={cn("w-7 shrink-0", className)} />;
@@ -38,16 +38,17 @@ export function Bar({
     <div className="relative flex flex-col items-center group shrink-0 h-full justify-end">
       <div
         className={cn(
-          "w-7 rounded-t-[2px] transition-all duration-200 flex items-end justify-center pb-1 text-[10px] font-bold select-none",
-          // Status styles
-          status === "default" && "bg-[#4a5a6a] text-foreground/70",
-          status === "in-scope" && "bg-[#607d8b] text-foreground",
-          status === "left-source" && "bg-visualizer-left text-[#000]",
-          status === "right-source" && "bg-visualizer-right text-[#000]",
+          "w-7 rounded-t-sm transition-all duration-200 flex items-end justify-center pb-1 text-xs font-bold select-none",
+          // Status styles using solid colors from styles.css
+          status === "default" &&
+            "bg-visualizer-bar-default text-foreground-dim",
+          status === "in-scope" && "bg-visualizer-bar-active text-foreground",
+          status === "left-source" && "bg-visualizer-left text-black",
+          status === "right-source" && "bg-visualizer-right text-black",
           status === "built" &&
-            "bg-visualizer-merged text-[#000] border border-white/20",
+            "bg-visualizer-merged text-black border border-border-dim",
+          status === "dimmed" && "bg-visualizer-bar-dim text-foreground-subtle",
           status === "flash" && "animate-pulse bg-white text-black",
-          status === "dimmed" && "bg-[#4a5a6a] opacity-20",
           className,
         )}
         style={{ height: `${heightPercentage}%` }}
@@ -56,7 +57,7 @@ export function Bar({
       </div>
 
       {hasPointer && (
-        <div className="absolute -bottom-4 text-visualizer-highlight text-md leading-none">
+        <div className="absolute -bottom-5 text-visualizer-highlight text-lg leading-none z-10 select-none pointer-events-none">
           ▲
         </div>
       )}

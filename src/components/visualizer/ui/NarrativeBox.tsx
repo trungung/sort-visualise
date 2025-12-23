@@ -1,4 +1,3 @@
-
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,11 +19,11 @@ export function NarrativeBox({
   return (
     <div
       className={cn(
-        "flex items-center justify-between rounded-md border-l-4 border-visualizer-highlight bg-muted/50 px-4 py-2 transition-all animate-in fade-in slide-in-from-left-2",
-        className
+        "flex items-center justify-between rounded-md border-l-4 border-visualizer-highlight bg-muted-dim px-4 py-2 transition-all animate-in fade-in slide-in-from-left-2",
+        className,
       )}
     >
-      <span className="text-sm font-medium tracking-tight text-foreground/90">
+      <span className="text-sm font-medium tracking-tight text-foreground-dim">
         {text}
       </span>
       <button

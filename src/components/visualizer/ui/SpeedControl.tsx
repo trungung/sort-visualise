@@ -1,4 +1,3 @@
-
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +18,7 @@ export function SpeedControl({
 }: SpeedControlProps) {
   return (
     <div className={cn("flex items-center gap-3 min-w-32", className)}>
-      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+      <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
         Speed
       </span>
       <Slider
@@ -28,7 +27,7 @@ export function SpeedControl({
         max={max}
         step={10}
         onValueChange={(vals) => onChange(vals[0])}
-        className="w-24"
+        className="w-24 cursor-pointer"
       />
     </div>
   );

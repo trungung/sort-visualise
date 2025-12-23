@@ -25,7 +25,7 @@ export function GenerateButton({ onGenerate, className }: GenerateButtonProps) {
         <Button
           size="sm"
           onClick={() => onGenerate("random")}
-          className="rounded-r-none border-r-0 bg-[#444] hover:bg-[#555] border-[#555] text-white text-xs"
+          className="rounded-r-none border-r-0 bg-button-neutral hover:bg-button-neutral-hover border-button-neutral-border text-white text-xs"
         >
           Randomize
         </Button>
@@ -35,20 +35,32 @@ export function GenerateButton({ onGenerate, className }: GenerateButtonProps) {
           <DropdownMenuTrigger asChild>
             <Button
               size="sm"
-              className="rounded-l-none border-l border-[#555] bg-[#444] hover:bg-[#555] text-white px-2"
+              className="rounded-l-none border-l border-button-neutral-border bg-button-neutral hover:bg-button-neutral-hover text-white px-2"
               aria-label="Select data pattern"
             >
               <ChevronDown className="size-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-[#222] border-[#444] text-white">
-            <DropdownMenuItem className="hover:bg-[#333] cursor-pointer" onClick={() => onGenerate("sorted")}>
+          <DropdownMenuContent
+            align="end"
+            className="bg-dropdown-bg border-dropdown-border text-white"
+          >
+            <DropdownMenuItem
+              className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
+              onClick={() => onGenerate("sorted")}
+            >
               Sorted
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-[#333] cursor-pointer" onClick={() => onGenerate("reversed")}>
+            <DropdownMenuItem
+              className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
+              onClick={() => onGenerate("reversed")}
+            >
               Reversed
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-[#333] cursor-pointer" onClick={() => onGenerate("identical")}>
+            <DropdownMenuItem
+              className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
+              onClick={() => onGenerate("identical")}
+            >
               Identical
             </DropdownMenuItem>
           </DropdownMenuContent>

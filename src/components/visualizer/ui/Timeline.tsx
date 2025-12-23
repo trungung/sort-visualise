@@ -1,4 +1,3 @@
-
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +24,7 @@ export function Timeline({
         max={max}
         step={1}
         onValueChange={(vals) => onScrub(vals[0])}
-        className="w-full"
+        className="w-full cursor-pointer"
       />
     </div>
   );

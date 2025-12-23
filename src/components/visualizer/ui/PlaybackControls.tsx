@@ -1,4 +1,10 @@
-import { ChevronLeft, ChevronRight, Play, Pause, RotateCcw } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+  RotateCcw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +31,7 @@ export function PlaybackControls({
         variant="outline"
         size="icon"
         onClick={onStepBackward}
+        className="bg-overlay-5 border-border-dim hover:bg-overlay-10 hover:text-white transition-colors"
         aria-label="Step backward"
       >
         <ChevronLeft className="size-5" />
@@ -34,8 +41,10 @@ export function PlaybackControls({
         size="icon"
         onClick={onTogglePlay}
         className={cn(
-          "size-11 rounded-full transition-all",
-          isAtEnd ? "bg-muted text-muted-foreground" : "bg-visualizer-highlight text-primary-foreground hover:bg-visualizer-highlight/90"
+          "size-12 rounded-full transition-all duration-200 border-none shadow-lg",
+          isAtEnd
+            ? "bg-overlay-10 text-overlay-40 cursor-pointer"
+            : "bg-visualizer-highlight text-black hover:scale-105 active:scale-95",
         )}
         aria-label={isPlaying ? "Pause" : isAtEnd ? "Restart" : "Play"}
       >
@@ -44,7 +53,7 @@ export function PlaybackControls({
         ) : isAtEnd ? (
           <RotateCcw className="size-6" />
         ) : (
-          <Play className="size-6 fill-current ml-0.5" />
+          <Play className="size-6 fill-current ml-1" />
         )}
       </Button>
 
@@ -52,6 +61,7 @@ export function PlaybackControls({
         variant="outline"
         size="icon"
         onClick={onStepForward}
+        className="bg-overlay-5 border-border-dim hover:bg-overlay-10 hover:text-white transition-colors"
         aria-label="Step forward"
       >
         <ChevronRight className="size-5" />

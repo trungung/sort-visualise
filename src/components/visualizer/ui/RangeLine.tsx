@@ -23,7 +23,7 @@ export function RangeLine({
   return (
     <div
       className={cn(
-        "absolute -bottom-2 h-[3px] transition-all duration-300 z-10",
+        "absolute -bottom-2 h-1 transition-all duration-300 z-10",
         className,
       )}
       style={{

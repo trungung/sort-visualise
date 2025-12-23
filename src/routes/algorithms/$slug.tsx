@@ -52,27 +52,27 @@ function AlgorithmPage() {
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#1a1a1a]">
-      <div className="border-b border-white/5 p-4 text-center">
-        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.15em]">
+    <div className="flex flex-col h-full bg-visualizer-panel">
+      <div className="border-b border-border-subtle p-4 text-center">
+        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
           Recursion Stack
         </span>
-        <div className="mt-1 text-[11px] text-muted-foreground/60">
-          N = <span className="text-white/80 font-mono">12</span>
+        <div className="mt-1 text-xs text-foreground-muted">
+          N = <span className="text-overlay-80 font-mono">12</span>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-2">
-        <div className="space-y-0.5 font-mono text-[11px]">
-          <div className="px-2 py-1 text-white/20">merge(0, 11)</div>
-          <div className="ml-2 px-2 py-1 text-white/20">merge(0, 5)</div>
-          <div className="ml-4 px-2 py-1 text-white/20 border-l border-white/5">
+        <div className="space-y-0.5 font-mono text-xs">
+          <div className="px-2 py-1 text-overlay-20">merge(0, 11)</div>
+          <div className="ml-2 px-2 py-1 text-overlay-20">merge(0, 5)</div>
+          <div className="ml-4 px-2 py-1 text-overlay-20 border-l border-border-subtle">
             merge(0, 2)
           </div>
-          <div className="ml-6 px-2 py-1 bg-white/5 text-visualizer-highlight font-bold border-l-2 border-visualizer-highlight">
-            ➡ merge(0, 1)
+          <div className="ml-6 px-2 py-1 bg-overlay-5 text-visualizer-highlight font-bold border-l-2 border-visualizer-highlight">
+            merge(0, 1)
           </div>
-          <div className="ml-8 px-2 py-1 text-visualizer-pending/80 bg-visualizer-pending/5 border-l-2 border-visualizer-pending/40">
+          <div className="ml-8 px-2 py-1 text-visualizer-pending bg-visualizer-pending-dim border-l-2 border-visualizer-pending">
             merge(0, 0)
           </div>
         </div>
@@ -82,7 +82,7 @@ function AlgorithmPage() {
 
   const headerControls = (
     <>
-      <select className="h-8 rounded-[4px] border border-white/10 bg-white/5 text-white/80 px-2 text-[11px] font-medium outline-none cursor-pointer hover:bg-white/10 transition-colors">
+      <select className="h-8 rounded border border-border-dim bg-overlay-5 text-overlay-80 px-2 text-xs font-medium outline-none cursor-pointer hover:bg-overlay-10 transition-colors">
         <option value="5">Size: 5</option>
         <option value="8">Size: 8</option>
         <option value="12" selected>
@@ -120,7 +120,7 @@ function AlgorithmPage() {
             currentFrame={currentFrame}
             totalFrames={totalFrames}
             onScrub={setCurrentFrame}
-            className="w-[480px]"
+            className="w-120"
           />
         </div>
 
@@ -138,7 +138,7 @@ function AlgorithmPage() {
       headerControls={headerControls}
       controlPanel={controlPanel}
     >
-      <div className="flex flex-col gap-10 h-full p-4 overflow-y-auto">
+      <div className="flex flex-col gap-8 h-full p-2 overflow-y-auto">
         {/* Zone 1: Global Context */}
         <VisualizerZone label="1. Global Context">
           <ScopeBracket start={0} end={11} unitWidth={BAR_WIDTH} gap={GAP} />
@@ -162,8 +162,13 @@ function AlgorithmPage() {
               key={idx}
               value={value}
               maxValue={20}
-              status={idx >= 0 && idx <= 11 ? "in-scope" : "default"}
-              className={idx >= 6 && idx <= 11 ? "opacity-40" : ""}
+              status={
+                idx >= 6 && idx <= 11
+                  ? "dimmed"
+                  : idx >= 0 && idx <= 11
+                    ? "in-scope"
+                    : "default"
+              }
             />
           ))}
         </VisualizerZone>
@@ -189,7 +194,7 @@ function AlgorithmPage() {
           ))}
 
           <div className="w-10 h-full flex items-center justify-center">
-            <div className="h-full border-r border-white/5 border-dashed" />
+            <div className="h-full border-r border-border-subtle border-dashed" />
           </div>
 
           {[11, 12, 14, 16, 17, 19].map((value, idx) => (
@@ -210,13 +215,13 @@ function AlgorithmPage() {
               key={`merged-${idx}`}
               value={value}
               maxValue={20}
-              status="in-scop"
+              status="built"
             />
           ))}
           {Array.from({ length: 8 }).map((_, idx) => (
             <div
               key={`slot-${idx}`}
-              className="w-7 h-[1px] bg-white/10 shrink-0 self-end mb-0"
+              className="w-7 h-px bg-border-subtle shrink-0 self-end mb-0"
             />
           ))}
         </VisualizerZone>
