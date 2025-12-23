@@ -1,25 +1,19 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
+import { Outlet, createRootRoute, useLocation } from "@tanstack/react-router";
 
-import Header from '../components/Header'
+import { MainNav } from "@/components/navigation/MainNav";
 
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Header />
+  component: RootLayout,
+});
+
+function RootLayout() {
+  const location = useLocation();
+  const isVisualizerPage = location.pathname.startsWith("/algorithms");
+
+  return (
+    <div className="dark min-h-screen bg-background text-foreground">
+      {!isVisualizerPage && <MainNav />}
       <Outlet />
-      <TanStackDevtools
-        config={{
-          position: 'bottom-right',
-        }}
-        plugins={[
-          {
-            name: 'Tanstack Router',
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-        ]}
-      />
-    </>
-  ),
-})
+    </div>
+  );
+}

@@ -1,26 +1,39 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@import 'tw-animate-css';
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 body {
   @apply m-0;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family:
-    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
+
+  /* Visualizer-specific colors (light mode defaults) */
+  --visualizer-panel: oklch(0.95 0.002 285.823);
+  --visualizer-zone: oklch(0.98 0.001 285.823);
+  --visualizer-highlight: oklch(0.85 0.2 85);
+  --visualizer-bar-default: oklch(0.6 0.05 240);
+  --visualizer-bar-active: oklch(0.5 0.08 240);
+  --visualizer-left: oklch(0.65 0.2 25);
+  --visualizer-right: oklch(0.7 0.15 175);
+  --visualizer-merged: oklch(0.75 0.12 165);
+  --visualizer-running: oklch(0.85 0.2 85);
+  --visualizer-pending: oklch(0.7 0.15 220);
+  --visualizer-done: oklch(0.5 0.02 285);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
@@ -87,6 +100,19 @@ code {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.274 0.006 286.033);
   --sidebar-ring: oklch(0.442 0.017 285.786);
+
+  /* Visualizer-specific colors */
+  --visualizer-panel: oklch(0.18 0.005 285.823);
+  --visualizer-zone: oklch(0.12 0.003 285.823);
+  --visualizer-highlight: oklch(0.85 0.2 85);
+  --visualizer-bar-default: oklch(0.45 0.05 240);
+  --visualizer-bar-active: oklch(0.55 0.08 240);
+  --visualizer-left: oklch(0.65 0.2 25);
+  --visualizer-right: oklch(0.7 0.15 175);
+  --visualizer-merged: oklch(0.75 0.12 165);
+  --visualizer-running: oklch(0.85 0.2 85);
+  --visualizer-pending: oklch(0.7 0.15 220);
+  --visualizer-done: oklch(0.4 0.02 285);
 }
 
 @theme inline {
@@ -126,6 +152,19 @@ code {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Visualizer theme tokens */
+  --color-visualizer-panel: var(--visualizer-panel);
+  --color-visualizer-zone: var(--visualizer-zone);
+  --color-visualizer-highlight: var(--visualizer-highlight);
+  --color-visualizer-bar-default: var(--visualizer-bar-default);
+  --color-visualizer-bar-active: var(--visualizer-bar-active);
+  --color-visualizer-left: var(--visualizer-left);
+  --color-visualizer-right: var(--visualizer-right);
+  --color-visualizer-merged: var(--visualizer-merged);
+  --color-visualizer-running: var(--visualizer-running);
+  --color-visualizer-pending: var(--visualizer-pending);
+  --color-visualizer-done: var(--visualizer-done);
 }
 
 @layer base {

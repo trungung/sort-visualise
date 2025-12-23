@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlgorithmsSlugRouteImport } from './routes/algorithms/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlgorithmsSlugRoute = AlgorithmsSlugRouteImport.update({
+  id: '/algorithms/$slug',
+  path: '/algorithms/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/algorithms/$slug': typeof AlgorithmsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/algorithms/$slug': typeof AlgorithmsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/algorithms/$slug': typeof AlgorithmsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/algorithms/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/algorithms/$slug'
+  id: '__root__' | '/' | '/algorithms/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlgorithmsSlugRoute: typeof AlgorithmsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/algorithms/$slug': {
+      id: '/algorithms/$slug'
+      path: '/algorithms/$slug'
+      fullPath: '/algorithms/$slug'
+      preLoaderRoute: typeof AlgorithmsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlgorithmsSlugRoute: AlgorithmsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
