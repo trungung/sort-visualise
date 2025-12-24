@@ -23,12 +23,3 @@ export type Frame = {
   activeId: number;
   isUpdate: boolean;
 };
-
-export type MergeSortConfig = {
-  size: number;
-  pattern: import("../GenerateButton").DataPattern;
-};
-
-export type MergeSortVisualizerProps = {
-  className?: string;
-};

@@ -11,12 +11,12 @@ export function generateData(size: number, pattern: DataPattern): number[] {
     case "sorted":
       return Array.from(
         { length: size },
-        (_, i) => Math.floor((i / size) * MAX_VAL) + 1,
+        (_, i) => Math.floor((i / size) * MAX_VAL) + 1
       );
     case "reversed":
       return Array.from(
         { length: size },
-        (_, i) => Math.floor(((size - 1 - i) / size) * MAX_VAL) + 1,
+        (_, i) => Math.floor(((size - 1 - i) / size) * MAX_VAL) + 1
       );
     case "identical":
       return Array.from({ length: size }, () => Math.floor(MAX_VAL / 2));
@@ -24,7 +24,7 @@ export function generateData(size: number, pattern: DataPattern): number[] {
     default:
       return Array.from(
         { length: size },
-        () => Math.floor(Math.random() * MAX_VAL) + 1,
+        () => Math.floor(Math.random() * MAX_VAL) + 1
       );
   }
 }
@@ -35,7 +35,7 @@ export function generateData(size: number, pattern: DataPattern): number[] {
 function updateTreeState(
   tree: TreeNode[],
   id: number,
-  newState: TreeNode["state"],
+  newState: TreeNode["state"]
 ): void {
   const node = tree.find((n) => n.id === id);
   if (node) {
@@ -59,7 +59,7 @@ function saveFrame(
   message: string,
   tree: TreeNode[],
   activeId: number,
-  isUpdate: boolean,
+  isUpdate: boolean
 ): void {
   frames.push({
     global: [...global],
@@ -87,7 +87,7 @@ function mergeSortRec(
   end: number,
   depth: number,
   tree: TreeNode[],
-  callCounter: { value: number },
+  callCounter: { value: number }
 ): number[] {
   const myCallId = callCounter.value++;
   const label = `merge(${start}, ${end})`;
@@ -119,10 +119,10 @@ function mergeSortRec(
     [],
     -1,
     -1,
-    `Dividing range [${start}..${end}] into two halves`,
+    `Splitting section [${start}..${end}] into two parts`,
     tree,
     myCallId,
-    false,
+    false
   );
 
   // Recursively sort left and right halves
@@ -133,7 +133,7 @@ function mergeSortRec(
     mid,
     depth + 1,
     tree,
-    callCounter,
+    callCounter
   );
   const rightSorted = mergeSortRec(
     frames,
@@ -142,7 +142,7 @@ function mergeSortRec(
     end,
     depth + 1,
     tree,
-    callCounter,
+    callCounter
   );
 
   // Back to this call - mark active again for merge phase
@@ -168,7 +168,7 @@ function mergeSortRec(
       `Starting merge: comparing ${leftSorted[0]} (left) vs ${rightSorted[0]} (right)`,
       tree,
       myCallId,
-      false,
+      false
     );
   }
 
@@ -201,7 +201,7 @@ function mergeSortRec(
         `${leftVal} ≤ ${rightVal} → Took ${leftVal} from left${nextCompareMsg}`,
         tree,
         myCallId,
-        false,
+        false
       );
     } else {
       result.push(rightVal);
@@ -227,7 +227,7 @@ function mergeSortRec(
         `${rightVal} < ${leftVal} → Took ${rightVal} from right${nextCompareMsg}`,
         tree,
         myCallId,
-        false,
+        false
       );
     }
   }
@@ -247,10 +247,10 @@ function mergeSortRec(
       rightSorted,
       i,
       j,
-      `Right exhausted. Appending ${takenValue} from left`,
+      `Right side empty. Taking remaining ${takenValue} from left`,
       tree,
       myCallId,
-      false,
+      false
     );
   }
 
@@ -269,10 +269,10 @@ function mergeSortRec(
       rightSorted,
       i,
       j,
-      `Left exhausted. Appending ${takenValue} from right`,
+      `Left side empty. Taking remaining ${takenValue} from right`,
       tree,
       myCallId,
-      false,
+      false
     );
   }
 
@@ -296,7 +296,7 @@ function mergeSortRec(
     `Merge complete! Writing [${result.join(", ")}] back to positions [${start}..${end}]`,
     tree,
     myCallId,
-    true,
+    true
   );
 
   return result;
@@ -325,7 +325,7 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     `Starting Merge Sort with ${globalArr.length} elements`,
     tree,
     -1,
-    false,
+    false
   );
 
   // Run the algorithm
@@ -336,7 +336,7 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     globalArr.length - 1,
     0,
     tree,
-    callCounter,
+    callCounter
   );
 
   // Final frame
@@ -353,7 +353,7 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     `Sorting complete! Array is now fully sorted.`,
     tree,
     -1,
-    false,
+    false
   );
 
   return frames;

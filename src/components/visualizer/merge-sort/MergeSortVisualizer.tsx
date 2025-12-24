@@ -69,7 +69,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       setFrames(newFrames);
       setCurrentFrameIndex(0);
     },
-    [size],
+    [size]
   );
 
   /**
@@ -180,7 +180,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     index: number,
     rangeStart: number,
     rangeEnd: number,
-    isUpdate: boolean,
+    isUpdate: boolean
   ) => {
     if (rangeStart === -1) {
       return "default";
@@ -197,7 +197,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const getSourceBarStatus = (
     index: number,
     pointerIndex: number,
-    side: "left" | "right",
+    side: "left" | "right"
   ) => {
     if (index < pointerIndex) {
       // Consumed bars - show faded version of their original color
@@ -216,7 +216,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <div className="flex flex-col h-full bg-visualizer-panel">
       <div className="border-b border-border-subtle p-4 text-center">
         <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-          Recursion Stack
+          Call History
         </span>
       </div>
       <div className="flex-1 flex items-center justify-center text-foreground-muted text-sm">
@@ -316,7 +316,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       className={className}
     >
       <div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
-        <VisualizerZone label="1. Global Context">
+        <VisualizerZone label="1. Array Overview">
           {rangeStart !== -1 && (
             <ScopeBracket
               start={rangeStart}
@@ -355,7 +355,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           ))}
         </VisualizerZone>
 
-        <VisualizerZone label="2. Comparison Sources">
+        <VisualizerZone label="2. Comparing Left & Right">
           {showSources ? (
             <>
               {left.map((value, idx) => (
@@ -387,7 +387,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           ) : null}
         </VisualizerZone>
 
-        <VisualizerZone label="3. Merged Result">
+        <VisualizerZone label="3. Building Sorted Result">
           {showBuilt ? (
             <>
               {Array.from({ length: rangeStart }).map((_, idx) => (
@@ -416,7 +416,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                       className="w-7 h-px bg-border-subtle shrink-0 self-end mb-0"
                     />
                   );
-                },
+                }
               )}
 
               {Array.from({ length: global.length - rangeEnd - 1 }).map(
@@ -426,7 +426,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                     maxValue={maxValue}
                     status="placeholder"
                   />
-                ),
+                )
               )}
             </>
           ) : null}

@@ -45,7 +45,7 @@ export function RecursionTree({
     <div className={cn("flex flex-col h-full bg-visualizer-panel", className)}>
       <div className="border-b border-border-subtle p-4 text-center">
         <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-          Recursion Stack
+          Call History
         </span>
         <div className="mt-1 text-xs text-foreground-muted">
           N = <span className="text-overlay-80 font-mono">{arraySize}</span>

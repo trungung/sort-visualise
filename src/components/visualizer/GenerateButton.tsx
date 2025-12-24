@@ -49,19 +49,19 @@ export function GenerateButton({ onGenerate, className }: GenerateButtonProps) {
               className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
               onClick={() => onGenerate("sorted")}
             >
-              Sorted
+              Already Sorted
             </DropdownMenuItem>
             <DropdownMenuItem
               className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
               onClick={() => onGenerate("reversed")}
             >
-              Reversed
+              Reverse Order
             </DropdownMenuItem>
             <DropdownMenuItem
               className="hover:bg-dropdown-hover focus:bg-dropdown-hover cursor-pointer"
               onClick={() => onGenerate("identical")}
             >
-              Identical
+              All Same Value
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
