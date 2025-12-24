@@ -1,7 +1,7 @@
 import type { Frame, TreeNode } from "./types";
 import type { DataPattern } from "../GenerateButton";
 
-const MAX_VAL = 20;
+const MAX_VAL = 100;
 
 /**
  * Generate an array of numbers based on the given pattern

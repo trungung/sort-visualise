@@ -176,6 +176,44 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     setCurrentFrameIndex(frame);
   };
 
+  /**
+   * Keyboard controls - Space for play/pause, Arrow keys for stepping
+   */
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input/textarea/select
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT"
+      ) {
+        return;
+      }
+
+      switch (e.key) {
+        case " ":
+        case "Spacebar": // For older browsers
+          e.preventDefault();
+          handleTogglePlay();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          handleStepBackward();
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          handleStepForward();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isAtEnd, totalFrames, isPlaying, currentFrameIndex]);
+
   const getGlobalBarStatus = (
     index: number,
     rangeStart: number,
