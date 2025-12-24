@@ -21,7 +21,7 @@ function VisualizerZone({
     <div
       className={cn(
         "relative flex min-h-40 flex-1 flex-col rounded-lg border bg-visualizer-zone px-3 pt-3 pb-0 overflow-visible",
-        className,
+        className
       )}
     >
       <VisualizerZoneLabel>{label}</VisualizerZoneLabel>
@@ -29,7 +29,7 @@ function VisualizerZone({
         <div
           className={cn(
             "relative flex items-end gap-1 h-full",
-            wrapperClassName,
+            wrapperClassName
           )}
         >
           {children}
@@ -51,8 +51,8 @@ function VisualizerZoneLabel({
   return (
     <span
       className={cn(
-        "absolute left-3 top-2 text-xs font-medium uppercase tracking-wider text-foreground-muted",
-        className,
+        "absolute left-3 top-2 text-xs font-medium uppercase tracking-wider text-muted-foreground",
+        className
       )}
     >
       {children}

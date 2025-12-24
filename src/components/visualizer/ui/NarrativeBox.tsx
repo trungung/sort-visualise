@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type NarrativeBoxProps = {
   text: string;
@@ -26,18 +27,6 @@ type TextSegment = {
 function parseNarrativeText(text: string): TextSegment[] {
   const segments: TextSegment[] = [];
   let remaining = text;
-
-  // Pattern for comparisons: "X ≤ Y" or "X < Y"
-  const comparisonPattern = /(\d+)\s*([≤<>])\s*(\d+)/g;
-  // Pattern for "Took X from left/right"
-  const tookPattern = /Took\s+(\d+)\s+from\s+(left|right)/g;
-  // Pattern for "Appending X from left/right"
-  const appendPattern = /Appending\s+(\d+)\s+from\s+(left|right)/g;
-  // Pattern for "comparing X (left) vs Y (right)"
-  const comparingPattern =
-    /comparing\s+(\d+)\s+\(left\)\s+vs\s+(\d+)\s+\(right\)/g;
-  // Pattern for "Next: X vs Y"
-  const nextPattern = /Next:\s+(\d+)\s+vs\s+(\d+)/g;
 
   // Combine all patterns and their handlers
   const allPatterns = [
@@ -177,20 +166,22 @@ export function NarrativeBox({
   return (
     <div
       className={cn(
-        "flex items-center justify-between rounded-md border-l-4 border-visualizer-highlight bg-muted-dim px-4 py-2 transition-all animate-in fade-in slide-in-from-left-2",
+        "flex items-center justify-between rounded-md border-l-4 border-visualizer-accent bg-muted px-4 py-2 transition-all animate-in fade-in slide-in-from-left-2",
         className
       )}
     >
-      <span className="text-sm font-medium tracking-tight text-foreground-dim">
+      <span className="text-sm font-medium tracking-tight text-foreground">
         <ColoredText segments={segments} />
       </span>
-      <button
+      <Button
+        variant="ghost"
+        size="icon-sm"
         onClick={onClose}
-        className="ml-4 text-muted-foreground hover:text-foreground transition-colors"
+        className="ml-4 shrink-0"
         aria-label="Close narrative"
       >
         <X className="size-4" />
-      </button>
+      </Button>
     </div>
   );
 }

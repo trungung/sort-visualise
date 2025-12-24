@@ -53,7 +53,7 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
     <Card className={algorithm.isImplemented ? "" : "opacity-60 grayscale"}>
       <CardHeader>
         <div className="flex items-start justify-between">
-          <div className="rounded-lg bg-primary-dim p-2">
+          <div className="rounded-lg bg-primary/10 p-2">
             <Icon className="size-6 text-primary" />
           </div>
           {!algorithm.isImplemented && (
@@ -101,7 +101,7 @@ type ComplexityItemProps = {
 
 function ComplexityItem({ label, value }: ComplexityItemProps) {
   return (
-    <div className="flex justify-between rounded-md bg-muted-dim px-2 py-1">
+    <div className="flex justify-between rounded-md bg-muted px-2 py-1">
       <span className="text-muted-foreground">{label}</span>
       <span className="font-mono font-medium">{value}</span>
     </div>

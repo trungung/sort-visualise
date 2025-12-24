@@ -42,19 +42,21 @@ export function Bar({
           "w-7 rounded-t-sm flex items-end justify-center pb-1 text-xs font-bold select-none",
           "transition-all duration-300 ease-out",
           status === "default" &&
-            "bg-visualizer-bar-default text-foreground-dim",
+            "bg-visualizer-bar-default text-muted-foreground",
           status === "in-scope" && "bg-visualizer-bar-active text-foreground",
-          status === "left-source" && "bg-visualizer-left text-black",
-          status === "right-source" && "bg-visualizer-right text-black",
+          status === "left-source" &&
+            "bg-visualizer-left text-primary-foreground",
+          status === "right-source" &&
+            "bg-visualizer-right text-primary-foreground",
           status === "built" &&
-            "bg-visualizer-merged text-black border border-border-dim",
-          status === "dimmed" && "bg-visualizer-bar-dim text-foreground-subtle",
+            "bg-visualizer-merged text-primary-foreground border border-border",
+          status === "dimmed" && "bg-visualizer-bar-dim text-muted-foreground",
           status === "consumed-left" &&
-            "bg-visualizer-left-consumed text-foreground-subtle",
+            "bg-visualizer-left-consumed text-muted-foreground",
           status === "consumed-right" &&
-            "bg-visualizer-right-consumed text-foreground-subtle",
-          status === "flash" && "animate-flash-merge text-black",
-          className,
+            "bg-visualizer-right-consumed text-muted-foreground",
+          status === "flash" && "animate-flash-merge text-primary-foreground",
+          className
         )}
         style={{ height: `${heightPercentage}%` }}
       >
@@ -66,8 +68,8 @@ export function Bar({
           "absolute -bottom-5 text-lg leading-none z-10 select-none pointer-events-none",
           "transition-all duration-300 ease-out",
           hasPointer
-            ? "opacity-100 transform translate-y-0 text-visualizer-highlight"
-            : "opacity-0 transform -translate-y-1",
+            ? "opacity-100 transform translate-y-0 text-visualizer-accent"
+            : "opacity-0 transform -translate-y-1"
         )}
       >
         ▲

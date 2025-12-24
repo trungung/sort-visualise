@@ -3,6 +3,7 @@ import { Home } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
@@ -63,7 +64,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
     <aside
       className={cn(
         "hidden w-64 shrink-0 flex-col border-r bg-visualizer-panel lg:flex",
-        className,
+        className
       )}
     >
       {children}
@@ -86,7 +87,7 @@ function VisualizerHeader({
     <header
       className={cn(
         "flex h-14 shrink-0 items-center justify-between border-b bg-visualizer-panel px-4",
-        className,
+        className
       )}
     >
       <div className="flex items-center gap-3">
@@ -97,7 +98,10 @@ function VisualizerHeader({
         </Button>
         <h1 className="text-lg font-bold">{title}</h1>
       </div>
-      {controls && <div className="flex items-center gap-2">{controls}</div>}
+      <div className="flex items-center gap-2">
+        {controls}
+        <ModeToggle />
+      </div>
     </header>
   );
 }

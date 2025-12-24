@@ -252,12 +252,12 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     />
   ) : (
     <div className="flex flex-col h-full bg-visualizer-panel">
-      <div className="border-b border-border-subtle p-4 text-center">
+      <div className="border-b border-border p-4 text-center">
         <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
           Call History
         </span>
       </div>
-      <div className="flex-1 flex items-center justify-center text-foreground-muted text-sm">
+      <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
         Generate data to start
       </div>
     </div>
@@ -268,7 +268,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       <select
         value={size}
         onChange={(e) => handleSizeChange(parseInt(e.target.value))}
-        className="h-8 rounded border border-border-dim bg-overlay-5 text-overlay-80 px-2 text-xs font-medium outline-none cursor-pointer hover:bg-overlay-10 transition-colors"
+        className="h-8 rounded-md border bg-background px-2 text-sm outline-none cursor-pointer hover:bg-accent transition-colors"
       >
         {[8, 12, 20, 28, 40].map((val) => (
           <option value={val} key={val}>
@@ -322,7 +322,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         controlPanel={controlPanel}
         className={className}
       >
-        <div className="flex items-center justify-center h-full text-foreground-muted">
+        <div className="flex items-center justify-center h-full text-muted-foreground">
           Loading...
         </div>
       </VisualizerLayout>
@@ -407,7 +407,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               ))}
 
               <div className="w-10 h-full flex items-center justify-center">
-                <div className="h-full border-r border-border-subtle border-dashed" />
+                <div className="h-full border-r border-border border-dashed" />
               </div>
 
               {right.map((value, idx) => (
@@ -451,7 +451,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                   return (
                     <div
                       key={`slot-${idx}`}
-                      className="w-7 h-px bg-border-subtle shrink-0 self-end mb-0"
+                      className="w-7 h-px bg-border shrink-0 self-end mb-0"
                     />
                   );
                 }

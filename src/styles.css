@@ -10,103 +10,174 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ============================================
+   LIGHT MODE (default)
+   Using shadcn's oklch color format for better 
+   perceptual uniformity and color mixing
+   ============================================ */
 :root {
-  /* Base Colors */
-  --background: #121212;
-  --foreground: #e0e0e0;
-  --foreground-dim: #a0a0a0;
-  --foreground-muted: #666666;
-  --foreground-subtle: #444444;
+  --radius: 0.5rem;
 
-  /* Card & Popover */
-  --card: #1e1e1e;
-  --card-foreground: #e0e0e0;
-  --popover: #1e1e1e;
-  --popover-foreground: #e0e0e0;
+  /* Base Colors - Clean light backgrounds */
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
 
-  /* Primary (Gold/Yellow) */
-  --primary: #ffd700;
-  --primary-foreground: #121212;
-  --primary-dim: #2a2510;
+  /* Card & Popover - Slightly elevated surfaces */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
 
-  /* Secondary (Gray) */
-  --secondary: #333333;
-  --secondary-foreground: #e0e0e0;
+  /* Primary - Neutral dark for primary actions */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
 
-  /* Muted */
-  --muted: #252525;
-  --muted-foreground: #888888;
-  --muted-dim: #1c1c1c;
+  /* Secondary - Neutral gray for secondary actions */
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
 
-  /* Accent */
-  --accent: #333333;
-  --accent-foreground: #ffd700;
+  /* Muted - Subtle backgrounds and text (improved contrast) */
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.38 0 0);
 
-  /* Destructive */
-  --destructive: #ff6b6b;
-  --destructive-foreground: #121212;
+  /* Accent - For highlights and hover states */
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.205 0 0);
 
-  /* Utility */
-  --border: #333333;
-  --border-dim: #222222;
-  --border-subtle: #1a1a1a;
-  --input: #333333;
-  --ring: #ffd700;
-  --radius: 4px;
+  /* Destructive - Error states */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
 
-  /* ===== OVERLAY SOLID COLORS (replacing white/X opacity) ===== */
-  --overlay-5: #1f1f1f;
-  --overlay-10: #2a2a2a;
-  --overlay-20: #3d3d3d;
-  --overlay-40: #6b6b6b;
-  --overlay-50: #808080;
-  --overlay-80: #cccccc;
-  --overlay-90: #e6e6e6;
+  /* Utility colors (improved border contrast) */
+  --border: oklch(0.85 0 0);
+  --input: oklch(0.85 0 0);
+  --ring: oklch(0.708 0 0);
 
-  /* ===== VISUALIZER SOLID COLORS ===== */
+  /* ===== VISUALIZER COLORS - Light Mode ===== */
 
-  /* Panels & Zones */
-  --visualizer-panel: #1a1a1a;
-  --visualizer-zone: #121212;
+  /* Panels & Zones - Subtle layering */
+  --visualizer-panel: oklch(0.97 0 0);
+  --visualizer-zone: oklch(0.99 0 0);
 
-  /* Highlight (Primary Action Color) */
-  --visualizer-highlight: #ffd700;
+  /* Accent - Amber/Gold for active focus (scope bracket, running state) */
+  --visualizer-accent: oklch(0.65 0.18 75);
+  --visualizer-accent-bg: oklch(0.95 0.05 85);
 
-  /* Bar States - All Solid Colors */
-  --visualizer-bar-default: #4a5a6a;
-  --visualizer-bar-active: #607d8b;
-  --visualizer-bar-dim: #3d4d5d;
+  /* Bar States - Blue-gray palette with better contrast */
+  --visualizer-bar-default: oklch(0.5 0.04 250);
+  --visualizer-bar-active: oklch(0.35 0.06 250);
+  --visualizer-bar-dim: oklch(0.7 0.02 250);
 
-  /* Comparison Sources */
-  --visualizer-left: #ff6b6b;
-  --visualizer-right: #4ecdc4;
-  --visualizer-merged: #95e1d3;
-  --visualizer-left-consumed: #4a2a2a;
-  --visualizer-right-consumed: #1a3a38;
+  /* Comparison Sources - Distinct colors with good contrast */
+  --visualizer-left: oklch(0.5 0.18 25);
+  --visualizer-right: oklch(0.45 0.12 220);
+  --visualizer-merged: oklch(0.45 0.14 165);
+  --visualizer-left-consumed: oklch(0.85 0.06 25);
+  --visualizer-right-consumed: oklch(0.85 0.05 220);
 
-  /* Tree States */
-  --visualizer-running: #ffd700;
-  --visualizer-pending: #4fc3f7;
-  --visualizer-pending-dim: #162530;
-  --visualizer-done: #333333;
-  --visualizer-done-text: #707070;
+  /* Tree States - Clear status indicators */
+  --visualizer-pending: oklch(0.45 0.12 250);
+  --visualizer-pending-dim: oklch(0.94 0.02 250);
+  --visualizer-done: oklch(0.94 0 0);
+  --visualizer-done-text: oklch(0.45 0 0);
 
-  /* ===== BUTTON VARIANTS ===== */
-  --button-neutral: #444444;
-  --button-neutral-hover: #555555;
-  --button-neutral-border: #555555;
-  --dropdown-bg: #222222;
-  --dropdown-border: #444444;
-  --dropdown-hover: #333333;
+  /* ===== CHART COLORS ===== */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Animation timing */
+  --animation-bar-transition: 300ms;
+  --animation-flash-duration: 500ms;
 }
 
+/* ============================================
+   DARK MODE
+   Inverted values with careful attention to
+   contrast ratios and visual hierarchy
+   ============================================ */
+.dark {
+  /* Base Colors - Deep dark backgrounds */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.92 0 0);
+
+  /* Card & Popover - Elevated dark surfaces */
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.92 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.92 0 0);
+
+  /* Primary - Neutral light for primary actions */
+  --primary: oklch(0.92 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+
+  /* Secondary - Dark gray for secondary actions */
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.92 0 0);
+
+  /* Muted - Subtle dark backgrounds and dimmed text */
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+
+  /* Accent - For highlights and hover states */
+  --accent: oklch(0.28 0 0);
+  --accent-foreground: oklch(0.92 0 0);
+
+  /* Destructive - Error states (slightly brighter in dark) */
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.145 0 0);
+
+  /* Utility colors - Subtle borders */
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+
+  /* ===== VISUALIZER COLORS - Dark Mode ===== */
+
+  /* Panels & Zones - Dark layering */
+  --visualizer-panel: oklch(0.16 0 0);
+  --visualizer-zone: oklch(0.12 0 0);
+
+  /* Accent - Amber/Gold for active focus (scope bracket, running state) */
+  --visualizer-accent: oklch(0.78 0.16 85);
+  --visualizer-accent-bg: oklch(0.25 0.04 85);
+
+  /* Bar States - Slate blue palette */
+  --visualizer-bar-default: oklch(0.45 0.03 250);
+  --visualizer-bar-active: oklch(0.55 0.05 250);
+  --visualizer-bar-dim: oklch(0.35 0.02 250);
+
+  /* Comparison Sources - Vibrant but not harsh */
+  --visualizer-left: oklch(0.65 0.2 25);
+  --visualizer-right: oklch(0.6 0.12 220);
+  --visualizer-merged: oklch(0.7 0.14 165);
+  --visualizer-left-consumed: oklch(0.25 0.05 25);
+  --visualizer-right-consumed: oklch(0.22 0.04 220);
+
+  /* Tree States */
+  --visualizer-pending: oklch(0.6 0.12 250);
+  --visualizer-pending-dim: oklch(0.18 0.02 250);
+  --visualizer-done: oklch(0.25 0 0);
+  --visualizer-done-text: oklch(0.5 0 0);
+
+  /* ===== CHART COLORS (slightly adjusted for dark) ===== */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+}
+
+/* ============================================
+   TAILWIND v4 THEME CONFIGURATION
+   Maps CSS variables to Tailwind classes
+   ============================================ */
 @theme inline {
   /* Base */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-foreground-dim: var(--foreground-dim);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-foreground-subtle: var(--foreground-subtle);
 
   /* Card & Popover */
   --color-card: var(--card);
@@ -117,7 +188,6 @@ body {
   /* Primary */
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-primary-dim: var(--primary-dim);
 
   /* Secondary */
   --color-secondary: var(--secondary);
@@ -126,7 +196,6 @@ body {
   /* Muted */
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-muted-dim: var(--muted-dim);
 
   /* Accent */
   --color-accent: var(--accent);
@@ -138,24 +207,14 @@ body {
 
   /* Utility */
   --color-border: var(--border);
-  --color-border-dim: var(--border-dim);
-  --color-border-subtle: var(--border-subtle);
   --color-input: var(--input);
   --color-ring: var(--ring);
-
-  /* Overlay (solid replacements for white/X) */
-  --color-overlay-5: var(--overlay-5);
-  --color-overlay-10: var(--overlay-10);
-  --color-overlay-20: var(--overlay-20);
-  --color-overlay-40: var(--overlay-40);
-  --color-overlay-50: var(--overlay-50);
-  --color-overlay-80: var(--overlay-80);
-  --color-overlay-90: var(--overlay-90);
 
   /* Visualizer */
   --color-visualizer-panel: var(--visualizer-panel);
   --color-visualizer-zone: var(--visualizer-zone);
-  --color-visualizer-highlight: var(--visualizer-highlight);
+  --color-visualizer-accent: var(--visualizer-accent);
+  --color-visualizer-accent-bg: var(--visualizer-accent-bg);
 
   --color-visualizer-bar-default: var(--visualizer-bar-default);
   --color-visualizer-bar-active: var(--visualizer-bar-active);
@@ -167,22 +226,26 @@ body {
   --color-visualizer-left-consumed: var(--visualizer-left-consumed);
   --color-visualizer-right-consumed: var(--visualizer-right-consumed);
 
-  --color-visualizer-running: var(--visualizer-running);
   --color-visualizer-pending: var(--visualizer-pending);
   --color-visualizer-pending-dim: var(--visualizer-pending-dim);
   --color-visualizer-done: var(--visualizer-done);
   --color-visualizer-done-text: var(--visualizer-done-text);
 
-  /* Button variants */
-  --color-button-neutral: var(--button-neutral);
-  --color-button-neutral-hover: var(--button-neutral-hover);
-  --color-button-neutral-border: var(--button-neutral-border);
-  --color-dropdown-bg: var(--dropdown-bg);
-  --color-dropdown-border: var (--dropdown-border);
-  --color-dropdown-hover: var(--dropdown-hover);
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 
   /* Custom spacing for visualizer */
   --spacing-120: 30rem;
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
@@ -194,13 +257,12 @@ body {
   }
 }
 
-/* Animation timing - keep in sync with MergeSortVisualizer constants */
-:root {
-  --animation-bar-transition: 300ms;
-  --animation-flash-duration: 500ms;
-}
+/* ============================================
+   ANIMATION CONFIGURATION
+   Keep in sync with MergeSortVisualizer constants
+   ============================================ */
 
-/* Custom flash animation for merge complete effect - zoom first, then flash */
+/* Flash animation for merge complete effect */
 @keyframes flash-merge {
   0% {
     background-color: var(--visualizer-bar-active);
@@ -211,7 +273,7 @@ body {
     transform: scale(1.08);
   }
   50% {
-    background-color: #c8e6e8;
+    background-color: var(--visualizer-merged);
     transform: scale(1.08);
   }
   100% {

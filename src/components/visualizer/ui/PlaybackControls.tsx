@@ -31,21 +31,16 @@ export function PlaybackControls({
         variant="outline"
         size="icon"
         onClick={onStepBackward}
-        className="bg-overlay-5 border-border-dim hover:bg-overlay-20 hover:border-overlay-40 hover:text-white transition-all duration-150 active:scale-95"
         aria-label="Step backward"
       >
         <ChevronLeft className="size-5" />
       </Button>
 
       <Button
+        variant={isAtEnd ? "outline" : "default"}
         size="icon"
         onClick={onTogglePlay}
-        className={cn(
-          "size-12 rounded-full transition-all duration-150 border-none shadow-lg",
-          isAtEnd
-            ? "bg-overlay-10 text-overlay-40 cursor-pointer hover:bg-overlay-20 hover:text-overlay-50"
-            : "bg-visualizer-highlight text-black hover:scale-110 hover:shadow-xl active:scale-95"
-        )}
+        className="size-12 rounded-full"
         aria-label={isPlaying ? "Pause" : isAtEnd ? "Restart" : "Play"}
       >
         {isPlaying ? (
@@ -61,7 +56,6 @@ export function PlaybackControls({
         variant="outline"
         size="icon"
         onClick={onStepForward}
-        className="bg-overlay-5 border-border-dim hover:bg-overlay-20 hover:border-overlay-40 hover:text-white transition-all duration-150 active:scale-95"
         aria-label="Step forward"
       >
         <ChevronRight className="size-5" />
