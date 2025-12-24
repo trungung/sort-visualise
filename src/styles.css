@@ -75,7 +75,7 @@ body {
   /* Bar States - All Solid Colors */
   --visualizer-bar-default: #4a5a6a;
   --visualizer-bar-active: #607d8b;
-  --visualizer-bar-dim: #2a3a4a;
+  --visualizer-bar-dim: #3d4d5d;
 
   /* Comparison Sources */
   --visualizer-left: #ff6b6b;
@@ -89,7 +89,7 @@ body {
   --visualizer-pending: #4fc3f7;
   --visualizer-pending-dim: #162530;
   --visualizer-done: #333333;
-  --visualizer-done-text: #555555;
+  --visualizer-done-text: #707070;
 
   /* ===== BUTTON VARIANTS ===== */
   --button-neutral: #444444;

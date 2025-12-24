@@ -18,7 +18,7 @@ import type { Frame, DataPattern } from "./types";
 
 const BAR_WIDTH = 28;
 const GAP = 4;
-const DEFAULT_SIZE = 8;
+const DEFAULT_SIZE = 12;
 const DEFAULT_SPEED = 500;
 
 // Animation timing constants (in ms)
@@ -232,11 +232,11 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         onChange={(e) => handleSizeChange(parseInt(e.target.value))}
         className="h-8 rounded border border-border-dim bg-overlay-5 text-overlay-80 px-2 text-xs font-medium outline-none cursor-pointer hover:bg-overlay-10 transition-colors"
       >
-        <option value={5}>Size: 5</option>
-        <option value={8}>Size: 8</option>
-        <option value={12}>Size: 12</option>
-        <option value={16}>Size: 16</option>
-        <option value={20}>Size: 20</option>
+        {[8, 12, 20, 28, 40].map((val) => (
+          <option value={val} key={val}>
+            Size: {val}
+          </option>
+        ))}
       </select>
       <GenerateButton onGenerate={handleGenerate} />
     </>
@@ -315,7 +315,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       controlPanel={controlPanel}
       className={className}
     >
-      <div className="flex flex-col gap-8 h-full p-2 overflow-y-auto">
+      <div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
         <VisualizerZone label="1. Global Context">
           {rangeStart !== -1 && (
             <ScopeBracket
