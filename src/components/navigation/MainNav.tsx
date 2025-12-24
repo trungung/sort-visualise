@@ -14,7 +14,6 @@ export function MainNav() {
 
   return (
     <>
-      {/* Top Navigation Bar */}
       <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 lg:px-6">
         <Button
           variant="ghost"
@@ -32,7 +31,6 @@ export function MainNav() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="ml-auto hidden items-center gap-1 lg:flex">
           <Button variant="ghost" size="sm" asChild>
             <Link
@@ -60,7 +58,6 @@ export function MainNav() {
         </nav>
       </header>
 
-      {/* Mobile Sidebar Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-50 bg-overlay-80 backdrop-blur-sm lg:hidden"
@@ -69,14 +66,12 @@ export function MainNav() {
         />
       )}
 
-      {/* Mobile Sidebar */}
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r bg-background transition-transform duration-300 ease-in-out lg:hidden",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        {/* Sidebar Header */}
         <div className="flex h-14 items-center justify-between border-b px-4">
           <span className="text-lg font-semibold">Navigation</span>
           <Button
@@ -89,9 +84,7 @@ export function MainNav() {
           </Button>
         </div>
 
-        {/* Sidebar Content */}
         <nav className="flex-1 overflow-y-auto p-4">
-          {/* Home Link */}
           <Link
             to="/"
             onClick={closeNav}
@@ -103,7 +96,6 @@ export function MainNav() {
             Home
           </Link>
 
-          {/* Algorithms Section */}
           <div className="mt-6">
             <button
               onClick={() => setIsAlgorithmsExpanded(!isAlgorithmsExpanded)}
@@ -146,7 +138,6 @@ export function MainNav() {
           </div>
         </nav>
 
-        {/* Sidebar Footer */}
         <div className="border-t p-4">
           <p className="text-xs text-muted-foreground">
             A visual guide to sorting algorithms

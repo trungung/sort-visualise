@@ -8,7 +8,9 @@ export type BarStatus =
   | "built"
   | "dimmed"
   | "flash"
-  | "placeholder";
+  | "placeholder"
+  | "consumed-left"
+  | "consumed-right";
 
 type BarProps = {
   value?: number;
@@ -27,7 +29,6 @@ export function Bar({
   className,
   hasPointer = false,
 }: BarProps) {
-  // Use 80% as max height to leave room for values at the top
   const heightPercentage = value !== undefined ? (value / maxValue) * 80 : 0;
 
   if (status === "placeholder") {
@@ -38,8 +39,8 @@ export function Bar({
     <div className="relative flex flex-col items-center group shrink-0 h-full justify-end">
       <div
         className={cn(
-          "w-7 rounded-t-sm transition-all duration-200 flex items-end justify-center pb-1 text-xs font-bold select-none",
-          // Status styles using solid colors from styles.css
+          "w-7 rounded-t-sm flex items-end justify-center pb-1 text-xs font-bold select-none",
+          "transition-all duration-300 ease-out",
           status === "default" &&
             "bg-visualizer-bar-default text-foreground-dim",
           status === "in-scope" && "bg-visualizer-bar-active text-foreground",
@@ -48,7 +49,11 @@ export function Bar({
           status === "built" &&
             "bg-visualizer-merged text-black border border-border-dim",
           status === "dimmed" && "bg-visualizer-bar-dim text-foreground-subtle",
-          status === "flash" && "animate-pulse bg-white text-black",
+          status === "consumed-left" &&
+            "bg-visualizer-left-consumed text-foreground-subtle",
+          status === "consumed-right" &&
+            "bg-visualizer-right-consumed text-foreground-subtle",
+          status === "flash" && "animate-flash-merge text-black",
           className,
         )}
         style={{ height: `${heightPercentage}%` }}
@@ -56,11 +61,17 @@ export function Bar({
         {showValue && value}
       </div>
 
-      {hasPointer && (
-        <div className="absolute -bottom-5 text-visualizer-highlight text-lg leading-none z-10 select-none pointer-events-none">
-          ▲
-        </div>
-      )}
+      <div
+        className={cn(
+          "absolute -bottom-5 text-lg leading-none z-10 select-none pointer-events-none",
+          "transition-all duration-300 ease-out",
+          hasPointer
+            ? "opacity-100 transform translate-y-0 text-visualizer-highlight"
+            : "opacity-0 transform -translate-y-1",
+        )}
+      >
+        ▲
+      </div>
     </div>
   );
 }

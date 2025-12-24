@@ -81,6 +81,8 @@ body {
   --visualizer-left: #ff6b6b;
   --visualizer-right: #4ecdc4;
   --visualizer-merged: #95e1d3;
+  --visualizer-left-consumed: #4a2a2a;
+  --visualizer-right-consumed: #1a3a38;
 
   /* Tree States */
   --visualizer-running: #ffd700;
@@ -162,6 +164,8 @@ body {
   --color-visualizer-left: var(--visualizer-left);
   --color-visualizer-right: var(--visualizer-right);
   --color-visualizer-merged: var(--visualizer-merged);
+  --color-visualizer-left-consumed: var(--visualizer-left-consumed);
+  --color-visualizer-right-consumed: var(--visualizer-right-consumed);
 
   --color-visualizer-running: var(--visualizer-running);
   --color-visualizer-pending: var(--visualizer-pending);
@@ -188,4 +192,35 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Animation timing - keep in sync with MergeSortVisualizer constants */
+:root {
+  --animation-bar-transition: 300ms;
+  --animation-flash-duration: 500ms;
+}
+
+/* Custom flash animation for merge complete effect - zoom first, then flash */
+@keyframes flash-merge {
+  0% {
+    background-color: var(--visualizer-bar-active);
+    transform: scale(1);
+  }
+  30% {
+    background-color: var(--visualizer-bar-active);
+    transform: scale(1.08);
+  }
+  50% {
+    background-color: #c8e6e8;
+    transform: scale(1.08);
+  }
+  100% {
+    background-color: var(--visualizer-bar-active);
+    transform: scale(1);
+  }
+}
+
+.animate-flash-merge {
+  animation: flash-merge var(--animation-flash-duration) ease-out forwards;
+  z-index: 10;
 }

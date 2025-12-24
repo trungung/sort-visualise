@@ -34,22 +34,17 @@ function VisualizerLayout({
     <div
       className={cn("flex h-screen overflow-hidden bg-background", className)}
     >
-      {/* Sidebar */}
       {showSidebar && sidebar && (
         <VisualizerSidebar>{sidebar}</VisualizerSidebar>
       )}
 
-      {/* Main Content Area */}
       <main className="flex min-w-0 flex-1 flex-col">
-        {/* Header */}
         <VisualizerHeader title={title} controls={headerControls} />
 
-        {/* Stage - Visualization Area */}
         <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-2">
           {children}
         </div>
 
-        {/* Control Panel */}
         {controlPanel && (
           <VisualizerControlPanel>{controlPanel}</VisualizerControlPanel>
         )}

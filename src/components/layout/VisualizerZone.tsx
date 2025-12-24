@@ -26,7 +26,6 @@ function VisualizerZone({
     >
       <VisualizerZoneLabel>{label}</VisualizerZoneLabel>
       <div className="flex flex-1 items-end justify-center">
-        {/* The bars will sit directly on the bottom edge of this container */}
         <div
           className={cn(
             "relative flex items-end gap-1 h-full",

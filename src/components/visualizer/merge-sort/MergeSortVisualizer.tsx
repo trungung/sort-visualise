@@ -1,0 +1,437 @@
+import { useState, useEffect, useCallback, useRef } from "react";
+
+import { VisualizerLayout, VisualizerZone } from "@/components/layout";
+import { GenerateButton } from "@/components/visualizer";
+import {
+  Bar,
+  PlaybackControls,
+  SpeedControl,
+  Timeline,
+  NarrativeBox,
+  ScopeBracket,
+  RangeLine,
+} from "@/components/visualizer/ui";
+
+import { RecursionTree } from "./RecursionTree";
+import { generateData, recordMergeSort, getMaxValue } from "./algorithm";
+import type { Frame, DataPattern } from "./types";
+
+const BAR_WIDTH = 28;
+const GAP = 4;
+const DEFAULT_SIZE = 8;
+const DEFAULT_SPEED = 500;
+
+// Animation timing constants (in ms)
+const FLASH_ANIMATION_DURATION = 500;
+const BAR_TRANSITION_DURATION = 300;
+const TIMING_BUFFER = 100;
+
+type MergeSortVisualizerProps = {
+  className?: string;
+};
+
+export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
+  // Algorithm state
+  const [frames, setFrames] = useState<Frame[]>([]);
+  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+  const [size, setSize] = useState(DEFAULT_SIZE);
+
+  // Playback state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speed, setSpeed] = useState(DEFAULT_SPEED);
+  const [isNarrativeVisible, setIsNarrativeVisible] = useState(true);
+
+  // Timer ref for playback
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Current frame data
+  const currentFrame = frames[currentFrameIndex] ?? null;
+  const totalFrames = frames.length;
+  const isAtEnd = currentFrameIndex >= totalFrames - 1;
+  const maxValue = getMaxValue();
+
+  /**
+   * Generate new data and record all frames
+   */
+  const handleGenerate = useCallback(
+    (pattern: DataPattern) => {
+      // Stop any current playback
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      setIsPlaying(false);
+
+      // Generate new data and record frames
+      const initialArr = generateData(size, pattern);
+      const newFrames = recordMergeSort(initialArr);
+
+      setFrames(newFrames);
+      setCurrentFrameIndex(0);
+    },
+    [size],
+  );
+
+  /**
+   * Handle size change
+   */
+  const handleSizeChange = (newSize: number) => {
+    setSize(newSize);
+    // Stop playback but don't auto-regenerate
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsPlaying(false);
+  };
+
+  /**
+   * Initialize with random data on mount
+   */
+  useEffect(() => {
+    handleGenerate("random");
+  }, [handleGenerate]);
+
+  /**
+   * Playback loop
+   */
+  useEffect(() => {
+    if (!isPlaying) {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+
+    if (isAtEnd) {
+      setIsPlaying(false);
+      return;
+    }
+
+    // Calculate delay based on speed, ensuring animations have time to complete
+    const baseDelay = 1050 - speed; // Invert so higher speed = shorter delay
+    const isUpdateFrame = currentFrame?.isUpdate ?? false;
+
+    // Ensure minimum delays for animations to complete
+    const minRegularDelay = BAR_TRANSITION_DURATION + TIMING_BUFFER; // 400ms
+    const minUpdateDelay = FLASH_ANIMATION_DURATION + TIMING_BUFFER; // 600ms
+
+    const delay = isUpdateFrame
+      ? Math.max(baseDelay, minUpdateDelay)
+      : Math.max(baseDelay, minRegularDelay);
+
+    timerRef.current = setTimeout(() => {
+      setCurrentFrameIndex((prev) => {
+        const next = prev + 1;
+        if (next >= totalFrames - 1) {
+          setIsPlaying(false);
+        }
+        return Math.min(next, totalFrames - 1);
+      });
+    }, delay);
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isPlaying, currentFrameIndex, speed, totalFrames, isAtEnd]);
+
+  /**
+   * Toggle play/pause
+   */
+  const handleTogglePlay = () => {
+    if (isAtEnd) {
+      // Restart from beginning
+      setCurrentFrameIndex(0);
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  /**
+   * Step forward one frame
+   */
+  const handleStepForward = () => {
+    setIsPlaying(false);
+    setCurrentFrameIndex((prev) => Math.min(prev + 1, totalFrames - 1));
+  };
+
+  /**
+   * Step backward one frame
+   */
+  const handleStepBackward = () => {
+    setIsPlaying(false);
+    setCurrentFrameIndex((prev) => Math.max(prev - 1, 0));
+  };
+
+  /**
+   * Scrub to a specific frame
+   */
+  const handleScrub = (frame: number) => {
+    setIsPlaying(false);
+    setCurrentFrameIndex(frame);
+  };
+
+  const getGlobalBarStatus = (
+    index: number,
+    rangeStart: number,
+    rangeEnd: number,
+    isUpdate: boolean,
+  ) => {
+    if (rangeStart === -1) {
+      return "default";
+    }
+    if (index >= rangeStart && index <= rangeEnd) {
+      if (isUpdate) {
+        return "flash";
+      }
+      return "in-scope";
+    }
+    return "dimmed";
+  };
+
+  const getSourceBarStatus = (
+    index: number,
+    pointerIndex: number,
+    side: "left" | "right",
+  ) => {
+    if (index < pointerIndex) {
+      // Consumed bars - show faded version of their original color
+      return side === "left" ? "consumed-left" : "consumed-right";
+    }
+    return side === "left" ? "left-source" : "right-source";
+  };
+
+  const sidebarContent = currentFrame ? (
+    <RecursionTree
+      nodes={currentFrame.tree}
+      activeId={currentFrame.activeId}
+      arraySize={currentFrame.global.length}
+    />
+  ) : (
+    <div className="flex flex-col h-full bg-visualizer-panel">
+      <div className="border-b border-border-subtle p-4 text-center">
+        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+          Recursion Stack
+        </span>
+      </div>
+      <div className="flex-1 flex items-center justify-center text-foreground-muted text-sm">
+        Generate data to start
+      </div>
+    </div>
+  );
+
+  const headerControls = (
+    <>
+      <select
+        value={size}
+        onChange={(e) => handleSizeChange(parseInt(e.target.value))}
+        className="h-8 rounded border border-border-dim bg-overlay-5 text-overlay-80 px-2 text-xs font-medium outline-none cursor-pointer hover:bg-overlay-10 transition-colors"
+      >
+        <option value={5}>Size: 5</option>
+        <option value={8}>Size: 8</option>
+        <option value={12}>Size: 12</option>
+        <option value={16}>Size: 16</option>
+        <option value={20}>Size: 20</option>
+      </select>
+      <GenerateButton onGenerate={handleGenerate} />
+    </>
+  );
+
+  const controlPanel = (
+    <div className="flex flex-col gap-4">
+      <NarrativeBox
+        text={currentFrame?.message ?? "Generate data to begin"}
+        isVisible={isNarrativeVisible}
+        onClose={() => setIsNarrativeVisible(false)}
+      />
+
+      <div className="flex items-center justify-between gap-8 px-4">
+        <div className="flex items-center gap-4">
+          <PlaybackControls
+            isPlaying={isPlaying}
+            isAtEnd={isAtEnd}
+            onTogglePlay={handleTogglePlay}
+            onStepForward={handleStepForward}
+            onStepBackward={handleStepBackward}
+          />
+
+          <Timeline
+            currentFrame={currentFrameIndex}
+            totalFrames={totalFrames}
+            onScrub={handleScrub}
+            className="w-120"
+          />
+        </div>
+
+        <div className="flex items-center gap-6">
+          <SpeedControl value={speed} onChange={setSpeed} />
+        </div>
+      </div>
+    </div>
+  );
+
+  if (!currentFrame) {
+    return (
+      <VisualizerLayout
+        title="Merge Sort"
+        sidebar={sidebarContent}
+        headerControls={headerControls}
+        controlPanel={controlPanel}
+        className={className}
+      >
+        <div className="flex items-center justify-center h-full text-foreground-muted">
+          Loading...
+        </div>
+      </VisualizerLayout>
+    );
+  }
+
+  const {
+    global,
+    rangeStart,
+    rangeEnd,
+    built,
+    left,
+    right,
+    leftPointer,
+    rightPointer,
+    isUpdate,
+  } = currentFrame;
+
+  const mid = rangeStart !== -1 ? Math.floor((rangeStart + rangeEnd) / 2) : -1;
+  const showSources = left.length > 0 || right.length > 0;
+  const showBuilt = rangeStart !== -1 && !isUpdate;
+
+  return (
+    <VisualizerLayout
+      title="Merge Sort"
+      sidebar={sidebarContent}
+      headerControls={headerControls}
+      controlPanel={controlPanel}
+      className={className}
+    >
+      <div className="flex flex-col gap-8 h-full p-2 overflow-y-auto">
+        <VisualizerZone label="1. Global Context">
+          {rangeStart !== -1 && (
+            <ScopeBracket
+              start={rangeStart}
+              end={rangeEnd}
+              unitWidth={BAR_WIDTH}
+              gap={GAP}
+            />
+          )}
+
+          {rangeStart !== -1 && mid >= rangeStart && (
+            <RangeLine
+              start={rangeStart}
+              end={mid}
+              unitWidth={BAR_WIDTH}
+              gap={GAP}
+              color="var(--visualizer-left)"
+            />
+          )}
+          {rangeStart !== -1 && mid + 1 <= rangeEnd && (
+            <RangeLine
+              start={mid + 1}
+              end={rangeEnd}
+              unitWidth={BAR_WIDTH}
+              gap={GAP}
+              color="var(--visualizer-right)"
+            />
+          )}
+
+          {global.map((value, idx) => (
+            <Bar
+              key={idx}
+              value={value}
+              maxValue={maxValue}
+              status={getGlobalBarStatus(idx, rangeStart, rangeEnd, isUpdate)}
+            />
+          ))}
+        </VisualizerZone>
+
+        <VisualizerZone label="2. Comparison Sources">
+          {showSources ? (
+            <>
+              {left.map((value, idx) => (
+                <Bar
+                  key={`left-${idx}`}
+                  value={value}
+                  maxValue={maxValue}
+                  status={getSourceBarStatus(idx, leftPointer, "left")}
+                  hasPointer={idx === leftPointer && leftPointer < left.length}
+                />
+              ))}
+
+              <div className="w-10 h-full flex items-center justify-center">
+                <div className="h-full border-r border-border-subtle border-dashed" />
+              </div>
+
+              {right.map((value, idx) => (
+                <Bar
+                  key={`right-${idx}`}
+                  value={value}
+                  maxValue={maxValue}
+                  status={getSourceBarStatus(idx, rightPointer, "right")}
+                  hasPointer={
+                    idx === rightPointer && rightPointer < right.length
+                  }
+                />
+              ))}
+            </>
+          ) : null}
+        </VisualizerZone>
+
+        <VisualizerZone label="3. Merged Result">
+          {showBuilt ? (
+            <>
+              {Array.from({ length: rangeStart }).map((_, idx) => (
+                <Bar
+                  key={`pre-${idx}`}
+                  maxValue={maxValue}
+                  status="placeholder"
+                />
+              ))}
+
+              {Array.from({ length: rangeEnd - rangeStart + 1 }).map(
+                (_, idx) => {
+                  if (idx < built.length) {
+                    return (
+                      <Bar
+                        key={`built-${idx}`}
+                        value={built[idx]}
+                        maxValue={maxValue}
+                        status="built"
+                      />
+                    );
+                  }
+                  return (
+                    <div
+                      key={`slot-${idx}`}
+                      className="w-7 h-px bg-border-subtle shrink-0 self-end mb-0"
+                    />
+                  );
+                },
+              )}
+
+              {Array.from({ length: global.length - rangeEnd - 1 }).map(
+                (_, idx) => (
+                  <Bar
+                    key={`post-${idx}`}
+                    maxValue={maxValue}
+                    status="placeholder"
+                  />
+                ),
+              )}
+            </>
+          ) : null}
+        </VisualizerZone>
+      </div>
+    </VisualizerLayout>
+  );
+}
