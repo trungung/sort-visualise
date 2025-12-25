@@ -1,6 +1,6 @@
 export type { DataPattern } from "../GenerateButton";
 
-export type TreeNodeState = "waiting" | "active" | "running" | "done";
+export type TreeNodeState = "waiting" | "active" | "done";
 
 export type TreeNode = {
   id: number;

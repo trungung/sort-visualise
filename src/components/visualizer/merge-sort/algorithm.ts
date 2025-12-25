@@ -82,15 +82,16 @@ function saveFrame(
 /**
  * Recursive merge sort implementation that records frames at each step
  */
-function mergeSortRec(
-  frames: Frame[],
-  globalArr: number[],
+/**
+ * Recursively builds the initial tree structure
+ */
+function buildTreeRec(
+  tree: TreeNode[],
   start: number,
   end: number,
   depth: number,
-  tree: TreeNode[],
   callCounter: { value: number },
-): number[] {
+): void {
   const myCallId = callCounter.value++;
   const label = `merge(${start}, ${end})`;
 
@@ -101,6 +102,29 @@ function mergeSortRec(
     state: "waiting",
   });
 
+  if (start >= end) {
+    return;
+  }
+
+  const mid = Math.floor((start + end) / 2);
+  buildTreeRec(tree, start, mid, depth + 1, callCounter);
+  buildTreeRec(tree, mid + 1, end, depth + 1, callCounter);
+}
+
+function mergeSortRec(
+  frames: Frame[],
+  globalArr: number[],
+  start: number,
+  end: number,
+  depth: number,
+  tree: TreeNode[],
+  callCounter: { value: number },
+): number[] {
+  const myCallId = callCounter.value++;
+
+  // Mark as active
+  updateTreeState(tree, myCallId, "active");
+
   // Base case: single element
   if (start >= end) {
     updateTreeState(tree, myCallId, "done");
@@ -109,8 +133,6 @@ function mergeSortRec(
 
   const mid = Math.floor((start + end) / 2);
 
-  // Mark as active and save frame
-  updateTreeState(tree, myCallId, "active");
   saveFrame(
     frames,
     globalArr,
@@ -324,6 +346,12 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
   const tree: TreeNode[] = [];
   const globalArr = [...initialArr];
   const callCounter = { value: 0 };
+
+  // Pre-build the tree structure
+  buildTreeRec(tree, 0, globalArr.length - 1, 0, callCounter);
+
+  // Reset counter for actual traversal
+  callCounter.value = 0;
 
   // Initial frame
   saveFrame(

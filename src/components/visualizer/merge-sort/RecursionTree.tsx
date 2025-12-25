@@ -58,25 +58,25 @@ export function RecursionTree({
                   className={cn(
                     "relative px-2 py-1.5 rounded-r-sm transition-all duration-200 border-l-2",
 
-                    // 1. Current Active Node (Subtle Focus)
-                    // Clear focus, solid border, no glow
+                    // 1. Current Active Node
+                    // High focus, indicates execution point
                     isActive &&
-                      "bg-visualizer-tree-active-bg text-visualizer-tree-active border-visualizer-tree-active font-medium z-10",
+                      "bg-visualizer-tree-active-bg text-visualizer-tree-active border-visualizer-tree-active font-semibold shadow-sm z-10",
 
-                    // 2. Parents in Stack (Clean, High Visibility)
-                    // No background, just clear text to show context
+                    // 2. Pending Nodes (Parents)
+                    // Waiting for children to return - semi-active state
                     isParent &&
-                      "text-foreground border-border/30 bg-transparent opacity-90",
+                      "text-foreground border-l-foreground/20 bg-accent/20 font-medium",
 
-                    // 3. Finished Nodes (Faded out significantly)
-                    // Recede into background
+                    // 3. Finished Nodes
+                    // Completed - faded out to reduce noise
                     isDone &&
                       "text-visualizer-tree-done border-transparent opacity-50",
 
-                    // 4. Future Nodes (Dimmed)
-                    // Barely visible placeholders
+                    // 4. Not Started Nodes
+                    // Future steps - dashed border to indicate 'planned'
                     isWaiting &&
-                      "text-muted-foreground border-transparent opacity-30",
+                      "text-muted-foreground/40 border-l-muted-foreground/10 border-dashed opacity-40",
                   )}
                   style={{
                     marginLeft: `${node.depth * 12}px`,
