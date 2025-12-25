@@ -2,6 +2,10 @@ import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -19,41 +23,38 @@ type GenerateButtonProps = {
 
 export function GenerateButton({ onGenerate, className }: GenerateButtonProps) {
   return (
-    <div className={className}>
-      <div className="flex items-center">
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => onGenerate("random")}
-          className="rounded-r-none"
-        >
-          Randomize
-        </Button>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="rounded-l-none border-l border-border px-2"
-              aria-label="Select data pattern"
-            >
-              <ChevronDown className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onGenerate("sorted")}>
-              Already Sorted
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onGenerate("reversed")}>
-              Reverse Order
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onGenerate("identical")}>
-              All Same Value
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
+    <ButtonGroup className={className}>
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={() => onGenerate("random")}
+      >
+        Randomize
+      </Button>
+      <ButtonGroupSeparator />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="px-2"
+            aria-label="Select data pattern"
+          >
+            <ChevronDown className="size-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => onGenerate("sorted")}>
+            Already Sorted
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onGenerate("reversed")}>
+            Reverse Order
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onGenerate("identical")}>
+            All Same Value
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </ButtonGroup>
   );
 }
