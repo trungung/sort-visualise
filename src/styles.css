@@ -92,9 +92,9 @@ body {
   --visualizer-right-consumed-text: oklch(0.6 0.1 230);
 
   /* Sidebar Tree States */
-  /* Active: Matches Accent (Cloudberry) */
-  --visualizer-tree-active: oklch(0.5 0.15 70);
-  --visualizer-tree-active-bg: oklch(0.95 0.04 70);
+  /* Active: Nordic Blue (Clear, professional) */
+  --visualizer-tree-active: oklch(0.45 0.1 250);
+  --visualizer-tree-active-bg: oklch(0.96 0.02 250);
 
   /* Pending: "Slate" (Visible, cool tone) */
   --visualizer-tree-pending: oklch(0.4 0.05 250);
@@ -184,9 +184,9 @@ body {
   --visualizer-right-consumed-text: oklch(0.75 0.1 210);
 
   /* Sidebar Tree States */
-  /* Active: Matches Accent (Aurora) */
-  --visualizer-tree-active: oklch(0.85 0.12 85);
-  --visualizer-tree-active-bg: oklch(0.85 0.12 85 / 0.15);
+  /* Active: "Frost" (Pale Blue - distinct but not neon) */
+  --visualizer-tree-active: oklch(0.85 0.05 230);
+  --visualizer-tree-active-bg: oklch(0.85 0.05 230 / 0.1);
 
   /* Pending: "Frost" (Light Grey Blue) */
   --visualizer-tree-pending: oklch(0.7 0.03 240);

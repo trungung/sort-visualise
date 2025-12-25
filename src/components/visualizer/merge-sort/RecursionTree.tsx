@@ -56,12 +56,12 @@ export function RecursionTree({
                   key={node.id}
                   ref={isActive ? activeRef : null}
                   className={cn(
-                    "relative px-2 py-1.5 rounded-r-sm transition-all duration-200 border-l-[3px]",
+                    "relative px-2 py-1.5 rounded-r-sm transition-all duration-200 border-l-2",
 
-                    // 1. Current Active Node (Neon Yellow Focus)
-                    // High visibility, glow effect, solid border
+                    // 1. Current Active Node (Subtle Focus)
+                    // Clear focus, solid border, no glow
                     isActive &&
-                      "bg-visualizer-tree-active-bg text-visualizer-tree-active border-visualizer-tree-active font-bold shadow-[0_0_15px_-5px_var(--visualizer-accent)] z-10",
+                      "bg-visualizer-tree-active-bg text-visualizer-tree-active border-visualizer-tree-active font-medium z-10",
 
                     // 2. Parents in Stack (Clean, High Visibility)
                     // No background, just clear text to show context
