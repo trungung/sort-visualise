@@ -69,7 +69,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       setFrames(newFrames);
       setCurrentFrameIndex(0);
     },
-    [size]
+    [size],
   );
 
   /**
@@ -218,7 +218,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     index: number,
     rangeStart: number,
     rangeEnd: number,
-    isUpdate: boolean
+    isUpdate: boolean,
   ) => {
     if (rangeStart === -1) {
       return "default";
@@ -235,7 +235,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const getSourceBarStatus = (
     index: number,
     pointerIndex: number,
-    side: "left" | "right"
+    side: "left" | "right",
   ) => {
     if (index < pointerIndex) {
       // Consumed bars - show faded version of their original color
@@ -396,6 +396,16 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         <VisualizerZone label="2. Comparing Left & Right">
           {showSources ? (
             <>
+              {/* Pre-range Placeholders */}
+              {Array.from({ length: Math.max(0, rangeStart) }).map((_, idx) => (
+                <Bar
+                  key={`pre-src-${idx}`}
+                  maxValue={maxValue}
+                  status="placeholder"
+                />
+              ))}
+
+              {/* Left Array Segment */}
               {left.map((value, idx) => (
                 <Bar
                   key={`left-${idx}`}
@@ -406,10 +416,10 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                 />
               ))}
 
-              <div className="w-10 h-full flex items-center justify-center">
-                <div className="h-full border-r border-border border-dashed" />
-              </div>
+              {/* Spacer */}
+              <div className="w-6 shrink-0" />
 
+              {/* Right Array Segment */}
               {right.map((value, idx) => (
                 <Bar
                   key={`right-${idx}`}
@@ -419,6 +429,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                   hasPointer={
                     idx === rightPointer && rightPointer < right.length
                   }
+                />
+              ))}
+
+              {/* Post-range Placeholders */}
+              {Array.from({
+                length: Math.max(0, global.length - rangeEnd - 1),
+              }).map((_, idx) => (
+                <Bar
+                  key={`post-src-${idx}`}
+                  maxValue={maxValue}
+                  status="placeholder"
                 />
               ))}
             </>
@@ -454,7 +475,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                       className="w-7 h-px bg-border shrink-0 self-end mb-0"
                     />
                   );
-                }
+                },
               )}
 
               {Array.from({ length: global.length - rangeEnd - 1 }).map(
@@ -464,7 +485,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                     maxValue={maxValue}
                     status="placeholder"
                   />
-                )
+                ),
               )}
             </>
           ) : null}

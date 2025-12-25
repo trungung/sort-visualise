@@ -5,174 +5,200 @@
 
 body {
   @apply m-0;
-  font-family: "Segoe UI", monospace;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================
-   LIGHT MODE (default)
-   Using shadcn's oklch color format for better 
-   perceptual uniformity and color mixing
+   LIGHT MODE - SCANDINAVIAN DAY
+   Palette: Snow, Granite, Pine, Cloudberry
+   Aesthetic: Clean, Functional, Matte
    ============================================ */
 :root {
   --radius: 0.5rem;
 
-  /* Base Colors - Clean light backgrounds */
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Base - Crisp White & Deep Slate */
+  --background: oklch(0.985 0.002 240);
+  --foreground: oklch(0.2 0.03 265);
 
-  /* Card & Popover - Slightly elevated surfaces */
+  /* Surfaces */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.2 0.03 265);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.2 0.03 265);
 
-  /* Primary - Neutral dark for primary actions */
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary - Deep Muted Blue */
+  --primary: oklch(0.3 0.05 260);
+  --primary-foreground: oklch(0.98 0 0);
 
-  /* Secondary - Neutral gray for secondary actions */
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  /* Secondary - Mist */
+  --secondary: oklch(0.96 0.01 240);
+  --secondary-foreground: oklch(0.3 0.05 260);
 
-  /* Muted - Subtle backgrounds and text (improved contrast) */
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.38 0 0);
+  /* Muted */
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.5 0.03 260);
 
-  /* Accent - For highlights and hover states */
-  --accent: oklch(0.96 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* Accent - Subtle Warmth */
+  --accent: oklch(0.96 0.01 240);
+  --accent-foreground: oklch(0.3 0.05 260);
 
-  /* Destructive - Error states */
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
+  /* Destructive - Muted Red */
+  --destructive: oklch(0.6 0.15 25);
+  --destructive-foreground: oklch(0.98 0 0);
 
-  /* Utility colors (improved border contrast) */
-  --border: oklch(0.85 0 0);
-  --input: oklch(0.85 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Utility */
+  --border: oklch(0.92 0.01 240);
+  --input: oklch(0.92 0.01 240);
+  --ring: oklch(0.7 0.1 85);
 
   /* ===== VISUALIZER COLORS - Light Mode ===== */
 
-  /* Panels & Zones - Subtle layering */
-  --visualizer-panel: oklch(0.97 0 0);
-  --visualizer-zone: oklch(0.99 0 0);
+  /* Zones: Subtle Grey/White shift */
+  --visualizer-panel: oklch(0.97 0.005 240);
+  --visualizer-zone: oklch(1 0 0);
 
-  /* Accent - Amber/Gold for active focus (scope bracket, running state) */
-  --visualizer-accent: oklch(0.65 0.18 75);
-  --visualizer-accent-bg: oklch(0.95 0.05 85);
+  /* Accent: "Cloudberry" (Muted Golden/Amber) */
+  /* Used for Pointers and Scope Brackets */
+  --visualizer-accent: oklch(0.65 0.15 70);
+  --visualizer-accent-bg: oklch(0.96 0.03 70);
 
-  /* Bar States - Blue-gray palette with better contrast */
-  --visualizer-bar-default: oklch(0.5 0.04 250);
-  --visualizer-bar-active: oklch(0.35 0.06 250);
-  --visualizer-bar-dim: oklch(0.7 0.02 250);
+  /* Bars - Nordic Stone */
+  /* Default: Visible standard bar (Blue-Grey) */
+  --visualizer-bar-default: oklch(0.65 0.04 250);
+  --visualizer-bar-default-text: oklch(0.98 0 0);
 
-  /* Comparison Sources - Distinct colors with good contrast */
-  --visualizer-left: oklch(0.5 0.18 25);
-  --visualizer-right: oklch(0.45 0.12 220);
-  --visualizer-merged: oklch(0.45 0.14 165);
-  --visualizer-left-consumed: oklch(0.85 0.06 25);
-  --visualizer-right-consumed: oklch(0.85 0.05 220);
+  /* Active: Matches Default (Simplicity) */
+  --visualizer-bar-active: oklch(0.65 0.04 250);
+  --visualizer-bar-active-text: oklch(0.98 0 0);
 
-  /* Tree States - Clear status indicators */
-  --visualizer-pending: oklch(0.45 0.12 250);
-  --visualizer-pending-dim: oklch(0.94 0.02 250);
-  --visualizer-done: oklch(0.94 0 0);
-  --visualizer-done-text: oklch(0.45 0 0);
+  /* Dimmed: "Fog" (Very light grey, barely visible) */
+  --visualizer-bar-dim: oklch(0.92 0.01 240);
+  --visualizer-bar-dim-text: oklch(0.7 0.02 240);
 
-  /* ===== CHART COLORS ===== */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Left Source: "Lingonberry" (Matte Red) */
+  --visualizer-left: oklch(0.6 0.14 25);
+  --visualizer-left-text: oklch(0.98 0 0);
+  --visualizer-left-consumed: oklch(0.9 0.04 25);
+  --visualizer-left-consumed-text: oklch(0.6 0.14 25);
 
-  /* Animation timing */
+  /* Right Source: "Fjord" (Matte Cyan/Blue) */
+  --visualizer-right: oklch(0.6 0.1 230);
+  --visualizer-right-text: oklch(0.98 0 0);
+  --visualizer-right-consumed: oklch(0.9 0.03 230);
+  --visualizer-right-consumed-text: oklch(0.6 0.1 230);
+
+  /* Sidebar Tree States */
+  /* Active: Matches Accent (Cloudberry) */
+  --visualizer-tree-active: oklch(0.5 0.15 70);
+  --visualizer-tree-active-bg: oklch(0.95 0.04 70);
+
+  /* Pending: "Slate" (Visible, cool tone) */
+  --visualizer-tree-pending: oklch(0.4 0.05 250);
+  --visualizer-tree-pending-bg: oklch(0.96 0.01 240);
+
+  /* Done: "Stone" (Dimmed but solid background) */
+  --visualizer-tree-done: oklch(0.6 0 0);
+  --visualizer-tree-done-bg: oklch(0.94 0 0);
+
+  /* Animation constants */
   --animation-bar-transition: 300ms;
   --animation-flash-duration: 500ms;
 }
 
 /* ============================================
-   DARK MODE
-   Inverted values with careful attention to
-   contrast ratios and visual hierarchy
+   DARK MODE - SCANDINAVIAN NIGHT
+   Palette: Gunmetal, Aurora, Frost, Berry
+   Aesthetic: Deep, Matte, Soft Glow (No Neon)
    ============================================ */
 .dark {
-  /* Base Colors - Deep dark backgrounds */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.92 0 0);
+  /* Base - Deep Gunmetal */
+  --background: oklch(0.2 0.03 260);
+  --foreground: oklch(0.9 0.01 240);
 
-  /* Card & Popover - Elevated dark surfaces */
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.92 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(0.92 0 0);
+  /* Surfaces */
+  --card: oklch(0.23 0.03 260);
+  --card-foreground: oklch(0.9 0.01 240);
+  --popover: oklch(0.23 0.03 260);
+  --popover-foreground: oklch(0.9 0.01 240);
 
-  /* Primary - Neutral light for primary actions */
-  --primary: oklch(0.92 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  /* Primary - Soft Frost */
+  --primary: oklch(0.9 0.01 240);
+  --primary-foreground: oklch(0.2 0.03 260);
 
-  /* Secondary - Dark gray for secondary actions */
-  --secondary: oklch(0.25 0 0);
-  --secondary-foreground: oklch(0.92 0 0);
+  /* Secondary - Darker Slate */
+  --secondary: oklch(0.25 0.03 260);
+  --secondary-foreground: oklch(0.9 0.01 240);
 
-  /* Muted - Subtle dark backgrounds and dimmed text */
-  --muted: oklch(0.25 0 0);
-  --muted-foreground: oklch(0.65 0 0);
+  /* Muted */
+  --muted: oklch(0.25 0.03 260);
+  --muted-foreground: oklch(0.6 0.02 240);
 
-  /* Accent - For highlights and hover states */
-  --accent: oklch(0.28 0 0);
-  --accent-foreground: oklch(0.92 0 0);
+  /* Accent */
+  --accent: oklch(0.28 0.03 260);
+  --accent-foreground: oklch(0.9 0.01 240);
 
-  /* Destructive - Error states (slightly brighter in dark) */
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.145 0 0);
-
-  /* Utility colors - Subtle borders */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Functional */
+  --destructive: oklch(0.6 0.15 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.28 0.03 260);
+  --input: oklch(0.28 0.03 260);
+  --ring: oklch(0.85 0.1 85);
 
   /* ===== VISUALIZER COLORS - Dark Mode ===== */
 
-  /* Panels & Zones - Dark layering */
-  --visualizer-panel: oklch(0.16 0 0);
-  --visualizer-zone: oklch(0.12 0 0);
+  /* Zones: Dark / Darker */
+  --visualizer-panel: oklch(0.23 0.03 260);
+  --visualizer-zone: oklch(0.18 0.03 260);
 
-  /* Accent - Amber/Gold for active focus (scope bracket, running state) */
-  --visualizer-accent: oklch(0.78 0.16 85);
-  --visualizer-accent-bg: oklch(0.25 0.04 85);
+  /* Accent: "Aurora" (Soft Yellow-Green/Gold) */
+  --visualizer-accent: oklch(0.85 0.12 85);
+  --visualizer-accent-bg: oklch(0.85 0.12 85 / 0.15);
 
-  /* Bar States - Slate blue palette */
-  --visualizer-bar-default: oklch(0.45 0.03 250);
-  --visualizer-bar-active: oklch(0.55 0.05 250);
-  --visualizer-bar-dim: oklch(0.35 0.02 250);
+  /* Bars - "Ice" */
+  /* Default: Cool Grey Blue (Visible) */
+  --visualizer-bar-default: oklch(0.6 0.05 240);
+  --visualizer-bar-default-text: oklch(0.15 0.03 260);
 
-  /* Comparison Sources - Vibrant but not harsh */
-  --visualizer-left: oklch(0.65 0.2 25);
-  --visualizer-right: oklch(0.6 0.12 220);
-  --visualizer-merged: oklch(0.7 0.14 165);
-  --visualizer-left-consumed: oklch(0.25 0.05 25);
-  --visualizer-right-consumed: oklch(0.22 0.04 220);
+  /* Active: Matches Default (Simplicity) */
+  --visualizer-bar-active: oklch(0.6 0.05 240);
+  --visualizer-bar-active-text: oklch(0.15 0.03 260);
 
-  /* Tree States */
-  --visualizer-pending: oklch(0.6 0.12 250);
-  --visualizer-pending-dim: oklch(0.18 0.02 250);
-  --visualizer-done: oklch(0.25 0 0);
-  --visualizer-done-text: oklch(0.5 0 0);
+  /* Dimmed: Deep Slate (Receded but present) */
+  --visualizer-bar-dim: oklch(0.28 0.03 260);
+  --visualizer-bar-dim-text: oklch(0.5 0.03 260);
 
-  /* ===== CHART COLORS (slightly adjusted for dark) ===== */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  /* Left Source: "Nordic Berry" (Muted Pink/Red) */
+  --visualizer-left: oklch(0.7 0.15 350);
+  --visualizer-left-text: oklch(0.15 0.03 260);
+  --visualizer-left-consumed: oklch(0.3 0.05 350);
+  --visualizer-left-consumed-text: oklch(0.7 0.15 350);
+
+  /* Right Source: "Glacier" (Muted Cyan) */
+  --visualizer-right: oklch(0.75 0.1 210);
+  --visualizer-right-text: oklch(0.15 0.03 260);
+  --visualizer-right-consumed: oklch(0.3 0.04 210);
+  --visualizer-right-consumed-text: oklch(0.75 0.1 210);
+
+  /* Sidebar Tree States */
+  /* Active: Matches Accent (Aurora) */
+  --visualizer-tree-active: oklch(0.85 0.12 85);
+  --visualizer-tree-active-bg: oklch(0.85 0.12 85 / 0.15);
+
+  /* Pending: "Frost" (Light Grey Blue) */
+  --visualizer-tree-pending: oklch(0.7 0.03 240);
+  --visualizer-tree-pending-bg: oklch(0.25 0.03 260);
+
+  /* Done: "Night Sky" (Dimmed Solid) */
+  --visualizer-tree-done: oklch(0.45 0.03 240);
+  --visualizer-tree-done-bg: oklch(0.2 0.03 260);
 }
 
 /* ============================================
    TAILWIND v4 THEME CONFIGURATION
-   Maps CSS variables to Tailwind classes
    ============================================ */
 @theme inline {
   /* Base */
@@ -213,39 +239,40 @@ body {
   /* Visualizer */
   --color-visualizer-panel: var(--visualizer-panel);
   --color-visualizer-zone: var(--visualizer-zone);
+
   --color-visualizer-accent: var(--visualizer-accent);
   --color-visualizer-accent-bg: var(--visualizer-accent-bg);
 
   --color-visualizer-bar-default: var(--visualizer-bar-default);
+  --color-visualizer-bar-default-text: var(--visualizer-bar-default-text);
   --color-visualizer-bar-active: var(--visualizer-bar-active);
+  --color-visualizer-bar-active-text: var(--visualizer-bar-active-text);
   --color-visualizer-bar-dim: var(--visualizer-bar-dim);
+  --color-visualizer-bar-dim-text: var(--visualizer-bar-dim-text);
 
   --color-visualizer-left: var(--visualizer-left);
-  --color-visualizer-right: var(--visualizer-right);
-  --color-visualizer-merged: var(--visualizer-merged);
+  --color-visualizer-left-text: var(--visualizer-left-text);
   --color-visualizer-left-consumed: var(--visualizer-left-consumed);
+  --color-visualizer-left-consumed-text: var(--visualizer-left-consumed-text);
+
+  --color-visualizer-right: var(--visualizer-right);
+  --color-visualizer-right-text: var(--visualizer-right-text);
   --color-visualizer-right-consumed: var(--visualizer-right-consumed);
+  --color-visualizer-right-consumed-text: var(--visualizer-right-consumed-text);
 
-  --color-visualizer-pending: var(--visualizer-pending);
-  --color-visualizer-pending-dim: var(--visualizer-pending-dim);
-  --color-visualizer-done: var(--visualizer-done);
-  --color-visualizer-done-text: var(--visualizer-done-text);
+  --color-visualizer-tree-active: var(--visualizer-tree-active);
+  --color-visualizer-tree-active-bg: var(--visualizer-tree-active-bg);
+  --color-visualizer-tree-pending: var(--visualizer-tree-pending);
+  --color-visualizer-tree-pending-bg: var(--visualizer-tree-pending-bg);
+  --color-visualizer-tree-done: var(--visualizer-tree-done);
+  --color-visualizer-tree-done-bg: var(--visualizer-tree-done-bg);
 
-  /* Chart colors */
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  /* Custom spacing for visualizer */
+  /* Spacing & Radius */
   --spacing-120: 30rem;
-
-  /* Radius */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 2px);
 }
 
 @layer base {
@@ -257,28 +284,22 @@ body {
   }
 }
 
-/* ============================================
-   ANIMATION CONFIGURATION
-   Keep in sync with MergeSortVisualizer constants
-   ============================================ */
-
-/* Flash animation for merge complete effect */
+/* Flash animation for merge complete */
 @keyframes flash-merge {
   0% {
     background-color: var(--visualizer-bar-active);
     transform: scale(1);
+    filter: brightness(1);
   }
   30% {
     background-color: var(--visualizer-bar-active);
-    transform: scale(1.08);
-  }
-  50% {
-    background-color: var(--visualizer-merged);
-    transform: scale(1.08);
+    transform: scale(1.05);
+    filter: brightness(1.2);
   }
   100% {
     background-color: var(--visualizer-bar-active);
     transform: scale(1);
+    filter: brightness(1);
   }
 }
 

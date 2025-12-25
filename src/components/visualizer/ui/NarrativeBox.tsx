@@ -166,8 +166,8 @@ export function NarrativeBox({
   return (
     <div
       className={cn(
-        "flex items-center justify-between rounded-md border-l-4 border-visualizer-accent bg-muted px-4 py-2 transition-all animate-in fade-in slide-in-from-left-2",
-        className
+        "flex items-center justify-between rounded-md border border-l-4 border-l-visualizer-accent bg-card px-4 py-2 shadow-sm transition-all animate-in fade-in slide-in-from-left-2",
+        className,
       )}
     >
       <span className="text-sm font-medium tracking-tight text-foreground">

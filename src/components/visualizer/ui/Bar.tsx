@@ -42,20 +42,23 @@ export function Bar({
           "w-7 rounded-t-sm flex items-end justify-center pb-1 text-xs font-bold select-none",
           "transition-all duration-300 ease-out",
           status === "default" &&
-            "bg-visualizer-bar-default text-muted-foreground",
-          status === "in-scope" && "bg-visualizer-bar-active text-foreground",
+            "bg-visualizer-bar-default text-visualizer-bar-default-text",
+          status === "in-scope" &&
+            "bg-visualizer-bar-active text-visualizer-bar-active-text",
           status === "left-source" &&
-            "bg-visualizer-left text-primary-foreground",
+            "bg-visualizer-left text-visualizer-left-text",
           status === "right-source" &&
-            "bg-visualizer-right text-primary-foreground",
+            "bg-visualizer-right text-visualizer-right-text",
           status === "built" &&
-            "bg-visualizer-merged text-primary-foreground border border-border",
-          status === "dimmed" && "bg-visualizer-bar-dim text-muted-foreground",
+            "bg-visualizer-bar-active text-visualizer-bar-active-text",
+          status === "dimmed" &&
+            "bg-visualizer-bar-dim text-visualizer-bar-dim-text",
           status === "consumed-left" &&
-            "bg-visualizer-left-consumed text-muted-foreground",
+            "bg-visualizer-left-consumed text-visualizer-left-consumed-text",
           status === "consumed-right" &&
-            "bg-visualizer-right-consumed text-muted-foreground",
-          status === "flash" && "animate-flash-merge text-primary-foreground",
+            "bg-visualizer-right-consumed text-visualizer-right-consumed-text",
+          status === "flash" &&
+            "animate-flash-merge text-visualizer-bar-active-text",
           className
         )}
         style={{ height: `${heightPercentage}%` }}
