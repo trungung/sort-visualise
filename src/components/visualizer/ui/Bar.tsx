@@ -2,15 +2,14 @@ import { cn } from "@/lib/utils";
 
 export type BarStatus =
   | "default"
-  | "in-scope"
-  | "left-source"
-  | "right-source"
-  | "built"
+  | "active"
+  | "primary"
+  | "secondary"
+  | "primary-dimmed"
+  | "secondary-dimmed"
   | "dimmed"
   | "flash"
-  | "placeholder"
-  | "consumed-left"
-  | "consumed-right";
+  | "placeholder";
 
 type BarProps = {
   value?: number;
@@ -43,23 +42,21 @@ export function Bar({
           "transition-all duration-300 ease-out",
           status === "default" &&
             "bg-visualizer-bar-default text-visualizer-bar-default-text",
-          status === "in-scope" &&
+          status === "active" &&
             "bg-visualizer-bar-active text-visualizer-bar-active-text",
-          status === "left-source" &&
+          status === "primary" &&
             "bg-visualizer-left text-visualizer-left-text",
-          status === "right-source" &&
+          status === "secondary" &&
             "bg-visualizer-right text-visualizer-right-text",
-          status === "built" &&
-            "bg-visualizer-bar-active text-visualizer-bar-active-text",
+          status === "primary-dimmed" &&
+            "bg-visualizer-left-consumed text-visualizer-left-consumed-text",
+          status === "secondary-dimmed" &&
+            "bg-visualizer-right-consumed text-visualizer-right-consumed-text",
           status === "dimmed" &&
             "bg-visualizer-bar-dim text-visualizer-bar-dim-text",
-          status === "consumed-left" &&
-            "bg-visualizer-left-consumed text-visualizer-left-consumed-text",
-          status === "consumed-right" &&
-            "bg-visualizer-right-consumed text-visualizer-right-consumed-text",
           status === "flash" &&
             "animate-flash-merge text-visualizer-bar-active-text",
-          className
+          className,
         )}
         style={{ height: `${heightPercentage}%` }}
       >
@@ -72,7 +69,7 @@ export function Bar({
           "transition-all duration-300 ease-out",
           hasPointer
             ? "opacity-100 transform translate-y-0 text-visualizer-accent"
-            : "opacity-0 transform -translate-y-1"
+            : "opacity-0 transform -translate-y-1",
         )}
       >
         ▲

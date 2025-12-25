@@ -227,7 +227,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       if (isUpdate) {
         return "flash";
       }
-      return "in-scope";
+      return "active";
     }
     return "dimmed";
   };
@@ -239,9 +239,9 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   ) => {
     if (index < pointerIndex) {
       // Consumed bars - show faded version of their original color
-      return side === "left" ? "consumed-left" : "consumed-right";
+      return side === "left" ? "primary-dimmed" : "secondary-dimmed";
     }
-    return side === "left" ? "left-source" : "right-source";
+    return side === "left" ? "primary" : "secondary";
   };
 
   const sidebarContent = currentFrame ? (
@@ -334,6 +334,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     rangeStart,
     rangeEnd,
     built,
+    builtSource,
     left,
     right,
     leftPointer,
@@ -343,7 +344,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
   const mid = rangeStart !== -1 ? Math.floor((rangeStart + rangeEnd) / 2) : -1;
   const showSources = left.length > 0 || right.length > 0;
-  const showBuilt = rangeStart !== -1 && !isUpdate;
+  const showBuilt = rangeStart !== -1;
 
   return (
     <VisualizerLayout
@@ -460,12 +461,21 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               {Array.from({ length: rangeEnd - rangeStart + 1 }).map(
                 (_, idx) => {
                   if (idx < built.length) {
+                    const source = builtSource[idx];
+                    const status = isUpdate
+                      ? "dimmed"
+                      : source === "left"
+                        ? "primary"
+                        : source === "right"
+                          ? "secondary"
+                          : "active";
+
                     return (
                       <Bar
                         key={`built-${idx}`}
                         value={built[idx]}
                         maxValue={maxValue}
-                        status="built"
+                        status={status}
                       />
                     );
                   }

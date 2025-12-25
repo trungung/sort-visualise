@@ -14,6 +14,7 @@ export type Frame = {
   rangeStart: number;
   rangeEnd: number;
   built: number[];
+  builtSource: ("left" | "right")[];
   left: number[];
   right: number[];
   leftPointer: number;
