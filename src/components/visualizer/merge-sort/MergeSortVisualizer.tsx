@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { RotateCcw } from "lucide-react";
 
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
+import { Button } from "@/components/ui/button";
 import { GenerateButton } from "@/components/visualizer";
 import {
   Bar,
@@ -462,6 +464,33 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                 </div>
               </div>
             </div>
+          ) : isAtEnd ? (
+            <div className="flex h-full w-full flex-col items-center justify-center">
+              <div className="grid grid-cols-3 gap-8 rounded-lg border bg-card/50 p-6 shadow-sm">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl font-bold">
+                    {currentFrame.comparisons}
+                  </span>
+                  <span className="text-xs font-medium uppercase text-muted-foreground">
+                    Comparisons
+                  </span>
+                </div>
+                <div className="flex flex-col items-center gap-1 border-x px-8">
+                  <span className="text-2xl font-bold">
+                    {currentFrame.arrayAccesses}
+                  </span>
+                  <span className="text-xs font-medium uppercase text-muted-foreground">
+                    Array Accesses
+                  </span>
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl font-bold">O(n log n)</span>
+                  <span className="text-xs font-medium uppercase text-muted-foreground">
+                    Time Complexity
+                  </span>
+                </div>
+              </div>
+            </div>
           ) : showSources ? (
             <>
               {/* Pre-range Placeholders */}
@@ -526,6 +555,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                 Auxiliary Array: Merge Sort uses O(n) extra memory to sort
                 elements temporarily.
               </p>
+            </div>
+          ) : isAtEnd ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <Button
+                size="lg"
+                onClick={() => handleGenerate("random")}
+                className="gap-2 text-lg font-semibold shadow-lg transition-all hover:scale-105"
+              >
+                <RotateCcw className="size-5" />
+                Shuffle & Restart
+              </Button>
             </div>
           ) : showBuilt ? (
             <>

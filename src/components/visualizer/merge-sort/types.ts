@@ -23,4 +23,6 @@ export type Frame = {
   tree: TreeNode[];
   activeId: number;
   isUpdate: boolean;
+  comparisons: number;
+  arrayAccesses: number;
 };

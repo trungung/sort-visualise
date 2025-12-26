@@ -61,6 +61,8 @@ function saveFrame(
   tree: TreeNode[],
   activeId: number,
   isUpdate: boolean,
+  comparisons: number,
+  arrayAccesses: number,
 ): void {
   frames.push({
     global: [...global],
@@ -76,8 +78,15 @@ function saveFrame(
     tree: JSON.parse(JSON.stringify(tree)),
     activeId,
     isUpdate,
+    comparisons,
+    arrayAccesses,
   });
 }
+
+type SortStats = {
+  comparisons: number;
+  arrayAccesses: number;
+};
 
 /**
  * Recursive merge sort implementation that records frames at each step
@@ -90,6 +99,7 @@ function mergeSortRec(
   depth: number,
   tree: TreeNode[],
   callCounter: { value: number },
+  stats: SortStats,
 ): number[] {
   const myCallId = callCounter.value++;
   const label = `merge(${start}, ${end})`;
@@ -125,6 +135,8 @@ function mergeSortRec(
     tree,
     myCallId,
     false,
+    stats.comparisons,
+    stats.arrayAccesses,
   );
 
   // Recursively sort left and right halves
@@ -136,6 +148,7 @@ function mergeSortRec(
     depth + 1,
     tree,
     callCounter,
+    stats,
   );
   const rightSorted = mergeSortRec(
     frames,
@@ -145,6 +158,7 @@ function mergeSortRec(
     depth + 1,
     tree,
     callCounter,
+    stats,
   );
 
   // Back to this call - mark active again for merge phase
@@ -173,6 +187,8 @@ function mergeSortRec(
       tree,
       myCallId,
       false,
+      stats.comparisons,
+      stats.arrayAccesses,
     );
   }
 
@@ -181,9 +197,14 @@ function mergeSortRec(
     const leftVal = leftSorted[i];
     const rightVal = rightSorted[j];
 
+    // Access stats: Reading leftVal and rightVal
+    stats.arrayAccesses += 2;
+    stats.comparisons++;
+
     if (leftVal <= rightVal) {
       result.push(leftVal);
       resultSource.push("left");
+      stats.arrayAccesses++; // Writing to result
       i++; // Move pointer after taking
 
       // Build message: show comparison result and what's next (if any)
@@ -208,10 +229,13 @@ function mergeSortRec(
         tree,
         myCallId,
         false,
+        stats.comparisons,
+        stats.arrayAccesses,
       );
     } else {
       result.push(rightVal);
       resultSource.push("right");
+      stats.arrayAccesses++; // Writing to result
       j++; // Move pointer after taking
 
       // Build message: show comparison result and what's next (if any)
@@ -236,6 +260,8 @@ function mergeSortRec(
         tree,
         myCallId,
         false,
+        stats.comparisons,
+        stats.arrayAccesses,
       );
     }
   }
@@ -243,7 +269,9 @@ function mergeSortRec(
   // Copy remaining from left
   while (i < leftSorted.length) {
     const takenValue = leftSorted[i];
+    stats.arrayAccesses++; // Reading from left
     result.push(takenValue);
+    stats.arrayAccesses++; // Writing to result
     resultSource.push("left");
     i++;
     saveFrame(
@@ -261,13 +289,17 @@ function mergeSortRec(
       tree,
       myCallId,
       false,
+      stats.comparisons,
+      stats.arrayAccesses,
     );
   }
 
   // Copy remaining from right
   while (j < rightSorted.length) {
     const takenValue = rightSorted[j];
+    stats.arrayAccesses++; // Reading from right
     result.push(takenValue);
+    stats.arrayAccesses++; // Writing to result
     resultSource.push("right");
     j++;
     saveFrame(
@@ -285,12 +317,16 @@ function mergeSortRec(
       tree,
       myCallId,
       false,
+      stats.comparisons,
+      stats.arrayAccesses,
     );
   }
 
   // Update global array with merged result
   for (let k = 0; k < result.length; k++) {
+    stats.arrayAccesses++; // Reading from result
     globalArr[start + k] = result[k];
+    stats.arrayAccesses++; // Writing to global
   }
 
   // Mark as done and save final frame
@@ -310,6 +346,8 @@ function mergeSortRec(
     tree,
     myCallId,
     true,
+    stats.comparisons,
+    stats.arrayAccesses,
   );
 
   return result;
@@ -323,6 +361,7 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
   const tree: TreeNode[] = [];
   const globalArr = [...initialArr];
   const callCounter = { value: 0 };
+  const stats: SortStats = { comparisons: 0, arrayAccesses: 0 };
 
   // Initial frame
   saveFrame(
@@ -340,6 +379,8 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     tree,
     -1,
     false,
+    0,
+    0,
   );
 
   // Run the algorithm
@@ -351,6 +392,7 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     0,
     tree,
     callCounter,
+    stats,
   );
 
   // Final frame
@@ -369,6 +411,8 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
     tree,
     -1,
     false,
+    stats.comparisons,
+    stats.arrayAccesses,
   );
 
   return frames;
