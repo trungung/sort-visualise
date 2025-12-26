@@ -24,5 +24,4 @@ export type Frame = {
   activeId: number;
   isUpdate: boolean;
   comparisons: number;
-  arrayAccesses: number;
 };

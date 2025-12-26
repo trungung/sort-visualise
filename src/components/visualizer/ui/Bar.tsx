@@ -77,7 +77,7 @@ export function Bar({
 
       <div
         className={cn(
-          "absolute -bottom-5 text-lg leading-none z-10 select-none pointer-events-none",
+          "absolute -bottom-4 text-sm leading-none z-10 select-none pointer-events-none",
           "transition-all ease-out",
           hasPointer
             ? "opacity-100 transform translate-y-0 text-visualizer-accent"

@@ -69,7 +69,9 @@ function VisualizerLayout({
 
         {/* Control Panel Island */}
         {controlPanel && (
-          <VisualizerControlPanel>{controlPanel}</VisualizerControlPanel>
+          <VisualizerControlPanel className="py-2">
+            {controlPanel}
+          </VisualizerControlPanel>
         )}
       </div>
 

@@ -531,7 +531,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           <h2 className="text-lg font-semibold tracking-tight text-foreground">
             Merge Sort
           </h2>
-          <p className="text-sm text-muted-foreground mt-1 max-w-[250px]">
+          <p className="text-sm text-muted-foreground mt-1 max-w-62.5">
             Preparing the recursive visualizer environment...
           </p>
         </div>
@@ -647,21 +647,13 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             </div>
           ) : isAtEnd ? (
             <div className="flex h-full w-full flex-col items-center justify-center">
-              <div className="grid grid-cols-3 gap-8 rounded-lg border bg-card/50 p-6 shadow-sm">
-                <div className="flex flex-col items-center gap-1">
+              <div className="grid grid-cols-2 gap-8 rounded-lg border bg-card/50 p-6 shadow-sm">
+                <div className="flex flex-col items-center gap-1 border-r pr-8">
                   <span className="text-2xl font-bold">
                     {currentFrame.comparisons}
                   </span>
                   <span className="text-xs font-medium uppercase text-muted-foreground">
                     Comparisons
-                  </span>
-                </div>
-                <div className="flex flex-col items-center gap-1 border-x px-8">
-                  <span className="text-2xl font-bold">
-                    {currentFrame.arrayAccesses}
-                  </span>
-                  <span className="text-xs font-medium uppercase text-muted-foreground">
-                    Array Accesses
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-1">
