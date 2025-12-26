@@ -82,35 +82,6 @@ function saveFrame(
 /**
  * Recursive merge sort implementation that records frames at each step
  */
-/**
- * Recursively builds the initial tree structure
- */
-function buildTreeRec(
-  tree: TreeNode[],
-  start: number,
-  end: number,
-  depth: number,
-  callCounter: { value: number },
-): void {
-  const myCallId = callCounter.value++;
-  const label = `merge(${start}, ${end})`;
-
-  tree.push({
-    id: myCallId,
-    depth,
-    label,
-    state: "waiting",
-  });
-
-  if (start >= end) {
-    return;
-  }
-
-  const mid = Math.floor((start + end) / 2);
-  buildTreeRec(tree, start, mid, depth + 1, callCounter);
-  buildTreeRec(tree, mid + 1, end, depth + 1, callCounter);
-}
-
 function mergeSortRec(
   frames: Frame[],
   globalArr: number[],
@@ -121,9 +92,15 @@ function mergeSortRec(
   callCounter: { value: number },
 ): number[] {
   const myCallId = callCounter.value++;
+  const label = `merge(${start}, ${end})`;
 
-  // Mark as active
-  updateTreeState(tree, myCallId, "active");
+  // Add node to tree
+  tree.push({
+    id: myCallId,
+    depth,
+    label,
+    state: "active",
+  });
 
   // Base case: single element
   if (start >= end) {
@@ -346,12 +323,6 @@ export function recordMergeSort(initialArr: number[]): Frame[] {
   const tree: TreeNode[] = [];
   const globalArr = [...initialArr];
   const callCounter = { value: 0 };
-
-  // Pre-build the tree structure
-  buildTreeRec(tree, 0, globalArr.length - 1, 0, callCounter);
-
-  // Reset counter for actual traversal
-  callCounter.value = 0;
 
   // Initial frame
   saveFrame(

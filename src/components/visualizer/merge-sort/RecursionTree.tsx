@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Play, Check, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TreeNode } from "./types";
 
@@ -21,75 +22,76 @@ export function RecursionTree({
   useEffect(() => {
     if (activeRef.current) {
       activeRef.current.scrollIntoView({
-        block: "center",
+        block: "nearest",
         behavior: "smooth",
       });
     }
   }, [activeId]);
 
   return (
-    <div className={cn("flex flex-col h-full bg-visualizer-panel", className)}>
-      <div className="border-b border-border p-4 text-center">
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-          Call Stack
-        </span>
-        <div className="mt-1 text-xs text-muted-foreground">
-          N = <span className="text-foreground font-mono">{arraySize}</span>
+    <div
+      className={cn(
+        "flex flex-col h-full bg-visualizer-panel font-sans",
+        className,
+      )}
+    >
+      <div className="border-b border-border p-4 bg-muted/30">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+            Call Stack
+          </span>
+          <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
+            N={arraySize}
+          </span>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-2 scrollbar-thin">
-        <div className="flex flex-col font-mono text-xs">
+      <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
+        <div className="flex flex-col space-y-0.5">
           {nodes.length === 0 ? (
-            <div className="px-2 py-1 text-muted-foreground italic text-center">
-              No calls yet
+            <div className="flex flex-col items-center justify-center h-20 text-muted-foreground text-xs italic border-2 border-dashed border-muted rounded-lg">
+              <span>Stack is empty</span>
             </div>
           ) : (
             nodes.map((node) => {
               const isActive = node.id === activeId;
               const isDone = node.state === "done";
-              const isWaiting = node.state === "waiting";
-              const isParent = node.state === "active" && !isActive;
+              const isParentPending = node.state === "active" && !isActive;
 
               return (
                 <div
                   key={node.id}
                   ref={isActive ? activeRef : null}
                   className={cn(
-                    "relative px-2 py-1.5 rounded-r-sm transition-all duration-200 border-l-2",
+                    "flex items-center gap-2 py-1.5 pr-2 rounded-md text-xs font-mono transition-colors",
 
-                    // 1. Current Active Node
-                    // High focus, indicates execution point
-                    isActive &&
-                      "bg-visualizer-tree-active-bg text-visualizer-tree-active border-visualizer-tree-active font-semibold shadow-sm z-10",
+                    // 1. Active (Current Execution)
+                    isActive && "bg-primary/10 text-primary font-semibold",
 
-                    // 2. Pending Nodes (Parents)
-                    // Waiting for children to return - semi-active state
-                    isParent &&
-                      "text-foreground border-l-foreground/20 bg-accent/20 font-medium",
+                    // 2. Parent Pending
+                    isParentPending && "text-foreground/80",
 
-                    // 3. Finished Nodes
-                    // Completed - faded out to reduce noise
-                    isDone &&
-                      "text-visualizer-tree-done border-transparent opacity-50",
-
-                    // 4. Not Started Nodes
-                    // Future steps - dashed border to indicate 'planned'
-                    isWaiting &&
-                      "text-muted-foreground/40 border-l-muted-foreground/10 border-dashed opacity-40",
+                    // 3. Done
+                    isDone && "text-muted-foreground/60",
                   )}
                   style={{
-                    marginLeft: `${node.depth * 12}px`,
+                    // Use padding for indentation so the hover/active background covers full width
+                    paddingLeft: `${node.depth * 10 + 8}px`,
                   }}
                 >
-                  <span
-                    className={cn(
-                      "truncate block",
-                      isActive && "tracking-tight",
+                  {/* Status Icon */}
+                  <div className="shrink-0 w-4 flex items-center justify-center">
+                    {isDone ? (
+                      <Check className="size-3.5" />
+                    ) : isActive ? (
+                      <Play className="size-3 fill-current" />
+                    ) : (
+                      <Circle className="size-3" />
                     )}
-                  >
-                    {node.label}
-                  </span>
+                  </div>
+
+                  {/* Label */}
+                  <span className="truncate">{node.label}</span>
                 </div>
               );
             })
