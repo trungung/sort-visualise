@@ -8,6 +8,8 @@ import { ModeToggle } from "@/components/mode-toggle";
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
   sidebar?: React.ReactNode;
+  /** Content to render in the right sidebar */
+  rightSidebar?: React.ReactNode;
   /** Title displayed in the header */
   title: string;
   /** Controls/settings displayed in the header (right side) */
@@ -20,16 +22,20 @@ type VisualizerLayoutProps = {
   className?: string;
   /** Whether the sidebar is visible on desktop (default: true) */
   showSidebar?: boolean;
+  /** Whether the right sidebar is visible on desktop (default: true) */
+  showRightSidebar?: boolean;
 };
 
 function VisualizerLayout({
   sidebar,
+  rightSidebar,
   title,
   headerControls,
   children,
   controlPanel,
   className,
   showSidebar = true,
+  showRightSidebar = true,
 }: VisualizerLayoutProps) {
   return (
     <div
@@ -50,6 +56,12 @@ function VisualizerLayout({
           <VisualizerControlPanel>{controlPanel}</VisualizerControlPanel>
         )}
       </main>
+
+      {showRightSidebar && rightSidebar && (
+        <VisualizerSidebar className="border-l border-r-0">
+          {rightSidebar}
+        </VisualizerSidebar>
+      )}
     </div>
   );
 }
@@ -64,7 +76,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
     <aside
       className={cn(
         "hidden w-64 shrink-0 flex-col border-r bg-visualizer-panel lg:flex",
-        className
+        className,
       )}
     >
       {children}
@@ -87,7 +99,7 @@ function VisualizerHeader({
     <header
       className={cn(
         "flex h-14 shrink-0 items-center justify-between border-b bg-visualizer-panel px-4",
-        className
+        className,
       )}
     >
       <div className="flex items-center gap-3">

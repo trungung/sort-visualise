@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCcw, Settings, ChevronDown } from "lucide-react";
+import { RotateCcw, Settings, ChevronDown, PanelRight } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
@@ -19,13 +19,13 @@ import {
   PlaybackControls,
   SpeedControl,
   Timeline,
-  NarrativeBox,
   ScopeBracket,
   RangeLine,
   MobileSettingsDrawer,
 } from "@/components/visualizer/ui";
 
 import { RecursionTree } from "./RecursionTree";
+import { NarrativeLog } from "./NarrativeLog";
 import { generateData, recordMergeSort, getMaxValue } from "./algorithm";
 import type { Frame, DataPattern } from "./types";
 
@@ -53,7 +53,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   // Playback state
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
-  const [isNarrativeVisible, setIsNarrativeVisible] = useState(true);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true);
 
   // Timer ref for playback
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -313,14 +313,12 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     </div>
   );
 
+  const rightSidebarContent = (
+    <NarrativeLog frames={frames} currentFrameIndex={currentFrameIndex} />
+  );
+
   const controlPanel = (
     <div className="flex flex-col relative pb-3">
-      <NarrativeBox
-        text={currentFrame?.message ?? "Generate data to begin"}
-        isVisible={isNarrativeVisible}
-        onClose={() => setIsNarrativeVisible(false)}
-      />
-
       {/* Timeline spanning top edge */}
       <div className="w-full px-4 mb-2">
         <Timeline
@@ -422,11 +420,29 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     </div>
   );
 
-  const headerControls = isMobile ? (
-    <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
-      <Settings className="h-4 w-4" />
-    </Button>
-  ) : null;
+  const headerControls = (
+    <>
+      {!isMobile && (
+        <Button
+          variant={isRightSidebarOpen ? "secondary" : "ghost"}
+          size="icon-sm"
+          onClick={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
+          title="Toggle Narrative Log"
+        >
+          <PanelRight className="h-4 w-4" />
+        </Button>
+      )}
+      {isMobile ? (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsSettingsOpen(true)}
+        >
+          <Settings className="h-4 w-4" />
+        </Button>
+      ) : null}
+    </>
+  );
 
   if (!currentFrame) {
     return (
@@ -472,9 +488,10 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title="Merge Sort"
       sidebar={sidebarContent}
+      rightSidebar={rightSidebarContent}
+      showRightSidebar={isRightSidebarOpen}
       headerControls={headerControls}
       controlPanel={controlPanel}
-      className={className}
     >
       <MobileSettingsDrawer
         isOpen={isSettingsOpen}
