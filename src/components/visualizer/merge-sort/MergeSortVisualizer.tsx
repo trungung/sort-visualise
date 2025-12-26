@@ -1,5 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCcw, Settings, ChevronDown, PanelLeft } from "lucide-react";
+import {
+  RotateCcw,
+  Settings,
+  ChevronDown,
+  PanelLeft,
+  GitMerge,
+  Loader2,
+} from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
@@ -346,8 +353,19 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               hideHeader
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
-              Generate data to start
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-muted/50 rounded-xl bg-muted/5 mt-4 mx-4">
+              <div className="relative mb-3">
+                <PanelLeft className="size-8 text-muted-foreground/30" />
+                <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-background flex items-center justify-center">
+                  <div className="size-2 rounded-full bg-muted-foreground/40 animate-pulse" />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-muted-foreground">
+                No active session
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-[180px] leading-relaxed">
+                Generate a new array to begin the sorting visualization
+              </p>
             </div>
           )
         ) : (
@@ -504,8 +522,18 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         controlPanel={controlPanel}
         className={className}
       >
-        <div className="flex items-center justify-center h-full text-muted-foreground">
-          Loading...
+        <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+          <div className="relative mb-6">
+            <div className="absolute inset-0 scale-150 blur-3xl bg-primary/10 rounded-full" />
+            <GitMerge className="relative size-12 text-primary/40" />
+            <Loader2 className="absolute -top-2 -right-2 size-6 animate-spin text-primary/60" />
+          </div>
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">
+            Merge Sort
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1 max-w-[250px]">
+            Preparing the recursive visualizer environment...
+          </p>
         </div>
         <MobileSettingsDrawer
           isOpen={isSettingsOpen}

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Play, Check, Circle, PanelLeft } from "lucide-react";
+import { Play, Check, Circle, PanelLeft, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { TreeNode } from "./types";
@@ -68,8 +68,19 @@ export function RecursionTree({
       <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
         <div className="flex flex-col space-y-0.5">
           {nodes.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-20 text-muted-foreground text-xs italic border-2 border-dashed border-muted rounded-lg">
-              <span>Stack is empty</span>
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-muted/50 rounded-xl bg-muted/5">
+              <div className="relative mb-3">
+                <Layers className="size-8 text-muted-foreground/30" />
+                <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-background flex items-center justify-center">
+                  <div className="size-2 rounded-full bg-muted-foreground/40 animate-pulse" />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Stack is empty
+              </p>
+              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-[180px] leading-relaxed">
+                Run the visualization to see the recursive call stack develop
+              </p>
             </div>
           ) : (
             nodes.map((node) => {
