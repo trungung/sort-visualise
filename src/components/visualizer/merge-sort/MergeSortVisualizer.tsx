@@ -443,7 +443,26 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         </VisualizerZone>
 
         <VisualizerZone label="2. Comparing Left & Right">
-          {showSources ? (
+          {currentFrameIndex === 0 ? (
+            <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground/80">
+              <div className="flex items-center gap-8">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="size-4 rounded shadow-sm"
+                    style={{ backgroundColor: "var(--visualizer-left)" }}
+                  />
+                  <span className="font-medium">Left Subarray</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div
+                    className="size-4 rounded shadow-sm"
+                    style={{ backgroundColor: "var(--visualizer-right)" }}
+                  />
+                  <span className="font-medium">Right Subarray</span>
+                </div>
+              </div>
+            </div>
+          ) : showSources ? (
             <>
               {/* Pre-range Placeholders */}
               {Array.from({ length: Math.max(0, rangeStart) }).map((_, idx) => (
@@ -498,7 +517,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         </VisualizerZone>
 
         <VisualizerZone label="3. Building Sorted Result">
-          {showBuilt ? (
+          {currentFrameIndex === 0 ? (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-8 text-center text-sm text-muted-foreground/80">
+              <span className="font-semibold uppercase tracking-wide">
+                Space Complexity: O(n)
+              </span>
+              <p className="max-w-[40ch] leading-relaxed">
+                Auxiliary Array: Merge Sort uses O(n) extra memory to sort
+                elements temporarily.
+              </p>
+            </div>
+          ) : showBuilt ? (
             <>
               {Array.from({ length: rangeStart }).map((_, idx) => (
                 <Bar
