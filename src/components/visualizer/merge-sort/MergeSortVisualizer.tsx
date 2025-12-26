@@ -329,8 +329,25 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     />
   );
 
-  const controlPanel = (
-    <div className="flex flex-col relative pb-3">
+  const controlPanel = isMobile ? (
+    <div className="flex items-center w-full gap-4">
+      <PlaybackControls
+        isPlaying={isPlaying}
+        isAtEnd={isAtEnd}
+        onTogglePlay={handleTogglePlay}
+        onStepForward={handleStepForward}
+        onStepBackward={handleStepBackward}
+        className="shrink-0"
+      />
+      <Timeline
+        currentFrame={currentFrameIndex}
+        totalFrames={totalFrames}
+        onScrub={handleScrub}
+        className="flex-1 px-0 min-w-0"
+      />
+    </div>
+  ) : (
+    <div className="flex flex-col relative">
       {/* Timeline spanning top edge */}
       <div className="w-full px-4 mb-2">
         <Timeline
@@ -341,8 +358,65 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         />
       </div>
 
-      {isMobile ? (
-        <div className="flex justify-center px-6 py-2">
+      <div className="flex items-center px-6">
+        {/* Left Zone: Data Setup */}
+        <div className="flex-1 flex justify-start">
+          <ButtonGroup>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="min-w-24 justify-between font-normal"
+                >
+                  Size: {size}
+                  <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {[4, 8, 16, 24, 32].map((s) => (
+                  <DropdownMenuItem key={s} onClick={() => handleSizeChange(s)}>
+                    {s} items
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <ButtonGroupSeparator />
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleGenerate("random")}
+            >
+              Generate
+            </Button>
+
+            <ButtonGroupSeparator />
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="px-2">
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => handleGenerate("sorted")}>
+                  Already Sorted
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleGenerate("reversed")}>
+                  Reverse Order
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleGenerate("identical")}>
+                  All Same Value
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </ButtonGroup>
+        </div>
+
+        {/* Center Zone: Playback Controls */}
+        <div className="flex-1 flex justify-center">
           <PlaybackControls
             isPlaying={isPlaying}
             isAtEnd={isAtEnd}
@@ -351,84 +425,12 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             onStepBackward={handleStepBackward}
           />
         </div>
-      ) : (
-        <div className="flex items-center px-6">
-          {/* Left Zone: Data Setup */}
-          <div className="flex-1 flex justify-start">
-            <ButtonGroup>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="min-w-24 justify-between font-normal"
-                  >
-                    Size: {size}
-                    <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {[4, 8, 16, 24, 32].map((s) => (
-                    <DropdownMenuItem
-                      key={s}
-                      onClick={() => handleSizeChange(s)}
-                    >
-                      {s} items
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
 
-              <ButtonGroupSeparator />
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleGenerate("random")}
-              >
-                Generate
-              </Button>
-
-              <ButtonGroupSeparator />
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="px-2">
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => handleGenerate("sorted")}>
-                    Already Sorted
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleGenerate("reversed")}>
-                    Reverse Order
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleGenerate("identical")}>
-                    All Same Value
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ButtonGroup>
-          </div>
-
-          {/* Center Zone: Playback Controls */}
-          <div className="flex-1 flex justify-center">
-            <PlaybackControls
-              isPlaying={isPlaying}
-              isAtEnd={isAtEnd}
-              onTogglePlay={handleTogglePlay}
-              onStepForward={handleStepForward}
-              onStepBackward={handleStepBackward}
-            />
-          </div>
-
-          {/* Right Zone: Speed */}
-          <div className="flex-1 flex justify-end">
-            <SpeedControl value={speed} onChange={setSpeed} />
-          </div>
+        {/* Right Zone: Speed */}
+        <div className="flex-1 flex justify-end">
+          <SpeedControl value={speed} onChange={setSpeed} />
         </div>
-      )}
+      </div>
     </div>
   );
 

@@ -13,18 +13,18 @@ body {
 }
 
 /* ============================================
-   LIGHT MODE - SCANDINAVIAN DAY
-   Palette: Snow, Granite, Pine, Cloudberry
-   Aesthetic: Clean, Functional, Matte
+   LIGHT MODE - LIQUID / FLOATING ISLAND
+   Aesthetic: Soft, Fluid, Elevated
    ============================================ */
 :root {
-  --radius: 0.5rem;
+  /* RADIUS: Increased for smoother, modern look */
+  --radius: 1rem;
 
-  /* Base - Crisp White & Deep Slate */
-  --background: oklch(0.985 0.002 240);
+  /* Base - Canvas (Slightly off-white/muted to allow cards to pop) */
+  --background: oklch(0.96 0.01 240);
   --foreground: oklch(0.2 0.03 265);
 
-  /* Surfaces */
+  /* Surfaces - Islands (Pure White, Elevated) */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.03 265);
   --popover: oklch(1 0 0);
@@ -38,7 +38,7 @@ body {
   --secondary: oklch(0.96 0.01 240);
   --secondary-foreground: oklch(0.3 0.05 260);
 
-  /* Muted */
+  /* Muted - Recessed Trays */
   --muted: oklch(0.96 0.01 240);
   --muted-foreground: oklch(0.5 0.03 260);
 
@@ -50,32 +50,28 @@ body {
   --destructive: oklch(0.6 0.15 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  /* Utility */
-  --border: oklch(0.92 0.01 240);
+  /* Utility - Softer Borders */
+  --border: oklch(0.95 0.01 240);
   --input: oklch(0.92 0.01 240);
   --ring: oklch(0.7 0.1 85);
 
   /* ===== VISUALIZER COLORS - Light Mode ===== */
 
-  /* Zones: Subtle Grey/White shift */
+  /* Zones: Inherit from theme or specific overrides */
   --visualizer-panel: oklch(0.97 0.005 240);
   --visualizer-zone: oklch(1 0 0);
 
   /* Accent: "Cloudberry" (Muted Golden/Amber) */
-  /* Used for Pointers and Scope Brackets */
   --visualizer-accent: oklch(0.65 0.15 70);
   --visualizer-accent-bg: oklch(0.96 0.03 70);
 
   /* Bars - Nordic Stone */
-  /* Default: Visible standard bar (Blue-Grey) */
-  --visualizer-bar-default: oklch(0.65 0.04 250);
-  --visualizer-bar-default-text: oklch(0.98 0 0);
+  --visualizer-bar-default: var(--primary);
+  --visualizer-bar-default-text: var(--primary-foreground);
 
-  /* Active: Matches Default (Simplicity) */
-  --visualizer-bar-active: oklch(0.65 0.04 250);
-  --visualizer-bar-active-text: oklch(0.98 0 0);
+  --visualizer-bar-active: var(--primary);
+  --visualizer-bar-active-text: var(--primary-foreground);
 
-  /* Dimmed: "Fog" (Very light grey, barely visible) */
   --visualizer-bar-dim: oklch(0.92 0.01 240);
   --visualizer-bar-dim-text: oklch(0.7 0.02 240);
 
@@ -92,15 +88,12 @@ body {
   --visualizer-right-consumed-text: oklch(0.6 0.1 230);
 
   /* Sidebar Tree States */
-  /* Active: Nordic Blue (Clear, professional) */
   --visualizer-tree-active: oklch(0.45 0.1 250);
   --visualizer-tree-active-bg: oklch(0.96 0.02 250);
 
-  /* Pending: "Slate" (Visible, cool tone) */
   --visualizer-tree-pending: oklch(0.4 0.05 250);
   --visualizer-tree-pending-bg: oklch(0.96 0.01 240);
 
-  /* Done: "Stone" (Dimmed but solid background) */
   --visualizer-tree-done: oklch(0.6 0 0);
   --visualizer-tree-done-bg: oklch(0.94 0 0);
 
@@ -110,16 +103,15 @@ body {
 }
 
 /* ============================================
-   DARK MODE - SCANDINAVIAN NIGHT
-   Palette: Gunmetal, Aurora, Frost, Berry
-   Aesthetic: Deep, Matte, Soft Glow (No Neon)
+   DARK MODE - LIQUID NIGHT
+   Aesthetic: Deep, Matte, Soft Glow
    ============================================ */
 .dark {
-  /* Base - Deep Gunmetal */
-  --background: oklch(0.2 0.03 260);
+  /* Base - Deep Void */
+  --background: oklch(0.18 0.02 260);
   --foreground: oklch(0.9 0.01 240);
 
-  /* Surfaces */
+  /* Surfaces - Floating Islands (Lighter than background) */
   --card: oklch(0.23 0.03 260);
   --card-foreground: oklch(0.9 0.01 240);
   --popover: oklch(0.23 0.03 260);
@@ -144,55 +136,51 @@ body {
   /* Functional */
   --destructive: oklch(0.6 0.15 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.03 260);
+
+  /* Borders - Very subtle in dark mode */
+  --border: oklch(0.28 0.03 260 / 0.5);
   --input: oklch(0.28 0.03 260);
   --ring: oklch(0.85 0.1 85);
 
   /* ===== VISUALIZER COLORS - Dark Mode ===== */
 
-  /* Zones: Dark / Darker */
+  /* Zones */
   --visualizer-panel: oklch(0.23 0.03 260);
   --visualizer-zone: oklch(0.18 0.03 260);
 
-  /* Accent: "Aurora" (Soft Yellow-Green/Gold) */
+  /* Accent */
   --visualizer-accent: oklch(0.85 0.12 85);
   --visualizer-accent-bg: oklch(0.85 0.12 85 / 0.15);
 
-  /* Bars - "Ice" */
-  /* Default: Cool Grey Blue (Visible) */
-  --visualizer-bar-default: oklch(0.6 0.05 240);
-  --visualizer-bar-default-text: oklch(0.15 0.03 260);
+  /* Bars */
+  --visualizer-bar-default: var(--primary);
+  --visualizer-bar-default-text: var(--primary-foreground);
 
-  /* Active: Matches Default (Simplicity) */
-  --visualizer-bar-active: oklch(0.6 0.05 240);
-  --visualizer-bar-active-text: oklch(0.15 0.03 260);
+  --visualizer-bar-active: var(--primary);
+  --visualizer-bar-active-text: var(--primary-foreground);
 
-  /* Dimmed: Deep Slate (Receded but present) */
   --visualizer-bar-dim: oklch(0.28 0.03 260);
   --visualizer-bar-dim-text: oklch(0.5 0.03 260);
 
-  /* Left Source: "Nordic Berry" (Muted Pink/Red) */
+  /* Left Source */
   --visualizer-left: oklch(0.7 0.15 350);
   --visualizer-left-text: oklch(0.15 0.03 260);
   --visualizer-left-consumed: oklch(0.3 0.05 350);
   --visualizer-left-consumed-text: oklch(0.7 0.15 350);
 
-  /* Right Source: "Glacier" (Muted Cyan) */
+  /* Right Source */
   --visualizer-right: oklch(0.75 0.1 210);
   --visualizer-right-text: oklch(0.15 0.03 260);
   --visualizer-right-consumed: oklch(0.3 0.04 210);
   --visualizer-right-consumed-text: oklch(0.75 0.1 210);
 
   /* Sidebar Tree States */
-  /* Active: "Frost" (Pale Blue - distinct but not neon) */
   --visualizer-tree-active: oklch(0.85 0.05 230);
   --visualizer-tree-active-bg: oklch(0.85 0.05 230 / 0.1);
 
-  /* Pending: "Frost" (Light Grey Blue) */
   --visualizer-tree-pending: oklch(0.7 0.03 240);
   --visualizer-tree-pending-bg: oklch(0.25 0.03 260);
 
-  /* Done: "Night Sky" (Dimmed Solid) */
   --visualizer-tree-done: oklch(0.45 0.03 240);
   --visualizer-tree-done-bg: oklch(0.2 0.03 260);
 }
@@ -269,10 +257,11 @@ body {
 
   /* Spacing & Radius */
   --spacing-120: 30rem;
-  --radius-sm: calc(var(--radius) - 2px);
-  --radius-md: calc(var(--radius) - 1px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
 @layer base {

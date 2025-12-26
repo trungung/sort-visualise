@@ -32,7 +32,7 @@ function HomePage() {
       {/* Algorithms Grid */}
       <section>
         <h2 className="mb-6 text-2xl font-semibold">Algorithms</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {algorithms.map((algo) => (
             <AlgorithmCard key={algo.id} algorithm={algo} />
           ))}

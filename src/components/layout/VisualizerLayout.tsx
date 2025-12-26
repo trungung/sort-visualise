@@ -42,32 +42,40 @@ function VisualizerLayout({
 }: VisualizerLayoutProps) {
   return (
     <div
-      className={cn("flex h-screen overflow-hidden bg-background", className)}
+      className={cn(
+        "flex h-screen w-full overflow-hidden bg-background p-4 gap-4",
+        className,
+      )}
     >
+      {/* Sidebar Island */}
       {showSidebar && sidebar && (
         <VisualizerSidebar>{sidebar}</VisualizerSidebar>
       )}
 
-      <main className="flex min-w-0 flex-1 flex-col">
-        <VisualizerHeader
-          title={title}
-          controls={headerControls}
-          leftControls={leftHeaderControls}
-        />
+      {/* Center Column */}
+      <div className="flex flex-1 flex-col gap-4 min-w-0 overflow-hidden">
+        {/* Main Visualizer Island */}
+        <main className="flex flex-1 flex-col overflow-hidden rounded-xl bg-card shadow-sm">
+          <VisualizerHeader
+            title={title}
+            controls={headerControls}
+            leftControls={leftHeaderControls}
+          />
 
-        <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-2">
-          {children}
-        </div>
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+            {children}
+          </div>
+        </main>
 
+        {/* Control Panel Island */}
         {controlPanel && (
           <VisualizerControlPanel>{controlPanel}</VisualizerControlPanel>
         )}
-      </main>
+      </div>
 
+      {/* Right Sidebar Island */}
       {showRightSidebar && rightSidebar && (
-        <VisualizerSidebar className="border-l border-r-0">
-          {rightSidebar}
-        </VisualizerSidebar>
+        <VisualizerSidebar>{rightSidebar}</VisualizerSidebar>
       )}
     </div>
   );
@@ -82,7 +90,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
   return (
     <aside
       className={cn(
-        "hidden w-64 shrink-0 flex-col border-r bg-visualizer-panel lg:flex",
+        "hidden w-72 shrink-0 flex-col overflow-hidden rounded-xl bg-card shadow-sm lg:flex",
         className,
       )}
     >
@@ -107,7 +115,7 @@ function VisualizerHeader({
   return (
     <header
       className={cn(
-        "flex h-14 shrink-0 items-center justify-between border-b bg-visualizer-panel px-4",
+        "flex h-14 shrink-0 items-center justify-between border-b px-4",
         className,
       )}
     >
@@ -138,7 +146,12 @@ function VisualizerControlPanel({
   className,
 }: VisualizerControlPanelProps) {
   return (
-    <div className={cn("shrink-0 border-t bg-visualizer-panel p-2", className)}>
+    <div
+      className={cn(
+        "flex shrink-0 items-center justify-center gap-4 rounded-xl bg-card px-4 py-3 shadow-sm",
+        className,
+      )}
+    >
       {children}
     </div>
   );
