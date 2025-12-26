@@ -25,7 +25,7 @@ export function MobileSettingsDrawer({
     <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-background/80 backdrop-blur-sm animate-in fade-in-0"
+        className="fixed inset-0 bg-background backdrop-blur-sm animate-in fade-in-0"
         onClick={onClose}
       />
 

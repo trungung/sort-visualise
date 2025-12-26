@@ -51,7 +51,7 @@ function VisualizerZoneLabel({
   return (
     <span
       className={cn(
-        "absolute left-4 top-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground/80",
+        "absolute left-4 top-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
         className,
       )}
     >

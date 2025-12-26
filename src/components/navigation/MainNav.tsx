@@ -62,7 +62,7 @@ export function MainNav() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-50 bg-background backdrop-blur-sm lg:hidden"
           onClick={closeNav}
           aria-hidden="true"
         />
@@ -71,7 +71,7 @@ export function MainNav() {
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r bg-background transition-transform duration-300 ease-in-out lg:hidden",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex h-14 items-center justify-between border-b px-4">

@@ -99,7 +99,7 @@ export function RecursionTree({
                     isActive && "bg-primary/10 text-primary font-semibold",
 
                     // 2. Parent Pending
-                    isParentPending && "text-foreground/80",
+                    isParentPending && "text-foreground",
 
                     // 3. Done
                     isDone && "text-muted-foreground/60",
