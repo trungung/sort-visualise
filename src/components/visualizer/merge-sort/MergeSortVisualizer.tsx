@@ -363,7 +363,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               <p className="text-sm font-medium text-muted-foreground">
                 No active session
               </p>
-              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-[180px] leading-relaxed">
+              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-4] leading-relaxed">
                 Generate a new array to begin the sorting visualization
               </p>
             </div>

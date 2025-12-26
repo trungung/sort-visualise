@@ -78,7 +78,7 @@ export function RecursionTree({
               <p className="text-sm font-medium text-muted-foreground">
                 Stack is empty
               </p>
-              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-[180px] leading-relaxed">
+              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-45] leading-relaxed">
                 Run the visualization to see the recursive call stack develop
               </p>
             </div>
