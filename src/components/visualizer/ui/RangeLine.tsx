@@ -7,6 +7,7 @@ type RangeLineProps = {
   gap?: number;
   color: string;
   className?: string;
+  transitionDuration?: number;
 };
 
 export function RangeLine({
@@ -16,20 +17,19 @@ export function RangeLine({
   gap = 4,
   color,
   className,
+  transitionDuration = 300,
 }: RangeLineProps) {
   const width = (end - start + 1) * unitWidth + (end - start) * gap;
   const left = start * (unitWidth + gap);
 
   return (
     <div
-      className={cn(
-        "absolute -bottom-2 h-1 transition-all duration-300 z-10",
-        className,
-      )}
+      className={cn("absolute -bottom-2 h-1 transition-all z-10", className)}
       style={{
         left: `${left}px`,
         width: `${width}px`,
         backgroundColor: color,
+        transitionDuration: `${transitionDuration}ms`,
       }}
     />
   );

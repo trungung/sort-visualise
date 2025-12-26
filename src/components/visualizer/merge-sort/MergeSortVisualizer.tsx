@@ -22,9 +22,8 @@ const DEFAULT_SIZE = 12;
 const DEFAULT_SPEED = 500;
 
 // Animation timing constants (in ms)
-const FLASH_ANIMATION_DURATION = 500;
-const BAR_TRANSITION_DURATION = 300;
-const TIMING_BUFFER = 100;
+const MAX_FLASH_DURATION = 500;
+const MAX_TRANSITION_DURATION = 300;
 
 type MergeSortVisualizerProps = {
   className?: string;
@@ -49,6 +48,18 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const totalFrames = frames.length;
   const isAtEnd = currentFrameIndex >= totalFrames - 1;
   const maxValue = getMaxValue();
+
+  // Dynamic timing calculations
+  // Map speed [50, 1000] to delay [~600ms, ~200ms]
+  const baseDelay = Math.max(620 - speed * 0.42, 50);
+  const transitionDuration = Math.min(
+    MAX_TRANSITION_DURATION,
+    Math.max(50, baseDelay * 0.6),
+  );
+  const flashDuration = Math.min(
+    MAX_FLASH_DURATION,
+    Math.max(50, baseDelay * 0.8),
+  );
 
   /**
    * Generate new data and record all frames
@@ -109,17 +120,13 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       return;
     }
 
-    // Calculate delay based on speed, ensuring animations have time to complete
-    const baseDelay = 1050 - speed; // Invert so higher speed = shorter delay
+    // Calculate delay based on speed
     const isUpdateFrame = currentFrame?.isUpdate ?? false;
 
-    // Ensure minimum delays for animations to complete
-    const minRegularDelay = BAR_TRANSITION_DURATION + TIMING_BUFFER; // 400ms
-    const minUpdateDelay = FLASH_ANIMATION_DURATION + TIMING_BUFFER; // 600ms
-
+    // Ensure minimum delays for animations to complete with a small buffer
     const delay = isUpdateFrame
-      ? Math.max(baseDelay, minUpdateDelay)
-      : Math.max(baseDelay, minRegularDelay);
+      ? Math.max(baseDelay, flashDuration + 20)
+      : Math.max(baseDelay, transitionDuration + 20);
 
     timerRef.current = setTimeout(() => {
       setCurrentFrameIndex((prev) => {
@@ -362,6 +369,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               end={rangeEnd}
               unitWidth={BAR_WIDTH}
               gap={GAP}
+              transitionDuration={transitionDuration}
             />
           )}
 
@@ -372,6 +380,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               unitWidth={BAR_WIDTH}
               gap={GAP}
               color="var(--visualizer-left)"
+              transitionDuration={transitionDuration}
             />
           )}
           {rangeStart !== -1 && mid + 1 <= rangeEnd && (
@@ -381,6 +390,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               unitWidth={BAR_WIDTH}
               gap={GAP}
               color="var(--visualizer-right)"
+              transitionDuration={transitionDuration}
             />
           )}
 
@@ -390,6 +400,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               value={value}
               maxValue={maxValue}
               status={getGlobalBarStatus(idx, rangeStart, rangeEnd, isUpdate)}
+              transitionDuration={transitionDuration}
+              flashDuration={flashDuration}
             />
           ))}
         </VisualizerZone>
@@ -414,6 +426,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                   maxValue={maxValue}
                   status={getSourceBarStatus(idx, leftPointer, "left")}
                   hasPointer={idx === leftPointer && leftPointer < left.length}
+                  transitionDuration={transitionDuration}
                 />
               ))}
 
@@ -430,6 +443,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                   hasPointer={
                     idx === rightPointer && rightPointer < right.length
                   }
+                  transitionDuration={transitionDuration}
                 />
               ))}
 
@@ -476,6 +490,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                         value={built[idx]}
                         maxValue={maxValue}
                         status={status}
+                        transitionDuration={transitionDuration}
+                        flashDuration={flashDuration}
                       />
                     );
                   }

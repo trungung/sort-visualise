@@ -6,6 +6,7 @@ type ScopeBracketProps = {
   unitWidth: number;
   gap?: number;
   className?: string;
+  transitionDuration?: number;
 };
 
 export function ScopeBracket({
@@ -14,6 +15,7 @@ export function ScopeBracket({
   unitWidth,
   gap = 4,
   className,
+  transitionDuration = 300,
 }: ScopeBracketProps) {
   const width = (end - start + 1) * unitWidth + (end - start) * gap;
   const left = start * (unitWidth + gap);
@@ -21,12 +23,13 @@ export function ScopeBracket({
   return (
     <div
       className={cn(
-        "absolute top-3 h-2 border-t-2 border-l-2 border-r-2 border-visualizer-accent rounded-t-sm transition-all duration-300 pointer-events-none z-20",
-        className
+        "absolute top-3 h-2 border-t-2 border-l-2 border-r-2 border-visualizer-accent rounded-t-sm transition-all pointer-events-none z-20",
+        className,
       )}
       style={{
         left: `${left}px`,
         width: `${width}px`,
+        transitionDuration: `${transitionDuration}ms`,
       }}
     />
   );
