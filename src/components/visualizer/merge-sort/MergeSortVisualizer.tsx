@@ -18,7 +18,7 @@ import type { Frame, DataPattern } from "./types";
 
 const BAR_WIDTH = 28;
 const GAP = 4;
-const DEFAULT_SIZE = 12;
+const DEFAULT_SIZE = 16;
 const DEFAULT_SPEED = 500;
 
 // Animation timing constants (in ms)
@@ -277,7 +277,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         onChange={(e) => handleSizeChange(parseInt(e.target.value))}
         className="h-8 rounded-md border bg-background px-2 text-sm outline-none cursor-pointer hover:bg-accent transition-colors"
       >
-        {[8, 12, 20, 28, 40].map((val) => (
+        {[4, 8, 16, 24, 32].map((val) => (
           <option value={val} key={val}>
             Size: {val}
           </option>
