@@ -1,11 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  RotateCcw,
-  Settings,
-  ChevronDown,
-  PanelRight,
-  PanelLeft,
-} from "lucide-react";
+import { RotateCcw, Settings, ChevronDown, PanelLeft } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
@@ -20,6 +14,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Bar,
   PlaybackControls,
@@ -59,8 +60,10 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   // Playback state
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true);
+  const [sidebarView, setSidebarView] = useState<
+    "call-stack" | "narrative-log"
+  >("call-stack");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Timer ref for playback
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -301,32 +304,62 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     return side === "left" ? "primary" : "secondary";
   };
 
-  const sidebarContent = currentFrame ? (
-    <RecursionTree
-      nodes={currentFrame.tree}
-      activeId={currentFrame.activeId}
-      arraySize={currentFrame.global.length}
-      onToggle={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
-    />
-  ) : (
+  const sidebarContent = (
     <div className="flex flex-col h-full bg-visualizer-panel">
-      <div className="border-b border-border p-4 text-center">
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-          Call History
-        </span>
+      <div className="flex items-center gap-2 p-3 border-b border-border bg-muted/30">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="-ml-1 h-8 w-8 shrink-0"
+          onClick={() => setIsSidebarOpen(false)}
+        >
+          <PanelLeft className="size-4" />
+        </Button>
+        <Select
+          value={sidebarView}
+          onValueChange={(v) =>
+            setSidebarView(v as "call-stack" | "narrative-log")
+          }
+        >
+          <SelectTrigger className="h-8 flex-1 bg-background text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent position="popper" side="bottom">
+            <SelectItem value="call-stack">Call Stack</SelectItem>
+            <SelectItem value="narrative-log">Narrative Log</SelectItem>
+          </SelectContent>
+        </Select>
+        {currentFrame && (
+          <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono shrink-0">
+            N={currentFrame.global.length}
+          </span>
+        )}
       </div>
-      <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        Generate data to start
+      <div className="flex-1 overflow-hidden">
+        {sidebarView === "call-stack" ? (
+          currentFrame ? (
+            <RecursionTree
+              nodes={currentFrame.tree}
+              activeId={currentFrame.activeId}
+              arraySize={currentFrame.global.length}
+              className="border-0"
+              hideHeader
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
+              Generate data to start
+            </div>
+          )
+        ) : (
+          <NarrativeLog
+            frames={frames}
+            currentFrameIndex={currentFrameIndex}
+            className="border-0"
+            hideHeader
+          />
+        )}
       </div>
     </div>
-  );
-
-  const rightSidebarContent = (
-    <NarrativeLog
-      frames={frames}
-      currentFrameIndex={currentFrameIndex}
-      onToggle={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
-    />
   );
 
   const controlPanel = isMobile ? (
@@ -435,12 +468,12 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   );
 
   const leftHeaderControls =
-    !isMobile && !isLeftSidebarOpen ? (
+    !isMobile && !isSidebarOpen ? (
       <Button
         variant="ghost"
         size="icon-sm"
-        onClick={() => setIsLeftSidebarOpen(true)}
-        title="Show Call Stack"
+        onClick={() => setIsSidebarOpen(true)}
+        title="Show Sidebar"
       >
         <PanelLeft className="h-4 w-4" />
       </Button>
@@ -448,16 +481,6 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
   const headerControls = (
     <>
-      {!isMobile && !isRightSidebarOpen && (
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={() => setIsRightSidebarOpen(true)}
-          title="Show Narrative Log"
-        >
-          <PanelRight className="h-4 w-4" />
-        </Button>
-      )}
       {isMobile ? (
         <Button
           variant="ghost"
@@ -475,9 +498,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       <VisualizerLayout
         title="Merge Sort"
         sidebar={sidebarContent}
-        showSidebar={isLeftSidebarOpen}
-        rightSidebar={rightSidebarContent}
-        showRightSidebar={isRightSidebarOpen}
+        showSidebar={isSidebarOpen}
         headerControls={headerControls}
         leftHeaderControls={leftHeaderControls}
         controlPanel={controlPanel}
@@ -518,9 +539,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title="Merge Sort"
       sidebar={sidebarContent}
-      showSidebar={isLeftSidebarOpen}
-      rightSidebar={rightSidebarContent}
-      showRightSidebar={isRightSidebarOpen}
+      showSidebar={isSidebarOpen}
       headerControls={headerControls}
       leftHeaderControls={leftHeaderControls}
       controlPanel={controlPanel}

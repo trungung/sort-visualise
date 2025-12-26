@@ -10,6 +10,7 @@ type RecursionTreeProps = {
   arraySize: number;
   className?: string;
   onToggle?: () => void;
+  hideHeader?: boolean;
 };
 
 export function RecursionTree({
@@ -18,6 +19,7 @@ export function RecursionTree({
   arraySize,
   className,
   onToggle,
+  hideHeader,
 }: RecursionTreeProps) {
   const activeRef = useRef<HTMLDivElement>(null);
 
@@ -38,28 +40,30 @@ export function RecursionTree({
         className,
       )}
     >
-      <div className="border-b border-border p-4 bg-muted/30">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {onToggle && (
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                className="-ml-2 h-6 w-6"
-                onClick={onToggle}
-              >
-                <PanelLeft className="size-4" />
-              </Button>
-            )}
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-              Call Stack
+      {!hideHeader && (
+        <div className="border-b border-border p-4 bg-muted/30">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {onToggle && (
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className="-ml-2 h-6 w-6"
+                  onClick={onToggle}
+                >
+                  <PanelLeft className="size-4" />
+                </Button>
+              )}
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                Call Stack
+              </span>
+            </div>
+            <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
+              N={arraySize}
             </span>
           </div>
-          <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
-            N={arraySize}
-          </span>
         </div>
-      </div>
+      )}
 
       <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
         <div className="flex flex-col space-y-0.5">
