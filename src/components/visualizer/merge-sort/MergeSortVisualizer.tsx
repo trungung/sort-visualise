@@ -1,10 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCcw, Settings } from "lucide-react";
+import { RotateCcw, Settings, ChevronDown } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { GenerateButton } from "@/components/visualizer";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Bar,
   PlaybackControls,
@@ -15,7 +24,6 @@ import {
   RangeLine,
   MobileSettingsDrawer,
 } from "@/components/visualizer/ui";
-import { Separator } from "@/components/ui/separator";
 
 import { RecursionTree } from "./RecursionTree";
 import { generateData, recordMergeSort, getMaxValue } from "./algorithm";
@@ -105,24 +113,20 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   /**
    * Handle size change
    */
-  const handleSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newSize = parseInt(e.target.value);
-    // Allow empty input for typing
-    if (isNaN(newSize)) return;
-
-    if (newSize > 50) newSize = 50;
-
+  const handleSizeChange = (newSize: number) => {
     setSize(newSize);
-    // Stop playback but don't auto-regenerate
+
+    const initialArr = generateData(newSize, "random");
+    const newFrames = recordMergeSort(initialArr);
+    setFrames(newFrames);
+    setCurrentFrameIndex(0);
+
+    // Stop playback
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
     setIsPlaying(false);
-  };
-
-  const handleSizeBlur = () => {
-    if (size < 5) setSize(5);
   };
 
   /**
@@ -339,31 +343,63 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         </div>
       ) : (
         <div className="flex items-center px-6">
-          {/* Left Zone: Data Setup (Pill shape) */}
+          {/* Left Zone: Data Setup */}
           <div className="flex-1 flex justify-start">
-            <div className="flex items-center h-10 rounded-full border bg-muted/40 shadow-sm pl-4 pr-1">
-              <div className="flex items-center gap-2 mr-3">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                  Size
-                </span>
-                <input
-                  type="number"
-                  min={5}
-                  max={50}
-                  value={size}
-                  onChange={handleSizeChange}
-                  onBlur={handleSizeBlur}
-                  className="h-full w-8 bg-transparent text-sm font-medium text-center outline-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-              </div>
+            <ButtonGroup>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="min-w-24 justify-between font-normal"
+                  >
+                    Size: {size}
+                    <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {[4, 8, 16, 24, 32].map((s) => (
+                    <DropdownMenuItem
+                      key={s}
+                      onClick={() => handleSizeChange(s)}
+                    >
+                      {s} items
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-              <Separator orientation="vertical" className="h-5" />
+              <ButtonGroupSeparator />
 
-              <GenerateButton
-                onGenerate={handleGenerate}
-                className="border-0 shadow-none bg-transparent ml-1"
-              />
-            </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleGenerate("random")}
+              >
+                Generate
+              </Button>
+
+              <ButtonGroupSeparator />
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="px-2">
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => handleGenerate("sorted")}>
+                    Already Sorted
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleGenerate("reversed")}>
+                    Reverse Order
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleGenerate("identical")}>
+                    All Same Value
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </ButtonGroup>
           </div>
 
           {/* Center Zone: Playback Controls */}
