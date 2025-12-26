@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Settings } from "lucide-react";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { GenerateButton } from "@/components/visualizer";
@@ -12,6 +13,7 @@ import {
   NarrativeBox,
   ScopeBracket,
   RangeLine,
+  MobileSettingsDrawer,
 } from "@/components/visualizer/ui";
 import { Separator } from "@/components/ui/separator";
 
@@ -33,7 +35,9 @@ type MergeSortVisualizerProps = {
 };
 
 export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
-  // Algorithm state
+  const isMobile = useIsMobile();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   const [frames, setFrames] = useState<Frame[]>([]);
   const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
   const [size, setSize] = useState(DEFAULT_SIZE);
@@ -63,6 +67,18 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     MAX_FLASH_DURATION,
     Math.max(50, baseDelay * 0.8),
   );
+
+  // Mobile Guard: Lock size to 8 on mobile
+  useEffect(() => {
+    if (isMobile && size !== 8) {
+      setSize(8);
+      const initialArr = generateData(8, "random");
+      const newFrames = recordMergeSort(initialArr);
+      setFrames(newFrames);
+      setCurrentFrameIndex(0);
+      setIsPlaying(false);
+    }
+  }, [isMobile, size]);
 
   /**
    * Generate new data and record all frames
@@ -311,36 +327,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         />
       </div>
 
-      <div className="flex items-center px-6">
-        {/* Left Zone: Data Setup (Pill shape) */}
-        <div className="flex-1 flex justify-start">
-          <div className="flex items-center h-10 rounded-full border bg-muted/40 shadow-sm pl-4 pr-1">
-            <div className="flex items-center gap-2 mr-3">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                Size
-              </span>
-              <input
-                type="number"
-                min={5}
-                max={50}
-                value={size}
-                onChange={handleSizeChange}
-                onBlur={handleSizeBlur}
-                className="h-full w-8 bg-transparent text-sm font-medium text-center outline-none [&::-webkit-inner-spin-button]:appearance-none"
-              />
-            </div>
-
-            <Separator orientation="vertical" className="h-5" />
-
-            <GenerateButton
-              onGenerate={handleGenerate}
-              className="border-0 shadow-none bg-transparent ml-1"
-            />
-          </div>
-        </div>
-
-        {/* Center Zone: Playback Controls */}
-        <div className="flex-1 flex justify-center">
+      {isMobile ? (
+        <div className="flex justify-center px-6 py-2">
           <PlaybackControls
             isPlaying={isPlaying}
             isAtEnd={isAtEnd}
@@ -349,27 +337,80 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             onStepBackward={handleStepBackward}
           />
         </div>
+      ) : (
+        <div className="flex items-center px-6">
+          {/* Left Zone: Data Setup (Pill shape) */}
+          <div className="flex-1 flex justify-start">
+            <div className="flex items-center h-10 rounded-full border bg-muted/40 shadow-sm pl-4 pr-1">
+              <div className="flex items-center gap-2 mr-3">
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                  Size
+                </span>
+                <input
+                  type="number"
+                  min={5}
+                  max={50}
+                  value={size}
+                  onChange={handleSizeChange}
+                  onBlur={handleSizeBlur}
+                  className="h-full w-8 bg-transparent text-sm font-medium text-center outline-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+              </div>
 
-        {/* Right Zone: Speed */}
-        <div className="flex-1 flex justify-end">
-          <SpeedControl value={speed} onChange={setSpeed} />
+              <Separator orientation="vertical" className="h-5" />
+
+              <GenerateButton
+                onGenerate={handleGenerate}
+                className="border-0 shadow-none bg-transparent ml-1"
+              />
+            </div>
+          </div>
+
+          {/* Center Zone: Playback Controls */}
+          <div className="flex-1 flex justify-center">
+            <PlaybackControls
+              isPlaying={isPlaying}
+              isAtEnd={isAtEnd}
+              onTogglePlay={handleTogglePlay}
+              onStepForward={handleStepForward}
+              onStepBackward={handleStepBackward}
+            />
+          </div>
+
+          {/* Right Zone: Speed */}
+          <div className="flex-1 flex justify-end">
+            <SpeedControl value={speed} onChange={setSpeed} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
+
+  const headerControls = isMobile ? (
+    <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
+      <Settings className="h-4 w-4" />
+    </Button>
+  ) : null;
 
   if (!currentFrame) {
     return (
       <VisualizerLayout
         title="Merge Sort"
         sidebar={sidebarContent}
-        headerControls={null}
+        headerControls={headerControls}
         controlPanel={controlPanel}
         className={className}
       >
         <div className="flex items-center justify-center h-full text-muted-foreground">
           Loading...
         </div>
+        <MobileSettingsDrawer
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          speed={speed}
+          onSpeedChange={setSpeed}
+          onGenerate={handleGenerate}
+        />
       </VisualizerLayout>
     );
   }
@@ -395,10 +436,18 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title="Merge Sort"
       sidebar={sidebarContent}
-      headerControls={null}
+      headerControls={headerControls}
       controlPanel={controlPanel}
       className={className}
     >
+      <MobileSettingsDrawer
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        speed={speed}
+        onSpeedChange={setSpeed}
+        onGenerate={handleGenerate}
+      />
+
       <div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
         <VisualizerZone label="1. Array Overview">
           {rangeStart !== -1 && (
