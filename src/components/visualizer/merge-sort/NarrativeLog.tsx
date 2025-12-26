@@ -1,13 +1,20 @@
 import { useEffect, useRef, useMemo } from "react";
+import { PanelRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import type { Frame } from "./types";
 
 interface NarrativeLogProps {
   frames: Frame[];
   currentFrameIndex: number;
+  onToggle?: () => void;
 }
 
-export function NarrativeLog({ frames, currentFrameIndex }: NarrativeLogProps) {
+export function NarrativeLog({
+  frames,
+  currentFrameIndex,
+  onToggle,
+}: NarrativeLogProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Group frames up to current index by message and reverse for display (LIFO)
@@ -49,9 +56,21 @@ export function NarrativeLog({ frames, currentFrameIndex }: NarrativeLogProps) {
   return (
     <div className="flex flex-col h-full bg-visualizer-panel w-full">
       <div className="border-b border-border p-4 bg-muted/30 sticky top-0 z-10">
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-          Narrative Log
-        </span>
+        <div className="flex items-center gap-2">
+          {onToggle && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="-ml-2 h-6 w-6"
+              onClick={onToggle}
+            >
+              <PanelRight className="size-4" />
+            </Button>
+          )}
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            Narrative Log
+          </span>
+        </div>
       </div>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-2 scroll-smooth">

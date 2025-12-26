@@ -60,7 +60,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
-  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true);
 
   // Timer ref for playback
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -306,6 +306,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       nodes={currentFrame.tree}
       activeId={currentFrame.activeId}
       arraySize={currentFrame.global.length}
+      onToggle={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
     />
   ) : (
     <div className="flex flex-col h-full bg-visualizer-panel">
@@ -321,7 +322,11 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   );
 
   const rightSidebarContent = (
-    <NarrativeLog frames={frames} currentFrameIndex={currentFrameIndex} />
+    <NarrativeLog
+      frames={frames}
+      currentFrameIndex={currentFrameIndex}
+      onToggle={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
+    />
   );
 
   const controlPanel = (
@@ -427,27 +432,29 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     </div>
   );
 
+  const leftHeaderControls =
+    !isMobile && !isLeftSidebarOpen ? (
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        onClick={() => setIsLeftSidebarOpen(true)}
+        title="Show Call Stack"
+      >
+        <PanelLeft className="h-4 w-4" />
+      </Button>
+    ) : null;
+
   const headerControls = (
     <>
-      {!isMobile && (
-        <>
-          <Button
-            variant={isLeftSidebarOpen ? "secondary" : "ghost"}
-            size="icon-sm"
-            onClick={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
-            title="Toggle Call Stack"
-          >
-            <PanelLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={isRightSidebarOpen ? "secondary" : "ghost"}
-            size="icon-sm"
-            onClick={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
-            title="Toggle Narrative Log"
-          >
-            <PanelRight className="h-4 w-4" />
-          </Button>
-        </>
+      {!isMobile && !isRightSidebarOpen && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => setIsRightSidebarOpen(true)}
+          title="Show Narrative Log"
+        >
+          <PanelRight className="h-4 w-4" />
+        </Button>
       )}
       {isMobile ? (
         <Button
@@ -470,6 +477,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         rightSidebar={rightSidebarContent}
         showRightSidebar={isRightSidebarOpen}
         headerControls={headerControls}
+        leftHeaderControls={leftHeaderControls}
         controlPanel={controlPanel}
         className={className}
       >
@@ -512,6 +520,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       rightSidebar={rightSidebarContent}
       showRightSidebar={isRightSidebarOpen}
       headerControls={headerControls}
+      leftHeaderControls={leftHeaderControls}
       controlPanel={controlPanel}
     >
       <MobileSettingsDrawer

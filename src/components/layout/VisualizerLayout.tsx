@@ -14,6 +14,8 @@ type VisualizerLayoutProps = {
   title: string;
   /** Controls/settings displayed in the header (right side) */
   headerControls?: React.ReactNode;
+  /** Controls displayed in the header (left side) */
+  leftHeaderControls?: React.ReactNode;
   /** The main visualization content (zones) */
   children: React.ReactNode;
   /** Control panel content (playback controls, etc.) */
@@ -31,6 +33,7 @@ function VisualizerLayout({
   rightSidebar,
   title,
   headerControls,
+  leftHeaderControls,
   children,
   controlPanel,
   className,
@@ -46,7 +49,11 @@ function VisualizerLayout({
       )}
 
       <main className="flex min-w-0 flex-1 flex-col">
-        <VisualizerHeader title={title} controls={headerControls} />
+        <VisualizerHeader
+          title={title}
+          controls={headerControls}
+          leftControls={leftHeaderControls}
+        />
 
         <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-2">
           {children}
@@ -87,12 +94,14 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
 type VisualizerHeaderProps = {
   title: string;
   controls?: React.ReactNode;
+  leftControls?: React.ReactNode;
   className?: string;
 };
 
 function VisualizerHeader({
   title,
   controls,
+  leftControls,
   className,
 }: VisualizerHeaderProps) {
   return (
@@ -103,6 +112,7 @@ function VisualizerHeader({
       )}
     >
       <div className="flex items-center gap-3">
+        {leftControls}
         <Button variant="ghost" size="icon-sm" asChild>
           <Link to="/" aria-label="Go to home">
             <Home className="size-4" />
@@ -111,8 +121,8 @@ function VisualizerHeader({
         <h1 className="text-lg font-bold">{title}</h1>
       </div>
       <div className="flex items-center gap-2">
-        {controls}
         <ModeToggle />
+        {controls}
       </div>
     </header>
   );

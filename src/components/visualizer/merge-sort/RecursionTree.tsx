@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Play, Check, Circle } from "lucide-react";
+import { Play, Check, Circle, PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import type { TreeNode } from "./types";
 
 type RecursionTreeProps = {
@@ -8,6 +9,7 @@ type RecursionTreeProps = {
   activeId: number;
   arraySize: number;
   className?: string;
+  onToggle?: () => void;
 };
 
 export function RecursionTree({
@@ -15,6 +17,7 @@ export function RecursionTree({
   activeId,
   arraySize,
   className,
+  onToggle,
 }: RecursionTreeProps) {
   const activeRef = useRef<HTMLDivElement>(null);
 
@@ -37,9 +40,21 @@ export function RecursionTree({
     >
       <div className="border-b border-border p-4 bg-muted/30">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-            Call Stack
-          </span>
+          <div className="flex items-center gap-2">
+            {onToggle && (
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="-ml-2 h-6 w-6"
+                onClick={onToggle}
+              >
+                <PanelLeft className="size-4" />
+              </Button>
+            )}
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+              Call Stack
+            </span>
+          </div>
           <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono">
             N={arraySize}
           </span>
