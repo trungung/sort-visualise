@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCcw, Settings, ChevronDown, PanelRight } from "lucide-react";
+import {
+  RotateCcw,
+  Settings,
+  ChevronDown,
+  PanelRight,
+  PanelLeft,
+} from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VisualizerLayout, VisualizerZone } from "@/components/layout";
@@ -53,7 +59,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   // Playback state
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
 
   // Timer ref for playback
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -423,14 +430,24 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const headerControls = (
     <>
       {!isMobile && (
-        <Button
-          variant={isRightSidebarOpen ? "secondary" : "ghost"}
-          size="icon-sm"
-          onClick={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
-          title="Toggle Narrative Log"
-        >
-          <PanelRight className="h-4 w-4" />
-        </Button>
+        <>
+          <Button
+            variant={isLeftSidebarOpen ? "secondary" : "ghost"}
+            size="icon-sm"
+            onClick={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
+            title="Toggle Call Stack"
+          >
+            <PanelLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant={isRightSidebarOpen ? "secondary" : "ghost"}
+            size="icon-sm"
+            onClick={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
+            title="Toggle Narrative Log"
+          >
+            <PanelRight className="h-4 w-4" />
+          </Button>
+        </>
       )}
       {isMobile ? (
         <Button
@@ -449,6 +466,9 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       <VisualizerLayout
         title="Merge Sort"
         sidebar={sidebarContent}
+        showSidebar={isLeftSidebarOpen}
+        rightSidebar={rightSidebarContent}
+        showRightSidebar={isRightSidebarOpen}
         headerControls={headerControls}
         controlPanel={controlPanel}
         className={className}
@@ -488,6 +508,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title="Merge Sort"
       sidebar={sidebarContent}
+      showSidebar={isLeftSidebarOpen}
       rightSidebar={rightSidebarContent}
       showRightSidebar={isRightSidebarOpen}
       headerControls={headerControls}
