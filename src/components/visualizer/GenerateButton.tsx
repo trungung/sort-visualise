@@ -24,18 +24,14 @@ type GenerateButtonProps = {
 export function GenerateButton({ onGenerate, className }: GenerateButtonProps) {
   return (
     <ButtonGroup className={className}>
-      <Button
-        variant="secondary"
-        size="sm"
-        onClick={() => onGenerate("random")}
-      >
-        Randomize
+      <Button variant="ghost" size="sm" onClick={() => onGenerate("random")}>
+        Generate
       </Button>
       <ButtonGroupSeparator />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant="secondary"
+            variant="ghost"
             size="sm"
             className="px-2"
             aria-label="Select data pattern"

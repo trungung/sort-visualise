@@ -11,6 +11,7 @@ import {
   ScopeBracket,
   RangeLine,
 } from "@/components/visualizer/ui";
+import { Separator } from "@/components/ui/separator";
 
 import { RecursionTree } from "./RecursionTree";
 import { generateData, recordMergeSort, getMaxValue } from "./algorithm";
@@ -86,7 +87,13 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   /**
    * Handle size change
    */
-  const handleSizeChange = (newSize: number) => {
+  const handleSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newSize = parseInt(e.target.value);
+    // Allow empty input for typing
+    if (isNaN(newSize)) return;
+
+    if (newSize > 50) newSize = 50;
+
     setSize(newSize);
     // Stop playback but don't auto-regenerate
     if (timerRef.current) {
@@ -94,6 +101,10 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       timerRef.current = null;
     }
     setIsPlaying(false);
+  };
+
+  const handleSizeBlur = () => {
+    if (size < 5) setSize(5);
   };
 
   /**
@@ -144,7 +155,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
         timerRef.current = null;
       }
     };
-  }, [isPlaying, currentFrameIndex, speed, totalFrames, isAtEnd]);
+  }, [
+    isPlaying,
+    currentFrameIndex,
+    speed,
+    totalFrames,
+    isAtEnd,
+    baseDelay,
+    flashDuration,
+    transitionDuration,
+    currentFrame?.isUpdate,
+  ]);
 
   /**
    * Toggle play/pause
@@ -270,33 +291,54 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     </div>
   );
 
-  const headerControls = (
-    <>
-      <select
-        value={size}
-        onChange={(e) => handleSizeChange(parseInt(e.target.value))}
-        className="h-8 rounded-md border bg-background px-2 text-sm outline-none cursor-pointer hover:bg-accent transition-colors"
-      >
-        {[4, 8, 16, 24, 32].map((val) => (
-          <option value={val} key={val}>
-            Size: {val}
-          </option>
-        ))}
-      </select>
-      <GenerateButton onGenerate={handleGenerate} />
-    </>
-  );
-
   const controlPanel = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col relative pb-3">
       <NarrativeBox
         text={currentFrame?.message ?? "Generate data to begin"}
         isVisible={isNarrativeVisible}
         onClose={() => setIsNarrativeVisible(false)}
       />
 
-      <div className="flex items-center justify-between gap-8 px-4">
-        <div className="flex items-center gap-4">
+      {/* Timeline spanning top edge */}
+      <div className="w-full px-4 mb-2">
+        <Timeline
+          currentFrame={currentFrameIndex}
+          totalFrames={totalFrames}
+          onScrub={handleScrub}
+          className="w-full px-0 py-2"
+        />
+      </div>
+
+      <div className="flex items-center px-6">
+        {/* Left Zone: Data Setup (Pill shape) */}
+        <div className="flex-1 flex justify-start">
+          <div className="flex items-center h-10 rounded-full border bg-muted/40 shadow-sm pl-4 pr-1">
+            <div className="flex items-center gap-2 mr-3">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                Size
+              </span>
+              <input
+                type="number"
+                min={5}
+                max={50}
+                value={size}
+                onChange={handleSizeChange}
+                onBlur={handleSizeBlur}
+                className="h-full w-8 bg-transparent text-sm font-medium text-center outline-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+            </div>
+
+            <Separator orientation="vertical" className="h-5" />
+
+            <GenerateButton
+              onGenerate={handleGenerate}
+              className="border-0 shadow-none bg-transparent ml-1"
+            />
+          </div>
+        </div>
+
+        {/* Center Zone: Playback Controls */}
+        <div className="flex-1 flex justify-center">
           <PlaybackControls
             isPlaying={isPlaying}
             isAtEnd={isAtEnd}
@@ -304,16 +346,10 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             onStepForward={handleStepForward}
             onStepBackward={handleStepBackward}
           />
-
-          <Timeline
-            currentFrame={currentFrameIndex}
-            totalFrames={totalFrames}
-            onScrub={handleScrub}
-            className="w-120"
-          />
         </div>
 
-        <div className="flex items-center gap-6">
+        {/* Right Zone: Speed */}
+        <div className="flex-1 flex justify-end">
           <SpeedControl value={speed} onChange={setSpeed} />
         </div>
       </div>
@@ -325,7 +361,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       <VisualizerLayout
         title="Merge Sort"
         sidebar={sidebarContent}
-        headerControls={headerControls}
+        headerControls={null}
         controlPanel={controlPanel}
         className={className}
       >
@@ -357,7 +393,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title="Merge Sort"
       sidebar={sidebarContent}
-      headerControls={headerControls}
+      headerControls={null}
       controlPanel={controlPanel}
       className={className}
     >

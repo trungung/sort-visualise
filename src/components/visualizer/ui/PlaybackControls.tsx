@@ -28,9 +28,10 @@ export function PlaybackControls({
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={onStepBackward}
+        className="rounded-full"
         aria-label="Step backward"
       >
         <ChevronLeft className="size-5" />
@@ -53,9 +54,10 @@ export function PlaybackControls({
       </Button>
 
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={onStepForward}
+        className="rounded-full"
         aria-label="Step forward"
       >
         <ChevronRight className="size-5" />
