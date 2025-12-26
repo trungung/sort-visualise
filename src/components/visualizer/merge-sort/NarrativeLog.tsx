@@ -4,6 +4,53 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { Frame } from "./types";
 
+function formatMessage(message: string, shouldColor: boolean) {
+  if (!shouldColor) return message;
+
+  // Inject markers for styling based on narrative patterns
+  const marked = message
+    .replace(
+      /comparing (\d+) \(left\) vs (\d+) \(right\)/g,
+      "comparing [L]$1[/L] (left) vs [R]$2[/R] (right)",
+    )
+    .replace(/Next: (\d+) vs (\d+)/g, "Next: [L]$1[/L] vs [R]$2[/R]")
+    .replace(/(\d+) ≤ (\d+)/g, "[L]$1[/L] ≤ [R]$2[/R]")
+    .replace(/(\d+) < (\d+)/g, "[R]$1[/R] < [L]$2[/L]")
+    .replace(
+      /(Took|Taking remaining) (\d+) from left/g,
+      "$1 [L]$2[/L] from left",
+    )
+    .replace(
+      /(Took|Taking remaining) (\d+) from right/g,
+      "$1 [R]$2[/R] from right",
+    );
+
+  const parts = marked.split(/(\[[LR]\].*?\[\/[LR]\])/);
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        const match = part.match(/\[([LR])\](\d+)\[\/[LR]\]/);
+        if (match) {
+          const [, type, val] = match;
+          return (
+            <span
+              key={i}
+              className={cn(
+                "font-bold",
+                type === "L" ? "text-visualizer-left" : "text-visualizer-right",
+              )}
+            >
+              {val}
+            </span>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 interface NarrativeLogProps {
   frames: Frame[];
   currentFrameIndex: number;
@@ -113,7 +160,9 @@ export function NarrativeLog({
                     >
                       {String(logEntries.length - index).padStart(2, "0")}
                     </span>
-                    <span className="leading-snug">{entry.message}</span>
+                    <span className="leading-snug">
+                      {formatMessage(entry.message, isActive)}
+                    </span>
                   </div>
                 </div>
               );
