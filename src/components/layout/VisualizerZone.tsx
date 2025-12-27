@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 type VisualizerZoneProps = {
   /** Label displayed in the top-left corner */
   label: string;
+  /** Optional info button content */
+  info?: React.ReactNode;
   /** Zone content (usually bar visualizations) */
   children: React.ReactNode;
   /** Additional className for the zone container */
@@ -13,6 +15,7 @@ type VisualizerZoneProps = {
 
 function VisualizerZone({
   label,
+  info,
   children,
   className,
   wrapperClassName,
@@ -24,7 +27,10 @@ function VisualizerZone({
         className,
       )}
     >
-      <VisualizerZoneLabel>{label}</VisualizerZoneLabel>
+      <div className="absolute left-4 top-3 z-10 flex items-center gap-1.5">
+        <VisualizerZoneLabel className="static">{label}</VisualizerZoneLabel>
+        {info}
+      </div>
       <div className="flex flex-1 items-end justify-center">
         <div
           className={cn(

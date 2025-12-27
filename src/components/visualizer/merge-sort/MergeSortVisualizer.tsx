@@ -36,10 +36,18 @@ import {
   ScopeBracket,
   RangeLine,
   MobileSettingsDrawer,
+  InfoButton,
 } from "@/components/visualizer/ui";
 
 import { RecursionTree } from "./RecursionTree";
 import { NarrativeLog } from "./NarrativeLog";
+import {
+  MergeSortGeneralInfo,
+  ArrayOverviewInfo,
+  ComparingInfo,
+  BuildingResultInfo,
+  CallStackInfo,
+} from "./MergeSortInfo";
 import { generateData, recordMergeSort, getMaxValue } from "./algorithm";
 import type { Frame, DataPattern } from "./types";
 
@@ -336,6 +344,11 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             <SelectItem value="narrative-log">Narrative Log</SelectItem>
           </SelectContent>
         </Select>
+        {sidebarView === "call-stack" && (
+          <InfoButton title="Call Stack" subtitle="Recursion in real time">
+            <CallStackInfo />
+          </InfoButton>
+        )}
         {currentFrame && (
           <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full font-mono shrink-0">
             N={currentFrame.global.length}
@@ -514,7 +527,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   if (!currentFrame) {
     return (
       <VisualizerLayout
-        title="Merge Sort"
+        title={
+          <span className="flex items-center gap-2">
+            Merge Sort
+            <InfoButton
+              title="Merge Sort"
+              subtitle="Divide → Conquer → Combine"
+            >
+              <MergeSortGeneralInfo />
+            </InfoButton>
+          </span>
+        }
         sidebar={sidebarContent}
         showSidebar={isSidebarOpen}
         headerControls={headerControls}
@@ -565,7 +588,14 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
   return (
     <VisualizerLayout
-      title="Merge Sort"
+      title={
+        <span className="flex items-center gap-2">
+          Merge Sort
+          <InfoButton title="Merge Sort" subtitle="Divide → Conquer → Combine">
+            <MergeSortGeneralInfo />
+          </InfoButton>
+        </span>
+      }
       sidebar={sidebarContent}
       showSidebar={isSidebarOpen}
       headerControls={headerControls}
@@ -581,7 +611,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       />
 
       <div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
-        <VisualizerZone label="1. Array Overview">
+        <VisualizerZone
+          label="1. Array Overview"
+          info={
+            <InfoButton
+              title="1. Array Overview"
+              subtitle="Where we are in the array"
+            >
+              <ArrayOverviewInfo />
+            </InfoButton>
+          }
+        >
           {rangeStart !== -1 && (
             <ScopeBracket
               start={rangeStart}
@@ -625,7 +665,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           ))}
         </VisualizerZone>
 
-        <VisualizerZone label="2. Comparing Left & Right">
+        <VisualizerZone
+          label="2. Comparing Left & Right"
+          info={
+            <InfoButton
+              title="2. Comparing Left & Right"
+              subtitle="The core merge operation"
+            >
+              <ComparingInfo />
+            </InfoButton>
+          }
+        >
           {currentFrameIndex === 0 ? (
             <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground/80">
               <div className="flex items-center gap-8">
@@ -718,7 +768,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           ) : null}
         </VisualizerZone>
 
-        <VisualizerZone label="3. Building Sorted Result">
+        <VisualizerZone
+          label="3. Building Sorted Result"
+          info={
+            <InfoButton
+              title="3. Building Sorted Result"
+              subtitle="Filling the output buffer"
+            >
+              <BuildingResultInfo />
+            </InfoButton>
+          }
+        >
           {currentFrameIndex === 0 ? (
             <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-8 text-center text-sm text-muted-foreground/80">
               <span className="font-semibold uppercase tracking-wide">

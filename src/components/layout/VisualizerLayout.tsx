@@ -11,7 +11,7 @@ type VisualizerLayoutProps = {
   /** Content to render in the right sidebar */
   rightSidebar?: React.ReactNode;
   /** Title displayed in the header */
-  title: string;
+  title: React.ReactNode;
   /** Controls/settings displayed in the header (right side) */
   headerControls?: React.ReactNode;
   /** Controls displayed in the header (left side) */
@@ -102,7 +102,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
 }
 
 type VisualizerHeaderProps = {
-  title: string;
+  title: React.ReactNode;
   controls?: React.ReactNode;
   leftControls?: React.ReactNode;
   className?: string;
