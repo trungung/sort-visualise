@@ -4,6 +4,11 @@ import { Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
@@ -43,42 +48,74 @@ function VisualizerLayout({
   return (
     <div
       className={cn(
-        "flex h-screen w-full overflow-hidden bg-background p-4 gap-4",
+        "flex h-screen w-full overflow-hidden bg-background",
         className,
       )}
     >
-      {/* Sidebar Island */}
-      {showSidebar && sidebar && (
-        <VisualizerSidebar>{sidebar}</VisualizerSidebar>
-      )}
-
-      {/* Center Column */}
-      <div className="flex flex-1 flex-col gap-4 min-w-0 overflow-hidden">
-        {/* Main Visualizer Island */}
-        <main className="flex flex-1 flex-col overflow-hidden rounded-xl bg-card shadow-sm">
-          <VisualizerHeader
-            title={title}
-            controls={headerControls}
-            leftControls={leftHeaderControls}
-          />
-
-          <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
-            {children}
-          </div>
-        </main>
-
-        {/* Control Panel Island */}
-        {controlPanel && (
-          <VisualizerControlPanel className="py-2">
-            {controlPanel}
-          </VisualizerControlPanel>
+      <ResizablePanelGroup direction="horizontal" className="h-full w-full">
+        {/* Sidebar Island */}
+        {showSidebar && sidebar && (
+          <>
+            <ResizablePanel
+              defaultSize="20"
+              minSize="15"
+              maxSize="35"
+              className="hidden lg:flex flex-col py-4 pl-4 pr-2"
+            >
+              <VisualizerSidebar className="h-full w-full">
+                {sidebar}
+              </VisualizerSidebar>
+            </ResizablePanel>
+            <ResizableHandle className="hidden lg:flex" withHandle />
+          </>
         )}
-      </div>
 
-      {/* Right Sidebar Island */}
-      {showRightSidebar && rightSidebar && (
-        <VisualizerSidebar>{rightSidebar}</VisualizerSidebar>
-      )}
+        {/* Center Column */}
+        <ResizablePanel
+          defaultSize="60"
+          minSize="30"
+          className="flex flex-col py-4 px-4 lg:px-2"
+        >
+          <div className="flex flex-1 flex-col gap-4 min-w-0 overflow-hidden h-full">
+            {/* Main Visualizer Island */}
+            <main className="flex flex-1 flex-col overflow-hidden rounded-xl bg-card shadow-sm border">
+              <VisualizerHeader
+                title={title}
+                controls={headerControls}
+                leftControls={leftHeaderControls}
+              />
+
+              <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+                {children}
+              </div>
+            </main>
+
+            {/* Control Panel Island */}
+            {controlPanel && (
+              <VisualizerControlPanel className="py-2 border">
+                {controlPanel}
+              </VisualizerControlPanel>
+            )}
+          </div>
+        </ResizablePanel>
+
+        {/* Right Sidebar Island */}
+        {showRightSidebar && rightSidebar && (
+          <>
+            <ResizableHandle className="hidden lg:flex" withHandle />
+            <ResizablePanel
+              defaultSize="20"
+              minSize="15"
+              maxSize="30"
+              className="hidden lg:flex flex-col py-4 pr-4 pl-2"
+            >
+              <VisualizerSidebar className="h-full w-full">
+                {rightSidebar}
+              </VisualizerSidebar>
+            </ResizablePanel>
+          </>
+        )}
+      </ResizablePanelGroup>
     </div>
   );
 }
@@ -92,7 +129,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
   return (
     <aside
       className={cn(
-        "hidden w-72 shrink-0 flex-col overflow-hidden rounded-xl bg-card shadow-sm lg:flex",
+        "hidden flex-col overflow-hidden rounded-xl bg-card shadow-sm border lg:flex",
         className,
       )}
     >
