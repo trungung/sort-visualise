@@ -10,6 +10,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { BackgroundElements } from "@/components/ui/background-elements";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
@@ -46,6 +47,17 @@ function VisualizerLayout({
   showSidebar = true,
   showRightSidebar = true,
 }: VisualizerLayoutProps) {
+  const isMobile = useIsMobile();
+  const isDesktop = !isMobile;
+
+  // Calculate default size for the center panel based on sidebars visibility
+  const hasLeftSidebar = isDesktop && showSidebar && !!sidebar;
+  const hasRightSidebar = isDesktop && showRightSidebar && !!rightSidebar;
+
+  const centerDefaultSize = isDesktop
+    ? 100 - (hasLeftSidebar ? 20 : 0) - (hasRightSidebar ? 20 : 0)
+    : 100;
+
   return (
     <div
       className={cn(
@@ -55,14 +67,15 @@ function VisualizerLayout({
     >
       <BackgroundElements />
       <ResizablePanelGroup
+        key={`${isDesktop}-${hasLeftSidebar}-${hasRightSidebar}`}
         direction="horizontal"
         className="relative z-10 h-full w-full"
       >
         {/* Sidebar Island */}
-        {showSidebar && sidebar && (
+        {hasLeftSidebar && (
           <>
             <ResizablePanel
-              defaultSize="20"
+              defaultSize="25"
               minSize="15"
               maxSize="35"
               className="hidden lg:flex flex-col py-4 pl-4 pr-2"
@@ -71,14 +84,14 @@ function VisualizerLayout({
                 {sidebar}
               </VisualizerSidebar>
             </ResizablePanel>
-            <ResizableHandle className="hidden lg:flex" withHandle />
+            <ResizableHandle withHandle />
           </>
         )}
 
         {/* Center Column */}
         <ResizablePanel
-          defaultSize="60"
-          minSize="30"
+          defaultSize={centerDefaultSize.toString()}
+          minSize={isDesktop ? "30" : "100"}
           className="flex flex-col py-4 px-4 lg:px-2"
         >
           <div className="flex flex-1 flex-col gap-4 min-w-0 overflow-hidden h-full">
@@ -105,14 +118,14 @@ function VisualizerLayout({
         </ResizablePanel>
 
         {/* Right Sidebar Island */}
-        {showRightSidebar && rightSidebar && (
+        {hasRightSidebar && (
           <>
-            <ResizableHandle className="hidden lg:flex" withHandle />
+            <ResizableHandle withHandle />
             <ResizablePanel
-              defaultSize="20"
-              minSize="15"
-              maxSize="30"
-              className="hidden lg:flex flex-col py-4 pr-4 pl-2"
+              defaultSize={20}
+              minSize={15}
+              maxSize={30}
+              className="flex flex-col py-4 pr-4 pl-2"
             >
               <VisualizerSidebar className="h-full w-full">
                 {rightSidebar}
@@ -134,7 +147,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
   return (
     <aside
       className={cn(
-        "hidden flex-col overflow-hidden rounded-xl bg-card shadow-sm border lg:flex",
+        "flex flex-col overflow-hidden rounded-xl bg-card shadow-sm border",
         className,
       )}
     >

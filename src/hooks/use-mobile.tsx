@@ -1,21 +1,25 @@
 import * as React from "react";
 
-const MOBILE_BREAKPOINT = 768;
+const MOBILE_BREAKPOINT = 1024;
 
+/**
+ * Custom hook to detect if the screen is in mobile/tablet mode (below desktop breakpoint).
+ * Uses useSyncExternalStore for better hydration support and performance.
+ */
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
+  const subscribe = React.useCallback((callback: () => void) => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
-    const onChange = () => {
-      setIsMobile(mql.matches);
-    };
-
-    mql.addEventListener("change", onChange);
-    setIsMobile(mql.matches);
-
-    return () => mql.removeEventListener("change", onChange);
+    mql.addEventListener("change", callback);
+    return () => mql.removeEventListener("change", callback);
   }, []);
 
-  return isMobile;
+  const getSnapshot = () => {
+    return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches;
+  };
+
+  const getServerSnapshot = () => {
+    return false;
+  };
+
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
