@@ -29,6 +29,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
   Bar,
   PlaybackControls,
   SpeedControl,
@@ -366,19 +374,23 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               hideHeader
             />
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-border rounded-xl bg-card mt-4 mx-4">
-              <div className="relative mb-3">
-                <PanelLeft className="size-8 text-muted-foreground" />
-                <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-background flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-muted-foreground animate-pulse" />
-                </div>
-              </div>
-              <p className="text-sm font-medium text-muted-foreground">
-                No active session
-              </p>
-              <p className="mt-1 text-[11px] text-muted-foreground max-w-4] leading-relaxed">
-                Generate a new array to begin the sorting visualization
-              </p>
+            <div className="mx-4 mt-4">
+              <Empty className="h-auto border-2 border-dashed border-border bg-card py-12">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <div className="relative inline-block">
+                      <PanelLeft className="size-8 text-muted-foreground" />
+                      <div className="absolute -bottom-1 -right-1 flex size-4 items-center justify-center rounded-full bg-background">
+                        <div className="size-2 animate-pulse rounded-full bg-muted-foreground" />
+                      </div>
+                    </div>
+                  </EmptyMedia>
+                  <EmptyTitle>No active session</EmptyTitle>
+                  <EmptyDescription>
+                    Generate a new array to begin the sorting visualization
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
             </div>
           )
         ) : (
@@ -677,24 +689,26 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           }
         >
           {currentFrameIndex === 0 ? (
-            <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground">
-              <div className="flex items-center gap-8">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="size-4 rounded shadow-sm"
-                    style={{ backgroundColor: "var(--visualizer-left)" }}
-                  />
-                  <span className="font-medium">Left Subarray</span>
+            <Empty className="h-full w-full border-0">
+              <EmptyContent>
+                <div className="flex items-center gap-8 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="size-4 rounded shadow-sm"
+                      style={{ backgroundColor: "var(--visualizer-left)" }}
+                    />
+                    <span className="font-medium">Left Subarray</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="size-4 rounded shadow-sm"
+                      style={{ backgroundColor: "var(--visualizer-right)" }}
+                    />
+                    <span className="font-medium">Right Subarray</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="size-4 rounded shadow-sm"
-                    style={{ backgroundColor: "var(--visualizer-right)" }}
-                  />
-                  <span className="font-medium">Right Subarray</span>
-                </div>
-              </div>
-            </div>
+              </EmptyContent>
+            </Empty>
           ) : isAtEnd ? (
             <div className="flex h-full w-full flex-col items-center justify-center">
               <div className="grid grid-cols-2 gap-8 rounded-lg border bg-card p-6 shadow-sm">
@@ -780,15 +794,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           }
         >
           {currentFrameIndex === 0 ? (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-8 text-center text-sm text-muted-foreground">
-              <span className="font-semibold uppercase tracking-wide">
-                Space Complexity: O(n)
-              </span>
-              <p className="max-w-[40ch] leading-relaxed">
-                Auxiliary Array: Merge Sort uses O(n) extra memory to sort
-                elements temporarily.
-              </p>
-            </div>
+            <Empty className="h-full w-full border-0">
+              <EmptyHeader>
+                <EmptyTitle className="text-sm font-semibold uppercase tracking-wide">
+                  Space Complexity: O(n)
+                </EmptyTitle>
+                <EmptyDescription className="max-w-[40ch]">
+                  Auxiliary Array: Merge Sort uses O(n) extra memory to sort
+                  elements temporarily.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           ) : isAtEnd ? (
             <div className="flex h-full w-full items-center justify-center">
               <Button
