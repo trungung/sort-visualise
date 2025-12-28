@@ -22,7 +22,7 @@ function HomePage() {
       {/* Background Decor */}
       <BackgroundElements />
 
-      <div className="container relative mx-auto px-4 py-12 pb-32 md:py-20 lg:pb-48">
+      <div className="container relative z-10 mx-auto px-4 py-12 pb-32 md:py-20 lg:pb-48">
         {/* Hero Section */}
         <section className="mb-24 flex flex-col items-start text-left md:mb-32">
           <div className="max-w-4xl">
@@ -85,20 +85,20 @@ function HomePage() {
 
 function BackgroundElements() {
   return (
-    <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       {/* Gradient Blurs */}
-      <div className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-primary/5 blur-[100px]" />
-      <div className="absolute right-[5%] top-[20%] h-[300px] w-[300px] rounded-full bg-blue-500/5 blur-[100px]" />
+      <div className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-primary/20 blur-[100px]" />
+      <div className="absolute right-[5%] top-[20%] h-[300px] w-[300px] rounded-full bg-blue-500/20 blur-[100px]" />
 
       {/* Abstract Bars */}
-      <div className="absolute right-0 top-20 hidden gap-6 opacity-10 lg:flex">
+      <div className="absolute right-0 top-20 hidden gap-6 opacity-30 lg:flex">
         <div className="h-64 w-12 -rotate-12 bg-foreground" />
         <div className="mt-16 h-48 w-12 -rotate-12 bg-foreground/50" />
         <div className="mt-32 h-32 w-12 -rotate-12 bg-primary" />
       </div>
 
       {/* Grid texture */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9zdmc+')] mask-[linear-gradient(to_bottom,white,transparent)]" />
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#808080_1px,transparent_1px)] [background-size:24px_24px] mask-[linear-gradient(to_bottom,white,transparent)]" />
     </div>
   );
 }
