@@ -41,7 +41,7 @@ export function PlaybackControls({
         variant={isAtEnd ? "outline" : "default"}
         size="icon"
         onClick={onTogglePlay}
-        className="size-12 rounded-full"
+        className="size-12 rounded-full shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/50"
         aria-label={isPlaying ? "Pause" : isAtEnd ? "Restart" : "Play"}
       >
         {isPlaying ? (

@@ -563,8 +563,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             <GitMerge className="relative size-12 text-primary" />
             <Loader2 className="absolute -top-2 -right-2 size-6 animate-spin text-primary" />
           </div>
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Merge Sort
+          <h2 className="text-3xl font-black tracking-tighter text-foreground uppercase">
+            Merge Sort<span className="text-primary">_</span>
           </h2>
           <p className="text-sm text-muted-foreground mt-1 max-w-62.5">
             Preparing the recursive visualizer environment...
@@ -602,7 +602,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     <VisualizerLayout
       title={
         <span className="flex items-center gap-2">
-          Merge Sort
+          MERGE SORT<span className="text-primary">_</span>
           <InfoButton title="Merge Sort" subtitle="Divide → Conquer → Combine">
             <MergeSortGeneralInfo />
           </InfoButton>
@@ -625,6 +625,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       <div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
         <VisualizerZone
           label="1. Array Overview"
+          watermark="1"
           info={
             <InfoButton
               title="1. Array Overview"
@@ -679,6 +680,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
         <VisualizerZone
           label="2. Comparing Left & Right"
+          watermark="2"
           info={
             <InfoButton
               title="2. Comparing Left & Right"
@@ -784,6 +786,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
         <VisualizerZone
           label="3. Building Sorted Result"
+          watermark="3"
           info={
             <InfoButton
               title="3. Building Sorted Result"

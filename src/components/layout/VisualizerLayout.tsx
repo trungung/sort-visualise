@@ -9,6 +9,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { BackgroundElements } from "@/components/ui/background-elements";
 
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
@@ -48,11 +49,15 @@ function VisualizerLayout({
   return (
     <div
       className={cn(
-        "flex h-screen w-full overflow-hidden bg-background",
+        "relative flex h-screen w-full overflow-hidden bg-background",
         className,
       )}
     >
-      <ResizablePanelGroup direction="horizontal" className="h-full w-full">
+      <BackgroundElements />
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="relative z-10 h-full w-full"
+      >
         {/* Sidebar Island */}
         {showSidebar && sidebar && (
           <>
@@ -165,7 +170,7 @@ function VisualizerHeader({
             <Home className="size-4" />
           </Link>
         </Button>
-        <h1 className="text-lg font-bold">{title}</h1>
+        <h1 className="text-xl font-black tracking-tight uppercase">{title}</h1>
       </div>
       <div className="flex items-center gap-2">
         <ModeToggle />

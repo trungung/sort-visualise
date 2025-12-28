@@ -11,6 +11,8 @@ type VisualizerZoneProps = {
   className?: string;
   /** Additional className for the bar wrapper */
   wrapperClassName?: string;
+  /** Optional large watermark displayed in the background */
+  watermark?: string;
 };
 
 function VisualizerZone({
@@ -19,6 +21,7 @@ function VisualizerZone({
   children,
   className,
   wrapperClassName,
+  watermark,
 }: VisualizerZoneProps) {
   return (
     <div
@@ -31,7 +34,14 @@ function VisualizerZone({
         <VisualizerZoneLabel className="static">{label}</VisualizerZoneLabel>
         {info}
       </div>
-      <div className="flex flex-1 items-end justify-center">
+
+      {watermark && (
+        <div className="pointer-events-none absolute right-4 top-0 z-0 select-none text-[6rem] font-black leading-none tracking-tighter text-foreground/5">
+          {watermark}
+        </div>
+      )}
+
+      <div className="z-10 flex flex-1 items-end justify-center">
         <div
           className={cn(
             "relative flex items-end gap-1 h-full w-fit justify-center",
