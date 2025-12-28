@@ -44,7 +44,7 @@ export function Bar({
     <div className="relative flex flex-col items-center group shrink-0 h-full justify-end">
       <div
         className={cn(
-          "w-7 rounded-t-sm flex items-end justify-center pb-1 text-xs font-bold select-none",
+          "w-7 rounded-t-[4px] flex items-end justify-center pb-1 text-xs font-bold select-none",
           "transition-all ease-out",
           status === "default" &&
             "bg-visualizer-bar-default text-visualizer-bar-default-text",
