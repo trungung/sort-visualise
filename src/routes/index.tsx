@@ -87,8 +87,8 @@ function BackgroundElements() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       {/* Gradient Blurs */}
-      <div className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-primary/20 blur-[100px]" />
-      <div className="absolute right-[5%] top-[20%] h-[300px] w-[300px] rounded-full bg-blue-500/20 blur-[100px]" />
+      <div className="absolute -left-[10%] -top-[10%] h-125 w-125 rounded-full bg-primary/20 blur-[100px]" />
+      <div className="absolute right-[5%] top-[20%] h-75 w-75 rounded-full bg-blue-500/20 blur-[100px]" />
 
       {/* Abstract Bars */}
       <div className="absolute right-0 top-20 hidden gap-6 opacity-30 lg:flex">
@@ -98,7 +98,7 @@ function BackgroundElements() {
       </div>
 
       {/* Grid texture */}
-      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#808080_1px,transparent_1px)] [background-size:24px_24px] mask-[linear-gradient(to_bottom,white,transparent)]" />
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#808080_1px,transparent_1px)] bg-size-[24px_24px] mask-[linear-gradient(to_bottom,white,transparent)]" />
     </div>
   );
 }
