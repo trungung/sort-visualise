@@ -45,14 +45,15 @@ export function InfoButton({
     HTMLButtonElement,
     React.ComponentProps<typeof Button>
   >(({ className: btnClassName, ...props }, ref) => (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      className={cn(
-        "size-6 shrink-0 rounded-full hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer",
-        btnClassName,
-        className,
-      )}
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        className={cn(
+          "size-6 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer",
+          btnClassName,
+          className,
+        )}
+
       {...props}
       ref={ref}
     >
@@ -69,7 +70,7 @@ export function InfoButton({
           {title}
         </h3>
         {subtitle && (
-          <p className="text-sm font-medium text-primary/80">{subtitle}</p>
+          <p className="text-sm font-medium text-primary">{subtitle}</p>
         )}
       </div>
       <ScrollArea
@@ -153,7 +154,7 @@ export function InfoItem({
   return (
     <div className="text-sm">
       {label && (
-        <span className="font-semibold text-foreground/90">{label}: </span>
+        <span className="font-semibold text-foreground">{label}: </span>
       )}
       {children}
     </div>

@@ -34,8 +34,8 @@ export function MergeSortGeneralInfo() {
         </InfoItem>
       </InfoSection>
 
-      <div className="mt-4 rounded-lg bg-primary/5 p-3 border border-primary/10">
-        <p className="text-xs font-bold text-primary uppercase tracking-tight mb-1">
+      <div className="mt-4 rounded-lg border border-visualizer-accent bg-visualizer-accent-bg p-3">
+        <p className="text-xs font-bold text-visualizer-accent uppercase tracking-tight mb-1">
           Tip
         </p>
         <p className="text-sm text-muted-foreground italic">
@@ -106,8 +106,8 @@ export function ComparingInfo() {
         </InfoItem>
       </InfoSection>
 
-      <div className="mt-4 rounded-lg bg-primary/5 p-3 border border-primary/10">
-        <p className="text-xs font-bold text-primary uppercase tracking-tight mb-1">
+      <div className="mt-4 rounded-lg border border-visualizer-accent bg-visualizer-accent-bg p-3">
+        <p className="text-xs font-bold text-visualizer-accent uppercase tracking-tight mb-1">
           Efficiency Note
         </p>
         <p className="text-sm text-muted-foreground italic">
@@ -164,8 +164,8 @@ export function CallStackInfo() {
         </InfoItem>
       </InfoSection>
 
-      <div className="mt-4 rounded-lg bg-primary/5 p-3 border border-primary/10">
-        <p className="text-xs font-bold text-primary uppercase tracking-tight mb-1">
+      <div className="mt-4 rounded-lg border border-visualizer-accent bg-visualizer-accent-bg p-3">
+        <p className="text-xs font-bold text-visualizer-accent uppercase tracking-tight mb-1">
           Tip
         </p>
         <p className="text-sm text-muted-foreground italic">

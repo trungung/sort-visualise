@@ -112,7 +112,7 @@ export function NarrativeLog({
       )}
     >
       {!hideHeader && (
-        <div className="border-b border-border p-4 bg-muted/30 sticky top-0 z-10">
+        <div className="border-b border-border p-4 bg-muted sticky top-0 z-10">
           <div className="flex items-center gap-2">
             {onToggle && (
               <Button
@@ -144,18 +144,19 @@ export function NarrativeLog({
               return (
                 <div
                   key={entry.id}
-                  className={cn(
-                    "text-xs py-2 px-3 rounded transition-all duration-300",
-                    isActive
-                      ? "bg-primary/10 text-primary font-semibold"
-                      : "text-muted-foreground/60 hover:bg-accent/50",
-                  )}
+                    className={cn(
+                      "text-xs py-2 px-3 rounded transition-all duration-300",
+                      isActive
+                        ? "bg-visualizer-accent-bg text-visualizer-accent font-semibold"
+                        : "text-muted-foreground hover:bg-accent",
+                    )}
+
                 >
                   <div className="flex gap-2">
                     <span
                       className={cn(
                         "font-mono text-[10px] shrink-0 mt-0.5 select-none",
-                        isActive ? "opacity-70" : "opacity-30",
+                        isActive ? "text-visualizer-accent" : "text-muted-foreground",
                       )}
                     >
                       {String(logEntries.length - index).padStart(2, "0")}

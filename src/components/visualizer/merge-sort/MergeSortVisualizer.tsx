@@ -321,7 +321,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-visualizer-panel">
-      <div className="flex items-center gap-2 p-3 border-b border-border bg-muted/30">
+      <div className="flex items-center gap-2 p-3 border-b border-border bg-muted">
         <Button
           variant="ghost"
           size="icon-sm"
@@ -366,17 +366,17 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
               hideHeader
             />
           ) : (
-            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-muted/50 rounded-xl bg-muted/5 mt-4 mx-4">
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-border rounded-xl bg-card mt-4 mx-4">
               <div className="relative mb-3">
-                <PanelLeft className="size-8 text-muted-foreground/30" />
+                <PanelLeft className="size-8 text-muted-foreground" />
                 <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-background flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-muted-foreground/40 animate-pulse" />
+                  <div className="size-2 rounded-full bg-muted-foreground animate-pulse" />
                 </div>
               </div>
               <p className="text-sm font-medium text-muted-foreground">
                 No active session
               </p>
-              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-4] leading-relaxed">
+              <p className="mt-1 text-[11px] text-muted-foreground max-w-4] leading-relaxed">
                 Generate a new array to begin the sorting visualization
               </p>
             </div>
@@ -434,7 +434,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
                   className="min-w-24 justify-between font-normal"
                 >
                   Size: {size}
-                  <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+                  <ChevronDown className="ml-2 h-4 w-4 text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -547,9 +547,9 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
       >
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
           <div className="relative mb-6">
-            <div className="absolute inset-0 scale-150 blur-3xl bg-primary/10 rounded-full" />
-            <GitMerge className="relative size-12 text-primary/40" />
-            <Loader2 className="absolute -top-2 -right-2 size-6 animate-spin text-primary/60" />
+            <div className="absolute inset-0 scale-150 blur-3xl bg-visualizer-accent-bg rounded-full" />
+            <GitMerge className="relative size-12 text-primary" />
+            <Loader2 className="absolute -top-2 -right-2 size-6 animate-spin text-primary" />
           </div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">
             Merge Sort
@@ -677,7 +677,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           }
         >
           {currentFrameIndex === 0 ? (
-            <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground/80">
+            <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground">
               <div className="flex items-center gap-8">
                 <div className="flex items-center gap-2">
                   <div
@@ -697,7 +697,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             </div>
           ) : isAtEnd ? (
             <div className="flex h-full w-full flex-col items-center justify-center">
-              <div className="grid grid-cols-2 gap-8 rounded-lg border bg-card/50 p-6 shadow-sm">
+              <div className="grid grid-cols-2 gap-8 rounded-lg border bg-card p-6 shadow-sm">
                 <div className="flex flex-col items-center gap-1 border-r pr-8">
                   <span className="text-2xl font-bold">
                     {currentFrame.comparisons}
@@ -780,7 +780,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           }
         >
           {currentFrameIndex === 0 ? (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-8 text-center text-sm text-muted-foreground/80">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-1 px-8 text-center text-sm text-muted-foreground">
               <span className="font-semibold uppercase tracking-wide">
                 Space Complexity: O(n)
               </span>

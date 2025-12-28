@@ -41,7 +41,7 @@ export function RecursionTree({
       )}
     >
       {!hideHeader && (
-        <div className="border-b border-border p-4 bg-muted/30">
+        <div className="border-b border-border p-4 bg-muted">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {onToggle && (
@@ -68,17 +68,17 @@ export function RecursionTree({
       <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
         <div className="flex flex-col space-y-0.5">
           {nodes.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-muted/50 rounded-xl bg-muted/5">
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center border-2 border-dashed border-border rounded-xl bg-card">
               <div className="relative mb-3">
-                <Layers className="size-8 text-muted-foreground/30" />
+                <Layers className="size-8 text-muted-foreground" />
                 <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-background flex items-center justify-center">
-                  <div className="size-2 rounded-full bg-muted-foreground/40 animate-pulse" />
+                  <div className="size-2 rounded-full bg-muted-foreground animate-pulse" />
                 </div>
               </div>
               <p className="text-sm font-medium text-muted-foreground">
                 Stack is empty
               </p>
-              <p className="mt-1 text-[11px] text-muted-foreground/50 max-w-45] leading-relaxed">
+              <p className="mt-1 text-[11px] text-muted-foreground max-w-45] leading-relaxed">
                 Run the visualization to see the recursive call stack develop
               </p>
             </div>
@@ -96,13 +96,13 @@ export function RecursionTree({
                     "flex items-center gap-2 py-1.5 pr-2 rounded-md text-xs font-mono transition-colors",
 
                     // 1. Active (Current Execution)
-                    isActive && "bg-primary/10 text-primary font-semibold",
+                    isActive && "bg-visualizer-accent-bg text-visualizer-accent font-semibold",
 
                     // 2. Parent Pending
                     isParentPending && "text-foreground",
 
                     // 3. Done
-                    isDone && "text-muted-foreground/60",
+                    isDone && "text-muted-foreground",
                   )}
                   style={{
                     // Use padding for indentation so the hover/active background covers full width
