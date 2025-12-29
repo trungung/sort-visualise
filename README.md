@@ -1,299 +1,146 @@
-Welcome to your new TanStack app! 
+# Sort Visualise
 
-# Getting Started
+An interactive visualization tool for understanding sorting algorithms through step-by-step animation. Built with React 19, TanStack Router, and Tailwind CSS v4.
 
-To run this application:
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-blue)
+
+<!-- TODO: Add screenshot or GIF here -->
+<!-- ![Sort Visualise Demo](./docs/demo.gif) -->
+
+## Overview
+
+Sort Visualise breaks down sorting algorithms into discrete, navigable steps. Rather than watching a real-time animation, you can pause, rewind, and step through each operation to understand exactly what's happening at every stage.
+
+Currently implemented:
+- **Merge Sort** — with recursion tree visualization and merge operation breakdown
+
+Planned:
+- Quick Sort, Bubble Sort, Heap Sort, Insertion Sort
+
+## How It Works: Frame-Based Visualization
+
+The core insight behind this project is treating algorithm visualization like video playback. Instead of animating in real-time, the entire sorting process is pre-recorded as a sequence of **frames**, then played back with full VCR-style controls.
+
+### The Recording Phase
+
+When you generate a new array, the algorithm runs to completion immediately, but instead of just returning the sorted result, it records a snapshot at each meaningful step:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Input Array: [38, 27, 43, 3]                               │
+├─────────────────────────────────────────────────────────────┤
+│  Frame 0: "Starting Merge Sort with 4 elements"             │
+│  Frame 1: "Splitting [0..3] into two parts"                 │
+│  Frame 2: "Splitting [0..1] into two parts"                 │
+│  Frame 3: "Comparing 38 vs 27"                              │
+│  Frame 4: "27 < 38 → Took 27 from right"                    │
+│  ...                                                        │
+│  Frame N: "Sorting complete!"                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+Each frame captures everything needed to render that moment:
+- The current state of the array
+- Which range is being processed
+- Pointer positions during merging
+- The recursion tree state
+- A narrative message explaining the current operation
+
+### The Playback Phase
+
+With all frames recorded, the visualizer becomes a simple state machine:
+
+```
+                    ┌──────────────┐
+     ◄──────────────│ Frame Index  │──────────────►
+     Step Back      └──────┬───────┘      Step Forward
+                           │
+                           ▼
+              ┌────────────────────────┐
+              │   Render Current Frame │
+              │   - Array bars         │
+              │   - Merge workspace    │
+              │   - Recursion tree     │
+              │   - Narrative text     │
+              └────────────────────────┘
+```
+
+This approach enables:
+- **Instant scrubbing** — jump to any point in the algorithm
+- **Backwards navigation** — step back to review what just happened
+- **Speed control** — adjust playback without affecting animation quality
+- **Deterministic rendering** — same frame always looks the same
+
+### Why Not Real-Time Animation?
+
+Real-time animation would require:
+- Complex state management during async operations
+- Difficulty pausing mid-operation
+- No way to go backwards without re-running from the start
+- Timing issues between animation and algorithm execution
+
+The frame-based approach cleanly separates the algorithm logic from the visualization, making both easier to reason about and extend.
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── layout/           # Reusable layout shells
+│   ├── visualizer/
+│   │   ├── ui/           # Shared visualization primitives
+│   │   │   ├── Bar.tsx           # Animated array element
+│   │   │   ├── PlaybackControls  # Play/pause/step buttons
+│   │   │   ├── Timeline          # Scrubber component
+│   │   │   └── ...
+│   │   └── merge-sort/
+│   │       ├── algorithm.ts      # Pure sort logic + frame recording
+│   │       ├── types.ts          # Frame and tree node types
+│   │       ├── MergeSortVisualizer.tsx
+│   │       └── RecursionTree.tsx
+│   └── ui/               # shadcn/ui components
+├── config/
+│   └── algorithms.ts     # Algorithm registry
+└── routes/               # File-based routing (TanStack Router)
+```
+
+### Adding a New Algorithm
+
+1. Add the algorithm config to `src/config/algorithms.ts`
+2. Create a new folder under `src/components/visualizer/<algorithm>/`
+3. Implement `algorithm.ts` with frame recording logic
+4. Build the visualizer component using shared UI primitives
+5. Add the route case in `src/routes/algorithms/$slug.tsx`
+
+## Tech Stack
+
+- **React 19** — UI framework
+- **TanStack Router** — File-based routing with type safety
+- **Tailwind CSS v4** — Styling (configured via Vite plugin)
+- **shadcn/ui** — Component primitives (New York style)
+- **Vite** — Build tool
+- **Vitest** — Testing framework
+
+## Getting Started
 
 ```bash
+# Install dependencies
 bun install
-bun --bun run start
+
+# Start dev server
+bun run dev
+
+# Build for production
+bun run build
+
+# Run tests
+bun run test
 ```
 
-# Building For Production
+The dev server runs at `http://localhost:3000`.
 
-To build this application for production:
+## License
 
-```bash
-bun --bun run build
-```
-
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
-```bash
-bun --bun run test
-```
-
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-
-
-## Shadcn
-
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
-
-```bash
-pnpm dlx shadcn@latest add button
-```
-
-
-
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-bun install @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-bun install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+MIT
