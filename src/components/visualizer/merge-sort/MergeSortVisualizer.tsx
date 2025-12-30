@@ -98,8 +98,8 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
   const maxValue = getMaxValue();
 
   // Dynamic timing calculations
-  // Map speed [50, 1000] to delay [~600ms, ~200ms]
-  const baseDelay = Math.max(620 - speed * 0.42, 50);
+  // Map speed [50, 1000] to delay [~300ms, ~100ms]
+  const baseDelay = Math.max(620 - speed * 0.42, 50) * 0.5;
   const transitionDuration = Math.min(
     MAX_TRANSITION_DURATION,
     Math.max(50, baseDelay * 0.6),

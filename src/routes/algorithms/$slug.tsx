@@ -1,7 +1,10 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { getAlgorithmBySlug } from "@/config/algorithms";
-import { MergeSortVisualizer } from "@/components/visualizer";
+import {
+  MergeSortVisualizer,
+  BubbleSortVisualizer,
+} from "@/components/visualizer";
 
 export const Route = createFileRoute("/algorithms/$slug")({
   loader: ({ params }) => {
@@ -31,6 +34,10 @@ function AlgorithmPage() {
   // In the future, we can switch on algorithm.slug to render different visualizers
   if (algorithm.slug === "merge-sort") {
     return <MergeSortVisualizer />;
+  }
+
+  if (algorithm.slug === "bubble-sort") {
+    return <BubbleSortVisualizer />;
   }
 
   // Fallback for other algorithms (shouldn't happen if isImplemented is properly set)

@@ -47,7 +47,7 @@ export const algorithms: Algorithm[] = [
       worst: "O(n²)",
       space: "O(1)",
     },
-    isImplemented: false,
+    isImplemented: true,
   },
   {
     id: "quick-sort",
