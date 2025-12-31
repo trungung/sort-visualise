@@ -12,16 +12,16 @@ export function BackgroundElements({ className }: BackgroundElementsProps) {
         className
       )}
     >
-      {/* Cinematic gradient blurs */}
-      <div className="absolute -left-[10%] -top-[10%] h-125 w-125 rounded-full bg-primary/15 blur-[100px]" />
-      <div className="absolute right-[5%] top-[20%] h-75 w-75 rounded-full bg-cyan-500/12 blur-[80px]" />
-      <div className="absolute left-[20%] bottom-[10%] h-50 w-50 rounded-full bg-purple-500/10 blur-[60px]" />
+      {/* Cinematic gradient blurs - with gentle floating */}
+      <div className="absolute -left-[10%] -top-[10%] h-125 w-125 rounded-full bg-primary/15 blur-[100px] animate-[float-slow_20s_ease-in-out_infinite]" />
+      <div className="absolute right-[5%] top-[20%] h-75 w-75 rounded-full bg-cyan-500/12 blur-[80px] animate-[float-medium_18s_ease-in-out_infinite]" />
+      <div className="absolute left-[20%] bottom-[10%] h-50 w-50 rounded-full bg-purple-500/10 blur-[60px] animate-[float-fast_22s_ease-in-out_infinite]" />
 
       {/* Animated algorithm bars */}
       <div className="absolute right-0 top-20 hidden gap-6 opacity-35 lg:flex">
-        <div className="h-64 w-12 -rotate-12 bg-foreground" />
-        <div className="mt-16 h-48 w-12 -rotate-12 bg-foreground/50" />
-        <div className="mt-32 h-32 w-12 -rotate-12 bg-primary" />
+        <div className="h-64 w-12 -rotate-12 bg-foreground animate-[bar-float-1_10s_ease-in-out_infinite]" />
+        <div className="mt-16 h-48 w-12 -rotate-12 bg-foreground/50 animate-[bar-float-2_12s_ease-in-out_infinite]" />
+        <div className="mt-32 h-32 w-12 -rotate-12 bg-primary animate-[bar-float-3_14s_ease-in-out_infinite]" />
       </div>
 
       {/* Enhanced grid texture - theme-aware */}

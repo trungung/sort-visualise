@@ -330,3 +330,87 @@ body {
     transform: scale(1) translateY(0);
   }
 }
+
+/* ============================================
+   BACKGROUND ANIMATIONS
+   ============================================ */
+
+/* Gentle floating for gradient blurs */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(60px, -50px);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-45px, 40px);
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(35px, 30px);
+  }
+}
+
+/* Algorithm bars - gentle floating + breathing */
+@keyframes bar-float-1 {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-30px) scaleY(1.15);
+  }
+}
+
+@keyframes bar-float-2 {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(25px) scaleY(1.1);
+  }
+}
+
+@keyframes bar-float-3 {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-18px) scaleY(1.12);
+  }
+}
+
+/* Letter wave for hero title */
+@keyframes letter-wave {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+/* Line width expansion */
+@keyframes line-expand {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}

@@ -15,10 +15,15 @@ import { algorithms } from "@/config/algorithms";
 import { cn } from "@/lib/utils";
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: (rotation: number) => ({
+    opacity: 0,
+    y: 24,
+    rotate: rotation,
+  }),
   visible: {
     opacity: 1,
     y: 0,
+    rotate: 0,
     transition: {
       duration: 0.5,
       ease: [0.25, 0.1, 0.25, 1] as const,
@@ -116,6 +121,9 @@ function HomePage() {
               <motion.div
                 className="h-1 w-24 bg-primary md:w-48"
                 variants={lineVariants}
+                style={{
+                  animation: "line-expand 1s ease-out 0.5s forwards",
+                }}
               />
             </motion.div>
 
@@ -153,6 +161,7 @@ function HomePage() {
               <motion.div
                 key={algo.id}
                 variants={cardVariants}
+                custom={Math.random() * 4 - 2}
                 className={cn(
                   // Stagger effect: Push down even items on medium screens (2 cols)
                   index % 2 === 1 && "sm:translate-y-16",
