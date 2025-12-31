@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { BackgroundElements } from "@/components/ui/background-elements";
 import { Button } from "@/components/ui/button";
@@ -13,10 +14,78 @@ import {
 import { algorithms } from "@/config/algorithms";
 import { cn } from "@/lib/utils";
 
-// Animation delay utilities
-const getStaggerDelay = (index: number, baseDelay: number = 100) => ({
-  animationDelay: `${index * baseDelay}ms`,
-});
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 0.1, 0.25, 1] as const,
+    },
+  },
+};
+
+const heroVariants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.25, 0.1, 0.25, 1] as const,
+    },
+  },
+};
+
+const subtitleVariants = {
+  hidden: { opacity: 0, x: -16 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 1,
+      delay: 0.3,
+      ease: [0.25, 0.1, 0.25, 1] as const,
+    },
+  },
+};
+
+const lineVariants = {
+  hidden: { opacity: 0, x: -32 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 1,
+      delay: 0.5,
+      ease: [0.25, 0.1, 0.25, 1] as const,
+    },
+  },
+};
+
+const descriptionVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      delay: 0.7,
+      ease: [0.25, 0.1, 0.25, 1] as const,
+    },
+  },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -29,24 +98,36 @@ function HomePage() {
 
       <div className="container relative z-10 mx-auto px-4 py-12 pb-32 md:py-20 lg:pb-48">
         <section className="mb-24 flex flex-col items-start text-left md:mb-32">
-          <div className="max-w-4xl">
-            <h1 className="flex flex-col font-display text-5xl font-black tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <motion.div className="max-w-4xl" initial="hidden" animate="visible">
+            <motion.h1
+              className="flex flex-col font-display text-5xl font-black tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl"
+              variants={heroVariants}
+            >
               <span className="text-foreground">SORTING</span>
               <span className="text-foreground">ALGORITHM</span>
-            </h1>
-            <div className="mt-2 flex items-center gap-4 animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+            </motion.h1>
+            <motion.div
+              className="mt-2 flex items-center gap-4"
+              variants={subtitleVariants}
+            >
               <span className="font-mono text-2xl font-bold text-primary sm:text-3xl md:text-4xl">
                 VISUALIZER_
               </span>
-              <div className="h-1 w-24 bg-primary md:w-48 animate-in fade-in slide-in-from-left-8 duration-1000 delay-500" />
-            </div>
+              <motion.div
+                className="h-1 w-24 bg-primary md:w-48"
+                variants={lineVariants}
+              />
+            </motion.div>
 
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-700">
+            <motion.p
+              className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
+              variants={descriptionVariants}
+            >
               Experience the rhythm of data. Understand sorting algorithms
               through tactile, interactive visualizations that bring code to
               life.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </section>
 
         <section className="relative">
@@ -62,24 +143,27 @@ function HomePage() {
             </h2>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {algorithms.map((algo, index) => (
-              <div
+              <motion.div
                 key={algo.id}
+                variants={cardVariants}
                 className={cn(
-                  "transition-all duration-700 ease-out animate-in fade-in slide-in-from-bottom-6",
-                  getStaggerDelay(index, 150).animationDelay,
                   // Stagger effect: Push down even items on medium screens (2 cols)
                   index % 2 === 1 && "sm:translate-y-16",
                   // Stagger effect: Push down middle column on large screens
                   index % 3 === 1 ? "lg:translate-y-24" : "lg:translate-y-0"
                 )}
-                style={getStaggerDelay(index, 150)}
               >
                 <AlgorithmCard algorithm={algo} />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
       </div>
     </div>
