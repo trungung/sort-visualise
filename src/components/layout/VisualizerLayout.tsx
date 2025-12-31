@@ -1,9 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { Home } from "lucide-react";
+import { Home, ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -11,6 +17,7 @@ import {
 } from "@/components/ui/resizable";
 import { BackgroundElements } from "@/components/ui/background-elements";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { algorithms } from "@/config/algorithms";
 
 type VisualizerLayoutProps = {
   /** Content to render in the sidebar */
@@ -169,6 +176,8 @@ function VisualizerHeader({
   leftControls,
   className,
 }: VisualizerHeaderProps) {
+  const implementedAlgorithms = algorithms.filter((algo) => algo.isImplemented);
+
   return (
     <header
       className={cn(
@@ -190,6 +199,31 @@ function VisualizerHeader({
         </div>
       </div>
       <div className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label="Switch algorithm"
+            >
+              <ChevronDown className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" side="bottom">
+            {implementedAlgorithms.map((algo) => (
+              <DropdownMenuItem key={algo.id} asChild>
+                <Link
+                  to="/algorithms/$slug"
+                  params={{ slug: algo.slug }}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <algo.icon className="size-4" />
+                  {algo.name}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
         <ModeToggle />
         {controls}
       </div>
