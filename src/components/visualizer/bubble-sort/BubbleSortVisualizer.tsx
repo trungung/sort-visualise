@@ -279,11 +279,11 @@ export function BubbleSortVisualizer() {
 				onGenerate={handleGenerate}
 			/>
 
-			<div className="flex flex-col gap-6 h-full p-2 overflow-y-auto">
+			<div className="flex flex-col gap-6 h-full p-2 overflow-hidden">
 				<VisualizerZone
 					label="1. Sorting Process"
 					watermark="1"
-					className="h-80 flex-none"
+					className="flex-1"
 					info={
 						<InfoButton title="Sorting Process" subtitle="Comparing & Swapping">
 							<ComparisonInfo />
@@ -319,10 +319,10 @@ export function BubbleSortVisualizer() {
 				</VisualizerZone>
 
 				{/* Stats Panel */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
 					<VisualizerZone
 						label="Statistics"
-						className="h-48"
+						className="h-full"
 						info={
 							<InfoButton title="Statistics" subtitle="Real-time metrics">
 								<div className="space-y-2 text-sm text-muted-foreground">
@@ -356,7 +356,7 @@ export function BubbleSortVisualizer() {
 					<VisualizerZone
 						label="Complexity Analysis"
 						watermark="O(n²)"
-						className="h-48"
+						className="h-full"
 						info={
 							<InfoButton title="Complexity" subtitle="Time & Space">
 								<ComplexityInfo />
