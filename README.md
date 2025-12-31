@@ -15,9 +15,10 @@ Sort Visualise breaks down sorting algorithms into discrete, navigable steps. Ra
 
 Currently implemented:
 - **Merge Sort** — with recursion tree visualization and merge operation breakdown
+- **Bubble Sort** — with step-by-step comparison and swapping visualization
 
 Planned:
-- Quick Sort, Bubble Sort, Heap Sort, Insertion Sort
+- Quick Sort, Heap Sort, Insertion Sort
 
 ## How It Works: Frame-Based Visualization
 
@@ -96,10 +97,14 @@ src/
 │   │   │   ├── Timeline          # Scrubber component
 │   │   │   └── ...
 │   │   └── merge-sort/
+│   │   │   ├── algorithm.ts      # Pure sort logic + frame recording
+│   │   │   ├── types.ts          # Frame and tree node types
+│   │   │   ├── MergeSortVisualizer.tsx
+│   │   │   └── RecursionTree.tsx
+│   │   └── bubble-sort/
 │   │       ├── algorithm.ts      # Pure sort logic + frame recording
-│   │       ├── types.ts          # Frame and tree node types
-│   │       ├── MergeSortVisualizer.tsx
-│   │       └── RecursionTree.tsx
+│   │       ├── types.ts          # Frame types
+│   │       └── BubbleSortVisualizer.tsx
 │   └── ui/               # shadcn/ui components
 ├── config/
 │   └── algorithms.ts     # Algorithm registry
