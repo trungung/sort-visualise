@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/empty";
 import {
   Bar,
+  type BarStatus,
   PlaybackControls,
   SpeedControl,
   Timeline,
@@ -302,7 +303,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     rangeStart: number,
     rangeEnd: number,
     isUpdate: boolean,
-  ) => {
+  ): BarStatus => {
     if (rangeStart === -1) {
       return "default";
     }
@@ -319,7 +320,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
     index: number,
     pointerIndex: number,
     side: "left" | "right",
-  ) => {
+  ): BarStatus => {
     if (index < pointerIndex) {
       // Consumed bars - show faded version of their original color
       return side === "left" ? "primary-dimmed" : "secondary-dimmed";
@@ -666,16 +667,30 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
             />
           )}
 
-          {global.map((value, idx) => (
-            <Bar
-              key={idx}
-              value={value}
-              maxValue={maxValue}
-              status={getGlobalBarStatus(idx, rangeStart, rangeEnd, isUpdate)}
-              transitionDuration={transitionDuration}
-              flashDuration={flashDuration}
-            />
-          ))}
+          {global.map((value, idx) => {
+            let status = getGlobalBarStatus(
+              idx,
+              rangeStart,
+              rangeEnd,
+              isUpdate,
+            );
+
+            if (isAtEnd) {
+              status = "success";
+            }
+
+            return (
+              <Bar
+                key={idx}
+                value={value}
+                maxValue={maxValue}
+                status={status}
+                transitionDuration={transitionDuration}
+                flashDuration={flashDuration}
+                successDelay={idx * 20}
+              />
+            );
+          })}
         </VisualizerZone>
 
         <VisualizerZone

@@ -452,7 +452,12 @@ export function BubbleSortVisualizer() {
         >
           {/* Main Bars */}
           {array.map((value, idx) => {
-            const status = getBarStatus(idx);
+            let status = getBarStatus(idx);
+
+            if (isAtEnd) {
+              status = "success";
+            }
+
             // Show pointer if this element is being compared or swapped
             const hasPointer =
               (compareIdx !== null &&
@@ -468,6 +473,7 @@ export function BubbleSortVisualizer() {
                 hasPointer={hasPointer}
                 transitionDuration={transitionDuration}
                 flashDuration={flashDuration}
+                successDelay={idx * 20}
               />
             );
           })}

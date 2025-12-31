@@ -87,6 +87,10 @@ body {
   --visualizer-right-consumed: oklch(0.9 0.03 230);
   --visualizer-right-consumed-text: oklch(0.6 0.1 230);
 
+  /* Success: "Emerald" */
+  --visualizer-success: oklch(0.65 0.2 140);
+  --visualizer-success-text: oklch(0.98 0 0);
+
   /* Sidebar Tree States */
   --visualizer-tree-active: oklch(0.45 0.1 250);
   --visualizer-tree-active-bg: oklch(0.96 0.02 250);
@@ -174,6 +178,10 @@ body {
   --visualizer-right-consumed: oklch(0.3 0.04 210);
   --visualizer-right-consumed-text: oklch(0.75 0.1 210);
 
+  /* Success */
+  --visualizer-success: oklch(0.7 0.2 140);
+  --visualizer-success-text: oklch(0.15 0.03 260);
+
   /* Sidebar Tree States */
   --visualizer-tree-active: oklch(0.85 0.05 230);
   --visualizer-tree-active-bg: oklch(0.85 0.05 230 / 0.1);
@@ -247,6 +255,9 @@ body {
   --color-visualizer-right-text: var(--visualizer-right-text);
   --color-visualizer-right-consumed: var(--visualizer-right-consumed);
   --color-visualizer-right-consumed-text: var(--visualizer-right-consumed-text);
+
+  --color-visualizer-success: var(--visualizer-success);
+  --color-visualizer-success-text: var(--visualizer-success-text);
 
   --color-visualizer-tree-active: var(--visualizer-tree-active);
   --color-visualizer-tree-active-bg: var(--visualizer-tree-active-bg);

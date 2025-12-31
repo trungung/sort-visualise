@@ -11,7 +11,8 @@ export type BarStatus =
   | "secondary-dimmed"
   | "dimmed"
   | "flash"
-  | "placeholder";
+  | "placeholder"
+  | "success";
 
 type BarProps = {
   value?: number;
@@ -22,6 +23,7 @@ type BarProps = {
   hasPointer?: boolean;
   transitionDuration?: number;
   flashDuration?: number;
+  successDelay?: number;
 };
 
 export function Bar({
@@ -33,6 +35,7 @@ export function Bar({
   hasPointer = false,
   transitionDuration = 300,
   flashDuration = 500,
+  successDelay = 0,
 }: BarProps) {
   const heightPercentage = value !== undefined ? (value / maxValue) * 80 : 0;
 
@@ -62,12 +65,15 @@ export function Bar({
             "bg-visualizer-bar-dim text-visualizer-bar-dim-text",
           status === "flash" &&
             "animate-flash-merge text-visualizer-bar-active-text",
+          status === "success" &&
+            "bg-visualizer-success text-visualizer-success-text shadow-[0_0_15px_var(--color-visualizer-success)] scale-105 origin-bottom z-10",
           className,
         )}
         style={
           {
             height: `${heightPercentage}%`,
             transitionDuration: `${transitionDuration}ms`,
+            transitionDelay: status === "success" ? `${successDelay}ms` : "0ms",
             "--animation-flash-duration": `${flashDuration}ms`,
           } as CSSProperties
         }
