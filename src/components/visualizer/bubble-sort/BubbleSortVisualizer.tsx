@@ -106,6 +106,17 @@ export function BubbleSortVisualizer() {
   // Use shared keyboard controls
   useKeyboardControls(playbackControls, totalFrames);
 
+  // Mobile Guard: Lock size to 8 on mobile
+  useEffect(() => {
+    if (isMobile && size !== 8) {
+      setSize(8);
+      const initialArr = generateData(8, "random");
+      const newFrames = recordBubbleSort(initialArr);
+      setFrames(newFrames);
+      setCurrentFrameIndex(0);
+    }
+  }, [isMobile, size, setSize, setFrames, setCurrentFrameIndex]);
+
   // Initialize with random data on mount
   useEffect(() => {
     handleGenerate("random");
