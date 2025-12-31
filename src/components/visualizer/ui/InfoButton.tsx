@@ -48,15 +48,11 @@ export function InfoButton({
     <Button
       variant="ghost"
       size="icon-sm"
-      className={cn(
-        "size-6 shrink-0 rounded-full bg-primary/10 text-primary transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer border border-primary/20",
-        btnClassName,
-        className
-      )}
+      className={cn("size-6 shrink-0 rounded-full ", btnClassName, className)}
       {...props}
       ref={ref}
     >
-      <Info className="size-3.5 transition-transform duration-300 hover:rotate-12" />
+      <Info className="size-3.5" />
       <span className="sr-only">Learn about {title}</span>
     </Button>
   ));
