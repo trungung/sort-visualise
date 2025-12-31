@@ -175,6 +175,26 @@ function HomePage() {
           </motion.div>
         </section>
       </div>
+
+      <footer className="relative z-10 border-t bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col items-center justify-center gap-4 text-center md:flex-row md:justify-between">
+            <div className="flex flex-col items-center gap-1 md:items-start">
+              <span className="font-display text-lg font-bold tracking-tight text-foreground">
+                SORTING ALGORITHM VISUALIZER
+              </span>
+              <p className="text-sm text-muted-foreground">
+                Experience the rhythm of data
+              </p>
+            </div>
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <span>© 2025</span>
+              <span>·</span>
+              <span>Built with React & TypeScript</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
