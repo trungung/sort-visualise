@@ -7,3 +7,4 @@ export * from "./ScopeBracket";
 export * from "./RangeLine";
 export * from "./MobileSettingsDrawer";
 export * from "./InfoButton";
+export * from "./Confetti";

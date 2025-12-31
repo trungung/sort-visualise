@@ -307,3 +307,16 @@ body {
   animation: flash-merge var(--animation-flash-duration) ease-out forwards;
   z-index: 10;
 }
+
+/* Success pop animation */
+@keyframes success-pop {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.1) translateY(-15%);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}

@@ -35,6 +35,7 @@ import {
   Timeline,
   MobileSettingsDrawer,
   InfoButton,
+  Confetti,
   type BarStatus,
 } from "@/components/visualizer/ui";
 
@@ -551,6 +552,7 @@ export function BubbleSortVisualizer() {
           </VisualizerZone>
         </div>
       </div>
+      <Confetti fire={isAtEnd && frames.length > 0} />
     </VisualizerLayout>
   );
 }

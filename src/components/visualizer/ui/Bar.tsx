@@ -64,9 +64,9 @@ export function Bar({
           status === "dimmed" &&
             "bg-visualizer-bar-dim text-visualizer-bar-dim-text",
           status === "flash" &&
-            "animate-flash-merge text-visualizer-bar-active-text",
+            "bg-visualizer-bar-active animate-flash-merge text-visualizer-bar-active-text",
           status === "success" &&
-            "bg-visualizer-success text-visualizer-success-text shadow-[0_0_15px_var(--color-visualizer-success)] scale-105 origin-bottom z-10",
+            "bg-visualizer-success text-visualizer-success-text shadow-[0_0_15px_var(--color-visualizer-success)] origin-bottom z-10",
           className,
         )}
         style={
@@ -74,6 +74,11 @@ export function Bar({
             height: `${heightPercentage}%`,
             transitionDuration: `${transitionDuration}ms`,
             transitionDelay: status === "success" ? `${successDelay}ms` : "0ms",
+            animation:
+              status === "success"
+                ? "success-pop 600ms ease-out forwards"
+                : undefined,
+            animationDelay: status === "success" ? `${successDelay}ms` : "0ms",
             "--animation-flash-duration": `${flashDuration}ms`,
           } as CSSProperties
         }

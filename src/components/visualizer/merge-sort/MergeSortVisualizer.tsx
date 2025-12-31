@@ -46,6 +46,7 @@ import {
   RangeLine,
   MobileSettingsDrawer,
   InfoButton,
+  Confetti,
 } from "@/components/visualizer/ui";
 
 import { RecursionTree } from "./RecursionTree";
@@ -889,6 +890,7 @@ export function MergeSortVisualizer({ className }: MergeSortVisualizerProps) {
           ) : null}
         </VisualizerZone>
       </div>
+      <Confetti fire={isAtEnd && totalFrames > 0} />
     </VisualizerLayout>
   );
 }
