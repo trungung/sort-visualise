@@ -13,6 +13,11 @@ import {
 import { algorithms } from "@/config/algorithms";
 import { cn } from "@/lib/utils";
 
+// Animation delay utilities
+const getStaggerDelay = (index: number, baseDelay: number = 100) => ({
+  animationDelay: `${index * baseDelay}ms`,
+});
+
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
@@ -25,18 +30,18 @@ function HomePage() {
       <div className="container relative z-10 mx-auto px-4 py-12 pb-32 md:py-20 lg:pb-48">
         <section className="mb-24 flex flex-col items-start text-left md:mb-32">
           <div className="max-w-4xl">
-            <h1 className="flex flex-col text-5xl font-black tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl">
+            <h1 className="flex flex-col font-display text-5xl font-black tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
               <span className="text-foreground">SORTING</span>
               <span className="text-foreground">ALGORITHM</span>
             </h1>
-            <div className="mt-2 flex items-center gap-4">
+            <div className="mt-2 flex items-center gap-4 animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
               <span className="font-mono text-2xl font-bold text-primary sm:text-3xl md:text-4xl">
                 VISUALIZER_
               </span>
-              <div className="h-1 w-24 bg-primary md:w-48" />
+              <div className="h-1 w-24 bg-primary md:w-48 animate-in fade-in slide-in-from-left-8 duration-1000 delay-500" />
             </div>
 
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl">
+            <p className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-700">
               Experience the rhythm of data. Understand sorting algorithms
               through tactile, interactive visualizations that bring code to
               life.
@@ -51,7 +56,7 @@ function HomePage() {
             </span>
           </div>
 
-          <div className="mb-12 border-b border-border/40 pb-4">
+          <div className="mb-12 pb-4">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               Algorithms
             </h2>
@@ -62,12 +67,14 @@ function HomePage() {
               <div
                 key={algo.id}
                 className={cn(
-                  "transition-all duration-500 ease-out",
+                  "transition-all duration-700 ease-out animate-in fade-in slide-in-from-bottom-6",
+                  getStaggerDelay(index, 150).animationDelay,
                   // Stagger effect: Push down even items on medium screens (2 cols)
                   index % 2 === 1 && "sm:translate-y-16",
                   // Stagger effect: Push down middle column on large screens
-                  index % 3 === 1 ? "lg:translate-y-24" : "lg:translate-y-0",
+                  index % 3 === 1 ? "lg:translate-y-24" : "lg:translate-y-0"
                 )}
+                style={getStaggerDelay(index, 150)}
               >
                 <AlgorithmCard algorithm={algo} />
               </div>
@@ -90,23 +97,26 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
   return (
     <Card
       className={cn(
-        "group relative h-full overflow-hidden border transition-all duration-500",
+        "group relative h-full overflow-hidden border transition-all duration-500 hover:shadow-2xl",
         isImplemented
-          ? "border-border/50 bg-card/50 shadow-sm hover:-translate-y-2 hover:rotate-1 hover:shadow-2xl hover:shadow-primary/10 dark:bg-card/40"
-          : "opacity-70 grayscale",
+          ? "border-primary/30 bg-card/50 hover:-translate-y-3 hover:rotate-1 hover:shadow-primary/20 hover:border-primary/50 dark:bg-card/40"
+          : "opacity-60 grayscale"
       )}
     >
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
       <CardHeader>
         <div className="flex items-start justify-between">
           <div
             className={cn(
-              "rounded-xl p-3 transition-colors duration-300",
+              "rounded-xl p-3 transition-all duration-500",
               isImplemented
-                ? "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
-                : "bg-muted",
+                ? "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:shadow-lg"
+                : "bg-muted"
             )}
           >
-            <Icon className="size-6 transition-transform duration-500 group-hover:scale-110" />
+            <Icon className="size-6 transition-transform duration-500 group-hover:rotate-12" />
           </div>
           {!isImplemented && (
             <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground">
@@ -114,10 +124,10 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
             </span>
           )}
         </div>
-        <CardTitle className="mt-6 text-2xl font-bold">
+        <CardTitle className="mt-6 text-2xl font-bold group-hover:text-primary transition-colors duration-300">
           {algorithm.name}
         </CardTitle>
-        <CardDescription className="line-clamp-2 text-base">
+        <CardDescription className="line-clamp-2 text-base leading-relaxed">
           {algorithm.description}
         </CardDescription>
       </CardHeader>
@@ -133,14 +143,14 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
         {isImplemented ? (
           <Button
             asChild
-            className="w-full text-base font-semibold shadow-none transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full text-base font-semibold shadow-none transition-all hover:-translate-y-0.5 hover:shadow-lg hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground"
           >
             <Link
               to="/algorithms/$slug"
               params={{ slug: algorithm.slug }}
               className="flex items-center justify-center gap-2"
             >
-              Explore{" "}
+              Explore Algorithm{" "}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
@@ -165,7 +175,7 @@ function ComplexityItem({ label, value }: ComplexityItemProps) {
       <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
         {label}
       </span>
-      <div className="flex items-center justify-center rounded-md border-2 border-primary bg-primary py-1.5 text-center font-mono text-xs font-bold text-primary-foreground shadow-sm transition-all group-hover/item:scale-105 group-hover/item:shadow-md">
+      <div className="flex items-center justify-center rounded-lg border-2 border-primary/20 bg-primary/5 py-2 text-center font-mono text-xs font-bold text-primary transition-all group-hover/item:scale-105 group-hover/item:border-primary/40 group-hover/item:bg-primary/10 group-hover/item:shadow-md">
         {value}
       </div>
     </div>

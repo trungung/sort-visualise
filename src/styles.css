@@ -5,101 +5,107 @@
 
 body {
   @apply m-0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+  font-family: 
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Display font for massive headings */
+.font-display {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 900;
+}
+
 /* ============================================
-   LIGHT MODE - LIQUID / FLOATING ISLAND
-   Aesthetic: Soft, Fluid, Elevated
+   LIGHT MODE - REFINED ARCHITECTURAL LIGHT
+   Aesthetic: Restrained, Premium, Subtle
    ============================================ */
 :root {
   /* RADIUS: Increased for smoother, modern look */
   --radius: 1rem;
 
-  /* Base - Canvas (Slightly off-white/muted to allow cards to pop) */
-  --background: oklch(0.96 0.01 240);
-  --foreground: oklch(0.2 0.03 265);
+  /* Base - Warm architectural gray with subtle warmth */
+  --background: oklch(0.97 0.005 85);
+  --foreground: oklch(0.28 0.012 85);
 
-  /* Surfaces - Islands (Pure White, Elevated) */
+  /* Surfaces - Clear hierarchy with subtle warmth */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.03 265);
+  --card-foreground: oklch(0.28 0.012 85);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.03 265);
+  --popover-foreground: oklch(0.28 0.012 85);
 
-  /* Primary - Deep Muted Blue */
-  --primary: oklch(0.3 0.05 260);
-  --primary-foreground: oklch(0.98 0 0);
+  /* Primary - Deep Indigo (sophisticated, restrained) */
+  --primary: oklch(0.42 0.08 260);
+  --primary-foreground: oklch(0.98 0.002 85);
 
-  /* Secondary - Mist */
-  --secondary: oklch(0.96 0.01 240);
-  --secondary-foreground: oklch(0.3 0.05 260);
+  /* Secondary - Warm Taupe (supportive, harmonious) */
+  --secondary: oklch(0.9 0.008 65);
+  --secondary-foreground: oklch(0.32 0.012 85);
 
-  /* Muted - Recessed Trays */
-  --muted: oklch(0.96 0.01 240);
-  --muted-foreground: oklch(0.5 0.03 260);
+  /* Muted - Subtle architectural surfaces */
+  --muted: oklch(0.945 0.005 85);
+  --muted-foreground: oklch(0.52 0.01 85);
 
-  /* Accent - Subtle Warmth */
-  --accent: oklch(0.96 0.01 240);
-  --accent-foreground: oklch(0.3 0.05 260);
+  /* Accent - Subtle Coral (delightful but restrained) */
+  --accent: oklch(0.7 0.08 35);
+  --accent-foreground: oklch(0.98 0.002 85);
 
-  /* Destructive - Muted Red */
-  --destructive: oklch(0.6 0.15 25);
-  --destructive-foreground: oklch(0.98 0 0);
+  /* Destructive - Muted Terracotta (clear but refined) */
+  --destructive: oklch(0.58 0.12 25);
+  --destructive-foreground: oklch(0.98 0.002 85);
 
-  /* Utility - Softer Borders */
-  --border: oklch(0.95 0.01 240);
-  --input: oklch(0.92 0.01 240);
-  --ring: oklch(0.7 0.1 85);
+  /* Utility - Warm architectural borders */
+  --border: oklch(0.89 0.006 85);
+  --input: oklch(0.955 0.003 85);
+  --ring: oklch(0.42 0.08 260);
 
   /* ===== VISUALIZER COLORS - Light Mode ===== */
 
-  /* Zones: Inherit from theme or specific overrides */
-  --visualizer-panel: oklch(0.97 0.005 240);
-  --visualizer-zone: oklch(1 0 0);
+  /* Zones: Architectural surfaces with subtle warmth */
+  --visualizer-panel: oklch(0.95 0.005 85);
+  --visualizer-zone: oklch(0.985 0.003 85);
 
-  /* Accent: "Cloudberry" (Muted Golden/Amber) */
-  --visualizer-accent: oklch(0.65 0.15 70);
-  --visualizer-accent-bg: oklch(0.96 0.03 70);
+  /* Accent: Subtle Coral (harmonious highlight) */
+  --visualizer-accent: oklch(0.7 0.08 35);
+  --visualizer-accent-bg: oklch(0.92 0.015 35);
 
-  /* Bars - Nordic Stone */
+  /* Bars - Deep Indigo (primary algorithmic color) */
   --visualizer-bar-default: var(--primary);
   --visualizer-bar-default-text: var(--primary-foreground);
 
   --visualizer-bar-active: var(--primary);
   --visualizer-bar-active-text: var(--primary-foreground);
 
-  --visualizer-bar-dim: oklch(0.92 0.01 240);
-  --visualizer-bar-dim-text: oklch(0.7 0.02 240);
+  --visualizer-bar-dim: oklch(0.91 0.005 85);
+  --visualizer-bar-dim-text: oklch(0.48 0.008 85);
 
-  /* Left Source: "Lingonberry" (Matte Red) */
-  --visualizer-left: oklch(0.6 0.14 25);
-  --visualizer-left-text: oklch(0.98 0 0);
-  --visualizer-left-consumed: oklch(0.9 0.04 25);
-  --visualizer-left-consumed-text: oklch(0.6 0.14 25);
+  /* Left Source: Warm Rose (complementary, restrained) */
+  --visualizer-left: oklch(0.55 0.14 340);
+  --visualizer-left-text: oklch(0.98 0.002 85);
+  --visualizer-left-consumed: oklch(0.86 0.025 340);
+  --visualizer-left-consumed-text: oklch(0.38 0.01 85);
 
-  /* Right Source: "Fjord" (Matte Cyan/Blue) */
-  --visualizer-right: oklch(0.6 0.1 230);
-  --visualizer-right-text: oklch(0.98 0 0);
-  --visualizer-right-consumed: oklch(0.9 0.03 230);
-  --visualizer-right-consumed-text: oklch(0.6 0.1 230);
+  /* Right Source: Teal Blue (harmonious with indigo) */
+  --visualizer-right: oklch(0.75 0.04 220);
+  --visualizer-right-text: oklch(0.28 0.012 85);
+  --visualizer-right-consumed: oklch(0.86 0.025 220);
+  --visualizer-right-consumed-text: oklch(0.38 0.01 85);
 
-  /* Success: "Emerald" */
-  --visualizer-success: oklch(0.65 0.2 140);
-  --visualizer-success-text: oklch(0.98 0 0);
+  /* Success: Subtle Olive (achievement, natural) */
+  --visualizer-success: oklch(0.62 0.08 145);
+  --visualizer-success-text: oklch(0.98 0.002 85);
 
-  /* Sidebar Tree States */
-  --visualizer-tree-active: oklch(0.45 0.1 250);
-  --visualizer-tree-active-bg: oklch(0.96 0.02 250);
+  /* Sidebar Tree States - Light theme variants */
+  --visualizer-tree-active: oklch(0.42 0.08 260);
+  --visualizer-tree-active-bg: oklch(0.94 0.008 260);
 
-  --visualizer-tree-pending: oklch(0.4 0.05 250);
-  --visualizer-tree-pending-bg: oklch(0.96 0.01 240);
+  --visualizer-tree-pending: oklch(0.52 0.01 85);
+  --visualizer-tree-pending-bg: oklch(0.965 0.003 85);
 
-  --visualizer-tree-done: oklch(0.6 0 0);
-  --visualizer-tree-done-bg: oklch(0.94 0 0);
+  --visualizer-tree-done: oklch(0.62 0.08 145);
+  --visualizer-tree-done-bg: oklch(0.94 0.006 145);
 
   /* Animation constants */
   --animation-bar-transition: 300ms;
@@ -152,9 +158,9 @@ body {
   --visualizer-panel: oklch(0.23 0.03 260);
   --visualizer-zone: oklch(0.18 0.03 260);
 
-  /* Accent */
-  --visualizer-accent: oklch(0.85 0.12 85);
-  --visualizer-accent-bg: oklch(0.85 0.12 85 / 0.15);
+  /* Accent - Refined warm gold (better harmony with cool dark theme) */
+  --visualizer-accent: oklch(0.82 0.1 75);
+  --visualizer-accent-bg: oklch(0.82 0.1 75 / 0.12);
 
   /* Bars */
   --visualizer-bar-default: var(--primary);
@@ -178,19 +184,23 @@ body {
   --visualizer-right-consumed: oklch(0.3 0.04 210);
   --visualizer-right-consumed-text: oklch(0.75 0.1 210);
 
-  /* Success */
-  --visualizer-success: oklch(0.7 0.2 140);
+  /* Success - Muted emerald (harmonious with dark theme) */
+  --visualizer-success: oklch(0.65 0.12 145);
   --visualizer-success-text: oklch(0.15 0.03 260);
 
   /* Sidebar Tree States */
   --visualizer-tree-active: oklch(0.85 0.05 230);
   --visualizer-tree-active-bg: oklch(0.85 0.05 230 / 0.1);
 
-  --visualizer-tree-pending: oklch(0.7 0.03 240);
+  --visualizer-tree-pending: oklch(0.65 0.04 240);
   --visualizer-tree-pending-bg: oklch(0.25 0.03 260);
 
-  --visualizer-tree-done: oklch(0.45 0.03 240);
-  --visualizer-tree-done-bg: oklch(0.2 0.03 260);
+  --visualizer-tree-done: oklch(0.55 0.04 145);
+  --visualizer-tree-done-bg: oklch(0.22 0.03 260);
+
+  /* Animation constants */
+  --animation-bar-transition: 300ms;
+  --animation-flash-duration: 500ms;
 }
 
 /* ============================================

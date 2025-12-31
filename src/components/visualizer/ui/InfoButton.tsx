@@ -45,41 +45,47 @@ export function InfoButton({
     HTMLButtonElement,
     React.ComponentProps<typeof Button>
   >(({ className: btnClassName, ...props }, ref) => (
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        className={cn(
-          "size-6 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer",
-          btnClassName,
-          className,
-        )}
-
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      className={cn(
+        "size-6 shrink-0 rounded-full bg-primary/10 text-primary transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer border border-primary/20",
+        btnClassName,
+        className
+      )}
       {...props}
       ref={ref}
     >
-      <Info className="size-4" />
-      <span className="sr-only">Info - {title}</span>
+      <Info className="size-3.5 transition-transform duration-300 hover:rotate-12" />
+      <span className="sr-only">Learn about {title}</span>
     </Button>
   ));
   TriggerButton.displayName = "TriggerButton";
 
   const ContentBody = () => (
     <div className="space-y-4 py-2">
-      <div className="space-y-1">
-        <h3 className="text-lg font-bold leading-none tracking-tight text-foreground">
+      <div className="space-y-2 border-b border-border/30 pb-3">
+        <h3 className="text-lg font-bold leading-none tracking-tight text-foreground font-display">
           {title}
         </h3>
         {subtitle && (
-          <p className="text-sm font-medium text-primary">{subtitle}</p>
+          <p className="text-xs font-medium text-primary uppercase tracking-wider">
+            {subtitle}
+          </p>
         )}
       </div>
       <ScrollArea
         className={cn("pr-4", isMobile ? "h-[60vh]" : "max-h-[70vh]")}
       >
-        <div className="text-sm text-muted-foreground leading-relaxed">
+        <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
           {children}
         </div>
       </ScrollArea>
+      <div className="pt-2 border-t border-border/20">
+        <p className="text-xs text-muted-foreground italic text-center">
+          💡 Tip: Watch how this step connects to the overall algorithm pattern
+        </p>
+      </div>
     </div>
   );
 

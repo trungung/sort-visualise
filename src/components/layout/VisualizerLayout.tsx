@@ -62,7 +62,7 @@ function VisualizerLayout({
     <div
       className={cn(
         "relative flex h-screen w-full overflow-hidden bg-background",
-        className,
+        className
       )}
     >
       <BackgroundElements />
@@ -148,7 +148,7 @@ function VisualizerSidebar({ children, className }: VisualizerSidebarProps) {
     <aside
       className={cn(
         "flex flex-col overflow-hidden rounded-xl bg-card shadow-sm border",
-        className,
+        className
       )}
     >
       {children}
@@ -172,8 +172,8 @@ function VisualizerHeader({
   return (
     <header
       className={cn(
-        "flex h-14 shrink-0 items-center justify-between border-b px-4",
-        className,
+        "flex h-16 shrink-0 items-center justify-between border-b px-4 bg-linear-to-r from-card to-card/95",
+        className
       )}
     >
       <div className="flex items-center gap-3">
@@ -183,7 +183,11 @@ function VisualizerHeader({
             <Home className="size-4" />
           </Link>
         </Button>
-        <h1 className="text-xl font-black tracking-tight uppercase">{title}</h1>
+        <div className="flex flex-col">
+          <h1 className="text-xl font-black tracking-tight uppercase font-display">
+            {title}
+          </h1>
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <ModeToggle />
@@ -206,7 +210,7 @@ function VisualizerControlPanel({
     <div
       className={cn(
         "flex shrink-0 items-center justify-center gap-4 rounded-xl bg-card px-4 py-3 shadow-sm",
-        className,
+        className
       )}
     >
       {children}

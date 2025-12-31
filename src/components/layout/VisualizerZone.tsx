@@ -26,17 +26,20 @@ function VisualizerZone({
   return (
     <div
       className={cn(
-        "relative flex min-h-40 flex-1 flex-col rounded-xl bg-muted px-4 pb-4 pt-8 overflow-visible",
-        className,
+        "relative flex min-h-40 flex-1 flex-col rounded-xl bg-linear-to-br from-visualizer-zone to-visualizer-zone/80 border border-border/30 px-4 pb-4 pt-8 overflow-visible shadow-sm hover:shadow-md transition-all duration-300",
+        className
       )}
     >
-      <div className="absolute left-4 top-3 z-10 flex items-center gap-1.5">
-        <VisualizerZoneLabel className="static">{label}</VisualizerZoneLabel>
+      <div className="absolute left-4 top-3 z-10 flex items-center gap-2">
+        <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+        <VisualizerZoneLabel className="static font-display">
+          {label}
+        </VisualizerZoneLabel>
         {info}
       </div>
 
       {watermark && (
-        <div className="pointer-events-none absolute right-4 top-0 z-0 select-none text-[6rem] font-black leading-none tracking-tighter text-foreground/5">
+        <div className="pointer-events-none absolute right-4 top-2 z-0 select-none text-[5rem] font-black leading-none tracking-tighter text-foreground/10 font-display opacity-50">
           {watermark}
         </div>
       )}
@@ -45,7 +48,7 @@ function VisualizerZone({
         <div
           className={cn(
             "relative flex items-end gap-1 h-full w-fit justify-center",
-            wrapperClassName,
+            wrapperClassName
           )}
         >
           {children}
@@ -67,8 +70,8 @@ function VisualizerZoneLabel({
   return (
     <span
       className={cn(
-        "absolute left-4 top-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
-        className,
+        "text-xs font-black uppercase tracking-wider text-primary/80 font-display leading-tight",
+        className
       )}
     >
       {children}
