@@ -33,7 +33,7 @@ export function useKeyboardControls(
 
 			switch (e.key) {
 				case " ":
-				case "Spacebar": // For older browsers
+				case "Spacebar":
 					e.preventDefault();
 					handleTogglePlay();
 					break;
@@ -54,7 +54,6 @@ export function useKeyboardControls(
 					handleScrub(totalFrames - 1);
 					break;
 				default:
-					// Check for additional key handlers
 					if (additionalKeyHandlers?.[e.key]) {
 						e.preventDefault();
 						additionalKeyHandlers[e.key]();

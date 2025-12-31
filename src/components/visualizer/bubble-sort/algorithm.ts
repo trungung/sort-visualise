@@ -46,7 +46,6 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
   let comparisons = 0;
   let swaps = 0;
 
-  // Helper to save frame
   const saveFrame = (
     compareIdx: number | null,
     swapIdx: number | null,
@@ -68,11 +67,10 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
     });
   };
 
-  // Initial Frame
   saveFrame(null, null, n, n - 1, `Starting Bubble Sort with ${n} elements`);
 
-  let i: number; // pass index
-  let j: number; // inner loop index
+  let i: number;
+  let j: number;
   let swapped: boolean;
 
   // We perform n-1 passes. After each pass i, the i-th largest element
@@ -95,7 +93,6 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
     for (j = 0; j < limit; j++) {
       comparisons++;
 
-      // Comparison Frame
       saveFrame(
         j,
         null,
@@ -105,17 +102,15 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
       );
 
       if (array[j] > array[j + 1]) {
-        // Swap
         const temp = array[j];
         array[j] = array[j + 1];
         array[j + 1] = temp;
         swaps++;
         swapped = true;
 
-        // Swap Frame
         saveFrame(
-          j, // Highlight the pair
-          j, // Mark as swapped (triggers flash)
+          j,
+          j,
           currentSortedSuffix,
           limit,
           `${temp} > ${array[j]} → Swapping positions`,
@@ -123,16 +118,11 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
       }
     }
 
-    // End of pass
-    // The element at `limit` is now sorted.
-    // The new sorted suffix starts at `limit`.
-
     if (!swapped) {
-      // Optimization: Early exit
       saveFrame(
         null,
         null,
-        0, // Entire array is sorted
+        0,
         -1,
         `No swaps in Pass ${i + 1} → Array is fully sorted! Early exit.`,
         true,
@@ -143,13 +133,12 @@ export function recordBubbleSort(initialArr: number[]): Frame[] {
     saveFrame(
       null,
       null,
-      limit, // Updated sorted suffix
-      limit - 1, // Next pass will go up to here
-      `Pass ${i + 1} complete. ${array[limit]} is in its final position.`,
+      limit,
+      limit - 1,
+      `Pass ${i + 1} complete.`,
     );
   }
 
-  // Final success frame
   saveFrame(
     null,
     null,

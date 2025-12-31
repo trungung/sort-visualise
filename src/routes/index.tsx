@@ -20,11 +20,9 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden selection:bg-primary selection:text-primary-foreground">
-      {/* Background Decor */}
       <BackgroundElements />
 
       <div className="container relative z-10 mx-auto px-4 py-12 pb-32 md:py-20 lg:pb-48">
-        {/* Hero Section */}
         <section className="mb-24 flex flex-col items-start text-left md:mb-32">
           <div className="max-w-4xl">
             <h1 className="flex flex-col text-5xl font-black tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl">
@@ -46,9 +44,7 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Algorithms Section */}
         <section className="relative">
-          {/* Decorative Section Title */}
           <div className="pointer-events-none absolute -left-4 -top-24 -z-10 select-none opacity-[0.03] dark:opacity-[0.05] md:-left-12 md:-top-32">
             <span className="text-[8rem] font-black leading-none tracking-tighter md:text-[14rem]">
               ALGOS
@@ -70,7 +66,6 @@ function HomePage() {
                   // Stagger effect: Push down even items on medium screens (2 cols)
                   index % 2 === 1 && "sm:translate-y-16",
                   // Stagger effect: Push down middle column on large screens
-                  // We need to reset the 2-col stagger if it doesn't apply in 3-col
                   index % 3 === 1 ? "lg:translate-y-24" : "lg:translate-y-0",
                 )}
               >
@@ -128,7 +123,6 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
       </CardHeader>
 
       <CardContent>
-        {/* Complexity Info */}
         <div className="mb-6 grid grid-cols-2 gap-3">
           <ComplexityItem label="Best" value={algorithm.complexity.best} />
           <ComplexityItem label="Avg" value={algorithm.complexity.average} />
@@ -136,7 +130,6 @@ function AlgorithmCard({ algorithm }: AlgorithmCardProps) {
           <ComplexityItem label="Space" value={algorithm.complexity.space} />
         </div>
 
-        {/* Action Button */}
         {isImplemented ? (
           <Button
             asChild

@@ -126,7 +126,7 @@ export const VISUALIZER_STATE_CONFIGS: Record<
 	[ALGORITHMS.BUBBLE_SORT]: {
 		defaultSize: DEFAULT_SIZES.BUBBLE_SORT,
 		defaultSpeed: TIMING_CONSTANTS.DEFAULT_SPEED,
-		maxFlashDuration: 300, // Bubble sort uses shorter flash duration
+		maxFlashDuration: 300,
 		maxTransitionDuration: 300,
 	},
 	[ALGORITHMS.QUICK_SORT]: {

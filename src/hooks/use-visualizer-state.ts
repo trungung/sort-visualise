@@ -54,7 +54,6 @@ export function useVisualizerState<TFrame>(
 		maxTransitionDuration = 300,
 	} = options;
 
-	// Core state
 	const [frames, setFrames] = useState<TFrame[]>([]);
 	const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
 	const [size, setSize] = useState(defaultSize);
@@ -63,15 +62,12 @@ export function useVisualizerState<TFrame>(
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-	// Timer ref for playback
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	// Derived state
 	const currentFrame = frames[currentFrameIndex] ?? null;
 	const totalFrames = frames.length;
 	const isAtEnd = currentFrameIndex >= totalFrames - 1;
 
-	// Dynamic timing calculations
 	// Map speed [50, 1000] to delay [~300ms, ~100ms]
 	const baseDelay = Math.max(620 - speed * 0.42, 50) * 0.5;
 	const transitionDuration = Math.min(
@@ -83,7 +79,6 @@ export function useVisualizerState<TFrame>(
 		Math.max(50, baseDelay * 0.8),
 	);
 
-	// Utility actions
 	const resetToStart = useCallback(() => {
 		setCurrentFrameIndex(0);
 	}, []);
@@ -97,7 +92,6 @@ export function useVisualizerState<TFrame>(
 	}, []);
 
 	return {
-		// Core state
 		frames,
 		currentFrameIndex,
 		size,
@@ -107,17 +101,14 @@ export function useVisualizerState<TFrame>(
 		isSettingsOpen,
 		timerRef,
 
-		// Derived state
 		currentFrame,
 		isAtEnd,
 		totalFrames,
 
-		// Timing calculations
 		baseDelay,
 		transitionDuration,
 		flashDuration,
 
-		// Actions
 		setFrames,
 		setCurrentFrameIndex,
 		setSize,
@@ -126,7 +117,6 @@ export function useVisualizerState<TFrame>(
 		setIsSidebarOpen,
 		setIsSettingsOpen,
 
-		// Utility actions
 		resetToStart,
 		stopPlayback,
 	};

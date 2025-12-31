@@ -38,7 +38,6 @@ export function usePlaybackControls<TFrame>(
 	 */
 	const handleTogglePlay = useCallback(() => {
 		if (isAtEnd) {
-			// Restart from beginning
 			setCurrentFrameIndex(0);
 			setIsPlaying(true);
 		} else {
@@ -98,7 +97,6 @@ export function usePlaybackControls<TFrame>(
 			delay = isImportantFrame ? baseDelay * 1.5 : baseDelay;
 		} else if (getIsUpdateFrame && currentFrame) {
 			const isUpdateFrame = getIsUpdateFrame(currentFrame);
-			// Ensure minimum delays for animations to complete with a small buffer
 			delay = isUpdateFrame
 				? Math.max(baseDelay, flashDuration + 20)
 				: Math.max(baseDelay, transitionDuration + 20);
