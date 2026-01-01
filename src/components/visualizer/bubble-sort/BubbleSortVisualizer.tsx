@@ -1,13 +1,5 @@
-import { PanelLeft, RotateCcw, Settings } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { VisualizerLayout, VisualizerZone } from "@/components/layout";
-import { Button } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/components/ui/empty";
+import { VisualizerLayout } from "@/components/layout";
 import type { DataPattern } from "@/components/visualizer/GenerateButton";
 import {
   ALGORITHMS,
@@ -16,12 +8,9 @@ import {
   VISUALIZER_STATE_CONFIGS,
 } from "@/components/visualizer/shared";
 import {
-  Bar,
-  type BarStatus,
   Confetti,
   InfoButton,
   MobileSettingsDrawer,
-  ScopeBracket,
   VisualizerControlPanel,
   VisualizerLoadingState,
 } from "@/components/visualizer/ui";
@@ -32,21 +21,17 @@ import {
 } from "@/hooks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { generateData, getMaxValue, recordBubbleSort } from "./algorithm";
-import {
-  BubbleSortGeneralInfo,
-  ComparisonInfo,
-  ComplexityInfo,
-} from "./BubbleSortInfo";
+import { BubbleSortGeneralInfo } from "./BubbleSortInfo";
+import { ComplexityPanel } from "./ComplexityPanel";
+import { HeaderControls } from "./HeaderControls";
 import { NarrativeLog } from "./NarrativeLog";
+import { SortingVisualization } from "./SortingVisualization";
+import { StatisticsPanel } from "./StatisticsPanel";
 import type { Frame } from "./types";
-
-const BAR_WIDTH = 28;
-const GAP = 4;
 
 export function BubbleSortVisualizer() {
   const isMobile = useIsMobile();
 
-  // Use shared visualizer state with algorithm-specific configuration
   const visualizerState = useVisualizerState<Frame>(
     VISUALIZER_STATE_CONFIGS[ALGORITHMS.BUBBLE_SORT]
   );
@@ -70,7 +55,6 @@ export function BubbleSortVisualizer() {
     flashDuration,
   } = visualizerState;
 
-  // Use shared playback controls with algorithm-specific logic
   const playbackControls = usePlaybackControls(visualizerState, {
     getIsImportantFrame: (frame: Frame) => {
       return (
@@ -88,12 +72,8 @@ export function BubbleSortVisualizer() {
     handleScrub,
   } = playbackControls;
 
-  /**
-   * Generate new data and record all frames
-   */
   const handleGenerate = useCallback(
     (pattern: DataPattern) => {
-      // Generate new data and record frames
       const initialArr = generateData(size, pattern);
       const newFrames = recordBubbleSort(initialArr);
 
@@ -103,10 +83,8 @@ export function BubbleSortVisualizer() {
     [size, setFrames, setCurrentFrameIndex]
   );
 
-  // Use shared keyboard controls
   useKeyboardControls(playbackControls, totalFrames);
 
-  // Mobile Guard: Lock size to 8 on mobile
   useEffect(() => {
     if (isMobile && size !== 8) {
       setSize(8);
@@ -117,14 +95,10 @@ export function BubbleSortVisualizer() {
     }
   }, [isMobile, size, setSize, setFrames, setCurrentFrameIndex]);
 
-  // Initialize with random data on mount
   useEffect(() => {
     handleGenerate("random");
   }, [handleGenerate]);
 
-  /**
-   * Handle size change
-   */
   const handleSizeChange = useCallback(
     (newSize: number) => {
       setSize(newSize);
@@ -138,35 +112,15 @@ export function BubbleSortVisualizer() {
     [setSize, setFrames, setCurrentFrameIndex]
   );
 
-  // Visual helper for bar status (algorithm-specific)
-  const getBarStatus = (idx: number): BarStatus => {
-    if (!currentFrame) return "default";
-
-    const { compareIdx, swapIdx, sortedSuffix, isSorted } = currentFrame;
-
-    // 1. Sorted region
-    if (isSorted || idx >= sortedSuffix) {
-      return "secondary";
-    }
-
-    // 2. Swapping (Highest Priority)
-    if (swapIdx !== null) {
-      if (idx === swapIdx || idx === swapIdx + 1) {
-        return "flash";
-      }
-    }
-
-    // 3. Comparing
-    if (compareIdx !== null) {
-      if (idx === compareIdx || idx === compareIdx + 1) {
-        return "active";
-      }
-    }
-
-    return "default";
-  };
-
   const maxValue = getMaxValue();
+
+  // Header controls
+  const { leftHeaderControls, headerControls } = HeaderControls({
+    isMobile,
+    isSidebarOpen,
+    onToggleSidebar: () => setIsSidebarOpen(true),
+    onToggleSettings: () => setIsSettingsOpen(true),
+  });
 
   // Sidebar content
   const sidebarContent = (
@@ -177,37 +131,6 @@ export function BubbleSortVisualizer() {
         onToggle={() => setIsSidebarOpen(false)}
       />
     </div>
-  );
-
-  // Left header controls
-  const leftHeaderControls = (
-    <>
-      {!isSidebarOpen && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsSidebarOpen(true)}
-          aria-label="Open sidebar"
-        >
-          <PanelLeft className="size-4" />
-        </Button>
-      )}
-    </>
-  );
-
-  // Header controls
-  const headerControls = (
-    <>
-      {isMobile && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsSettingsOpen(true)}
-        >
-          <Settings className="size-4" />
-        </Button>
-      )}
-    </>
   );
 
   // Loading state
@@ -249,8 +172,6 @@ export function BubbleSortVisualizer() {
       </VisualizerLayout>
     );
   }
-
-  const { array, compareIdx, swapIdx, lastUnsorted } = currentFrame;
 
   return (
     <VisualizerLayout
@@ -295,123 +216,17 @@ export function BubbleSortVisualizer() {
       />
 
       <div className="flex flex-col gap-6 h-full p-2 overflow-hidden">
-        <VisualizerZone
-          label="1. Sorting Process"
-          watermark="1"
-          className="flex-1"
-          info={
-            <InfoButton title="Sorting Process" subtitle="Comparing & Swapping">
-              <ComparisonInfo />
-            </InfoButton>
-          }
-        >
-          {!isAtEnd && lastUnsorted >= 0 && (
-            <ScopeBracket
-              start={0}
-              end={lastUnsorted}
-              unitWidth={BAR_WIDTH}
-              gap={GAP}
-              transitionDuration={transitionDuration}
-            />
-          )}
-          {array.map((value, idx) => {
-            let status = getBarStatus(idx);
+        <SortingVisualization
+          currentFrame={currentFrame}
+          isAtEnd={isAtEnd}
+          transitionDuration={transitionDuration}
+          flashDuration={flashDuration}
+          maxValue={maxValue}
+        />
 
-            if (isAtEnd) {
-              status = "success";
-            }
-
-            // Show pointer if this element is being compared or swapped
-            const hasPointer =
-              (compareIdx !== null &&
-                (idx === compareIdx || idx === compareIdx + 1)) ||
-              (swapIdx !== null && (idx === swapIdx || idx === swapIdx + 1));
-
-            return (
-              <Bar
-                key={`${idx}-${value}`}
-                value={value}
-                maxValue={maxValue}
-                status={status}
-                hasPointer={hasPointer}
-                transitionDuration={transitionDuration}
-                flashDuration={flashDuration}
-                successDelay={idx * 20}
-              />
-            );
-          })}
-        </VisualizerZone>
-
-        {/* Stats Panel */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
-          <VisualizerZone
-            label="Statistics"
-            className="h-full"
-            info={
-              <InfoButton title="Statistics" subtitle="Real-time metrics">
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <p>Tracking comparisons and swaps.</p>
-                </div>
-              </InfoButton>
-            }
-          >
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="grid grid-cols-2 gap-8 rounded-lg border bg-card p-6 shadow-sm">
-                <div className="flex flex-col items-center gap-1 border-r pr-8">
-                  <span className="text-2xl font-bold tabular-nums">
-                    {currentFrame.comparisons}
-                  </span>
-                  <span className="text-xs font-medium uppercase text-muted-foreground">
-                    Comparisons
-                  </span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-2xl font-bold tabular-nums">
-                    {currentFrame.swaps}
-                  </span>
-                  <span className="text-xs font-medium uppercase text-muted-foreground">
-                    Swaps
-                  </span>
-                </div>
-              </div>
-            </div>
-          </VisualizerZone>
-
-          <VisualizerZone
-            label="Complexity Analysis"
-            watermark="O(n²)"
-            className="h-full"
-            info={
-              <InfoButton title="Complexity" subtitle="Time & Space">
-                <ComplexityInfo />
-              </InfoButton>
-            }
-          >
-            {isAtEnd ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <Button
-                  size="lg"
-                  onClick={() => handleGenerate("random")}
-                  className="gap-2 text-lg font-semibold shadow-lg transition-all hover:scale-105"
-                >
-                  <RotateCcw className="size-5" />
-                  Shuffle & Restart
-                </Button>
-              </div>
-            ) : (
-              <Empty className="h-full w-full border-0 p-0">
-                <EmptyHeader>
-                  <EmptyTitle className="text-sm font-semibold uppercase tracking-wide">
-                    Time Complexity: O(n²)
-                  </EmptyTitle>
-                  <EmptyDescription>
-                    Inefficient on large lists. Best case O(n) if already
-                    sorted.
-                  </EmptyDescription>
-                </EmptyHeader>
-              </Empty>
-            )}
-          </VisualizerZone>
+          <StatisticsPanel currentFrame={currentFrame} />
+          <ComplexityPanel isAtEnd={isAtEnd} onGenerate={handleGenerate} />
         </div>
       </div>
       <Confetti fire={isAtEnd && frames.length > 0} />
