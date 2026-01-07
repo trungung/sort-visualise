@@ -50,6 +50,8 @@ export function ArrayOverviewZone({
 		return "dimmed";
 	};
 
+	const hasValidRange = rangeStart !== -1 && rangeEnd !== -1 && rangeStart <= rangeEnd;
+
 	return (
 		<VisualizerZone
 			label="1. Array Overview"
@@ -63,7 +65,7 @@ export function ArrayOverviewZone({
 				</InfoButton>
 			}
 		>
-			{rangeStart !== -1 && (
+			{hasValidRange && (
 				<ScopeBracket
 					start={rangeStart}
 					end={rangeEnd}
@@ -73,7 +75,7 @@ export function ArrayOverviewZone({
 				/>
 			)}
 
-			{rangeStart !== -1 && boundaryIdx >= rangeStart && (
+			{hasValidRange && boundaryIdx >= rangeStart && (
 				<RangeLine
 					start={rangeStart}
 					end={boundaryIdx}
@@ -84,7 +86,7 @@ export function ArrayOverviewZone({
 				/>
 			)}
 
-			{rangeStart !== -1 &&
+			{hasValidRange &&
 				boundaryIdx + 1 <= rangeEnd &&
 				boundaryIdx + 1 < pivotIdx && (
 					<RangeLine

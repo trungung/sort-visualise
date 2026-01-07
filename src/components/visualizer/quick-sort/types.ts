@@ -27,10 +27,17 @@ export type Frame = PartitionFrame & {
 	currentDepth: number;
 	phase:
 		| "init"
+		| "enter"
 		| "partition"
+		| "comparison"
 		| "swap"
+		| "no-swap"
 		| "pivot-place"
+		| "post-partition"
+		| "recurse-left"
+		| "recurse-right"
 		| "recurse"
+		| "return"
 		| "complete";
 	isImportantFrame: boolean;
 };
