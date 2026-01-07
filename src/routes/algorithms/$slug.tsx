@@ -4,6 +4,7 @@ import { getAlgorithmBySlug } from "@/config/algorithms";
 import {
   MergeSortVisualizer,
   BubbleSortVisualizer,
+  QuickSortVisualizer,
 } from "@/components/visualizer";
 
 export const Route = createFileRoute("/algorithms/$slug")({
@@ -38,6 +39,10 @@ function AlgorithmPage() {
 
   if (algorithm.slug === "bubble-sort") {
     return <BubbleSortVisualizer />;
+  }
+
+  if (algorithm.slug === "quick-sort") {
+    return <QuickSortVisualizer />;
   }
 
   // Fallback for other algorithms (shouldn't happen if isImplemented is properly set)
