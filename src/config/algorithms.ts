@@ -62,7 +62,7 @@ export const algorithms: Algorithm[] = [
       worst: "O(n²)",
       space: "O(log n)",
     },
-    isImplemented: false,
+    isImplemented: true,
   },
   {
     id: "heap-sort",
